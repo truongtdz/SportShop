@@ -18,7 +18,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    // View all users
+    // View all users 
     @GetMapping
     private List<UserResponse> getUsers() {
         return userService.getUsers();
