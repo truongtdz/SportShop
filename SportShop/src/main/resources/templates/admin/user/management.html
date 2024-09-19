@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome to Home User Management</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+    />
+</head>
+<body>
+<div class="container-fluid mt-5">
+    <h1 class="text-center mb-4">Admin Dashboard</h1>
+    <div class="row">
+        <!-- 1/4 bên trái: Thanh điều hướng -->
+        <nav class="col-md-3">
+            <div class="list-group">
+                <a class="list-group-item " href="/admin">Dashboard</a>
+                <a class="list-group-item " href="/admin/user">Users</a>
+                <a class="list-group-item " href="/admin/product">Products</a>
+                <a class="list-group-item " href="/admin/order">Orders</a>
+            </div>
+        </nav>
+
+        <!-- 3/4 bên phải: Nội dung hiển thị -->
+        <div class="col-md-9">
+            <div id="content-area">
+                <!-- Nội dung mặc định là danh sách người dùng -->
+                <div id="users-content">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h1>Danh sách Người Dùng</h1>
+                        <a type="button" class="btn btn-primary" href="/admin/user/create">Create New User</a>
+                    </div>
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>UserName</th>
+                            <th>FullName</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.userName}"></td>
+                            <td th:text="${user.fullName}"></td>
+                            <td>
+                                <a th:href="@{/admin/user/{id}(id=${user.id})}" class="btn btn-success btn-sm">View</a>
+                                <a th:href="@{/admin/user/update/{id}(id=${user.id})}" class="btn btn-warning btn-sm">Update</a>
+                                <button type="button" class="btn btn-danger btn-sm" th:onclick="'deleteUser(' + ${user.id} + ')'">Delete</button>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thêm Bootstrap JS và jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"></script>
+
+<script>
+    function deleteUser(userId) {
+        console.log(typeof userId)
+        if (confirm('Are you sure you want to delete this user?')) {
+            $.ajax({
+                url: '/admin/user/delete/' + userId, // Đường dẫn đến API xóa người dùng
+                type: 'DELETE', // Phương thức HTTP DELETE
+                success: function(result) {
+                    // Xử lý thành công
+                    alert('User deleted successfully!');
+                    location.reload(); // Tải lại trang để cập nhật danh sách
+                },
+                error: function(xhr, status, error) {
+                    // Xử lý lỗi
+                    alert('Error deleting user: ' + xhr.responseText);
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

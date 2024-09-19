@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome to Home User Management</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+    />
+</head>
+<body>
+<div class="container-fluid mt-5">
+    <h1 class="text-center mb-4">Admin Dashboard</h1>
+    <div class="row">
+        <!-- 1/4 bên trái: Thanh điều hướng -->
+        <nav class="col-md-3">
+            <div class="list-group">
+                <a class="list-group-item " href="/admin">Dashboard</a>
+                <a class="list-group-item " href="/admin/user">Users</a>
+                <a class="list-group-item " href="/admin/product">Products</a>
+                <a class="list-group-item " href="/admin/order">Orders</a>
+            </div>
+        </nav>
+
+        <!-- 3/4 bên phải: Nội dung hiển thị -->
+        <div class="col-md-9">
+            <div id="content-area">
+                <div class="container mt-4">
+                    <h2>Thông tin Người Dùng</h2>
+                    <div class="card p-4">
+                        <div class="row mb-2">
+                            <div class="col-md-3 font-weight-bold">ID:</div>
+                            <div class="col-md-9" th:text="${user.id}"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 font-weight-bold">Username:</div>
+                            <div class="col-md-9" th:text="${user.userName}"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 font-weight-bold">Password:</div>
+                            <div class="col-md-9" th:text="${user.password}">********</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 font-weight-bold">Full Name:</div>
+                            <div class="col-md-9" th:text="${user.fullName}"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 font-weight-bold">Gender:</div>
+                            <div class="col-md-9" th:text="${user.gender}"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 font-weight-bold">Phone:</div>
+                            <div class="col-md-9" th:text="${user.phone}"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 font-weight-bold">Email:</div>
+                            <div class="col-md-9" th:text="${user.email}"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3 font-weight-bold">Address:</div>
+                            <div class="col-md-9" th:text="${user.address}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thêm Bootstrap JS và jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"></script>
+</body>
+</html>
