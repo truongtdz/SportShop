@@ -29,25 +29,33 @@
     <div class="col-md-9">
       <div id="content-area">
         <div class="container mt-4">
-          <!--/*@thymesVar id="updateUser" type="java"*/-->
           <form th:action="@{/admin/user/update/{id}(id=${user.id})}" th:object="${updateUser}" method="POST">
             <div class="container mt-4">
               <!-- Row 1: Username, Password, Gender -->
               <div class="row mb-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label for="password">Password:</label>
                   <input type="password" id="password" th:field="*{password}" class="form-control"/>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label for="phone">Phone:</label>
                   <input type="text" id="phone" th:field="*{phone}" class="form-control"/>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label for="gender">Gender:</label><br>
                   <select id="gender" th:field="*{gender}" class="form-control">
                     <option th:each="gender : ${genders}"
                             th:value="${gender}"
                             th:text="${gender}"></option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label for="roles">Role:</label><br>
+                  <select id="roles" th:field="*{roles}" class="form-control">
+                    <option th:each="item : ${roles}"
+                            th:value="${item}"
+                            th:text="${item}">
+                    </option>
                   </select>
                 </div>
               </div>

@@ -33,15 +33,15 @@
             <div class="container mt-4">
               <!-- Row 1: Username, Password, Gender -->
               <div class="row mb-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label for="userName">Username:</label>
                   <input type="text" id="userName" th:field="*{userName}" class="form-control"/>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label for="password">Password:</label>
                   <input type="password" id="password" th:field="*{password}" class="form-control"/>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label for="gender">Gender:</label><br>
                   <select id="gender" th:field="*{gender}" class="form-control">
                     <option th:each="gender : ${genders}"
@@ -49,9 +49,17 @@
                             th:text="${gender}"></option>
                   </select>
                 </div>
+                <div class="col-md-3">
+                  <label for="roles">Role:</label><br>
+                  <select id="roles" th:field="*{roles}" class="form-control">
+                    <option th:each="role : ${roles}"
+                            th:value="${role}"
+                            th:text="${role}">
+                    </option>
+                  </select>
+                </div>
               </div>
 
-              <!-- Row 2: First Name, Last Name, Phone -->
               <div class="row mb-3">
                 <div class="col-md-3">
                   <label for="firstName">First Name:</label>

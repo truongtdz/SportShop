@@ -40,11 +40,13 @@ public class UserService {
     }
 
     // View user by Id
-    public UserResponse getUserById(Long id) {
-        if(!userRepository.existsById(id)){
+    public UserResponse getUserById(Long userId) {
+        if(!userRepository.existsById(userId)){
             throw new AppException(ErrorCode.USER_NOT_EXISTED);
         }
-        return userMapper.toUserResponse(userRepository.findById(id)) ;
+
+        UserResponse userResponse =userMapper.toUserResponse(userRepository.findById(userId)) ;
+        return userResponse ;
     }
 
     // Create user
@@ -61,11 +63,11 @@ public class UserService {
     }
 
     // Update user
-    public UserResponse updateUser(UpdateUserRequest request, Long id) {
-        if(!userRepository.existsById(id)){
+    public UserResponse updateUser(UpdateUserRequest request, Long userId) {
+        if(!userRepository.existsById(userId)){
             throw new AppException(ErrorCode.USER_NOT_EXISTED);
         }
-        UserEntity updateUser = userRepository.findById(id);
+        UserEntity updateUser = userRepository.findById(userId);
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         updateUser.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -77,11 +79,11 @@ public class UserService {
     }
 
     // Delete user
-    public void deleteUser(String id) {
-        if(!userRepository.existsById(id)){
+    public void deleteUser(String userId) {
+        if(!userRepository.existsById(userId)){
             throw new AppException(ErrorCode.USER_NOT_EXISTED);
         }
-        userRepository.deleteById(id);
+        userRepository.deleteById(userId);
     }
 
 }

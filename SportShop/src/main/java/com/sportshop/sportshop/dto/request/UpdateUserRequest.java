@@ -3,6 +3,7 @@ package com.sportshop.sportshop.dto.request;
 import com.sportshop.sportshop.enums.CityEnum;
 import com.sportshop.sportshop.enums.DistrictEnum;
 import com.sportshop.sportshop.enums.GenderEnum;
+import com.sportshop.sportshop.enums.RoleEnum;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -27,4 +28,5 @@ public class UpdateUserRequest {
     private String ward;
     private String street;
     private String email;
+    private RoleEnum roles;
 }

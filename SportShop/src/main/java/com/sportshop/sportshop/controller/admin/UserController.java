@@ -5,6 +5,7 @@ import com.sportshop.sportshop.dto.request.UpdateUserRequest;
 import com.sportshop.sportshop.enums.CityEnum;
 import com.sportshop.sportshop.enums.DistrictEnum;
 import com.sportshop.sportshop.enums.GenderEnum;
+import com.sportshop.sportshop.enums.RoleEnum;
 import com.sportshop.sportshop.exception.ErrorCode;
 import com.sportshop.sportshop.service.UserService;
 import jakarta.validation.Valid;
@@ -21,6 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // View all users
     @GetMapping
     public ModelAndView userManagement() {
         ModelAndView mav = new ModelAndView("admin/user/management");
@@ -30,24 +32,27 @@ public class UserController {
         return mav;
     }
 
-    @GetMapping("/{user_id}")
-    public ModelAndView getUserById(@PathVariable Long user_id) {
+    // View User by ID
+    @GetMapping("/{userId}")
+    public ModelAndView getUserById(@PathVariable Long userId) {
 
         ModelAndView mav = new ModelAndView("admin/user/view");
 
-        mav.addObject("user", userService.getUserById(user_id));
+        mav.addObject("user", userService.getUserById(userId));
 
         return mav;
     }
 
+    // Create User
     @GetMapping("/create")
     public ModelAndView createUser() {
-        ModelAndView mav = new ModelAndView("admin/user/create");
-        mav.addObject("newUser", new CreateUserRequest());
-        mav.addObject("genders", GenderEnum.values());
-        mav.addObject("cities", CityEnum.values());
-        mav.addObject("districts", DistrictEnum.values());
-        return mav ;
+
+        return new ModelAndView("admin/user/create")
+                    .addObject("newUser", new CreateUserRequest())
+                    .addObject("genders", GenderEnum.values())
+                    .addObject("cities", CityEnum.values())
+                    .addObject("districts", DistrictEnum.values())
+                    .addObject("roles", RoleEnum.values());
     }
 
     @PostMapping("/create")
@@ -56,59 +61,61 @@ public class UserController {
             String enumKey = result.getFieldError().getDefaultMessage();
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", ErrorCode.valueOf(enumKey).getMessage());
-            return "/admin/user/notification";
+            return "/admin/notification";
         }
         try {
             userService.createUser(newUser);
             model.addAttribute("notification", "Success");
-            return "/admin/user/notification";
+            return "/admin/notification";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/admin/user/notification";
+            return "/admin/notification";
         }
     }
 
-    @GetMapping("/update/{user_id}")
-    public ModelAndView updateUser(@PathVariable Long user_id) {
-        ModelAndView mav = new ModelAndView("admin/user/update");
-        mav.addObject("user", userService.getUserById(user_id));
-        mav.addObject("updateUser", new UpdateUserRequest());
-        mav.addObject("genders", GenderEnum.values());
-        mav.addObject("cities", CityEnum.values());
-        mav.addObject("districts", DistrictEnum.values());
-        return mav ;
+    // Update User
+    @GetMapping("/update/{userId}")
+    public ModelAndView updateUser(@PathVariable Long userId) {
+        return new ModelAndView("admin/user/update")
+                    .addObject("user", userService.getUserById(userId))
+                    .addObject("updateUser", new UpdateUserRequest())
+                    .addObject("genders", GenderEnum.values())
+                    .addObject("cities", CityEnum.values())
+                    .addObject("districts", DistrictEnum.values())
+                    .addObject("roles", RoleEnum.values());
     }
 
-    @PostMapping("/update/{user_id}")
-    public String updateUser(@ModelAttribute @Valid UpdateUserRequest updateUser,BindingResult result ,@PathVariable Long user_id , Model model) {
+    @PostMapping("/update/{userId}")
+    public String updateUser(@ModelAttribute @Valid UpdateUserRequest updateUser,BindingResult result ,@PathVariable Long userId , Model model) {
         if(result.hasErrors()){
             String enumKey = result.getFieldError().getDefaultMessage();
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", ErrorCode.valueOf(enumKey).getMessage());
-            return "/admin/user/notification";
+            return "/admin/notification";
         }
         try {
-            userService.updateUser(updateUser, user_id);
+            userService.updateUser(updateUser, userId);
             model.addAttribute("notification", "Success");
-            return "/admin/user/notification";
+            return "/admin/notification";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/admin/user/notification";
+            return "/admin/notification";
         }
     }
 
-    @DeleteMapping("/delete/{user_id}")
-    public String deleteUser(@PathVariable Long user_id, Model model) {
+    // Delete User
+    @DeleteMapping("/delete/{userId}")
+    public String deleteUser(@PathVariable Long userId, Model model) {
         try {
-            userService.deleteUser(String.valueOf(user_id));
+            userService.deleteUser(String.valueOf(userId));
             model.addAttribute("notification", "Success");
-            return "/admin/user/notification";
+            return "/admin/notification";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/admin/user/notification";
+            return "/admin/notification";
         }
     }
 

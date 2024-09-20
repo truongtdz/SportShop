@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <title>Welcome to Home User Management</title>
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous"
+  />
+</head>
+<body>
+<div class="container-fluid mt-5">
+  <h1 class="text-center mb-4">Admin Dashboard</h1>
+  <div class="row">
+    <!-- 1/4 bên trái: Thanh điều hướng -->
+    <nav class="col-md-3">
+      <div class="list-group">
+        <a class="list-group-item " href="/admin">Dashboard</a>
+        <a class="list-group-item " href="/admin/user">Users</a>
+        <a class="list-group-item " href="/admin/product">Products</a>
+        <a class="list-group-item " href="/admin/order">Orders</a>
+      </div>
+    </nav>
+
+    <!-- 3/4 bên phải: Nội dung hiển thị -->
+    <div class="col-md-9">
+      <div id="content-area">
+        <div class="container mt-4">
+          <form th:action="@{/admin/product/create}" th:object="${newProduct}" method="POST">
+            <div class="container mt-4">
+
+              <!-- Row 1: Name, Category, Brand -->
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label for="name">Product Name:</label>
+                  <input type="text" id="name" th:field="*{name}" class="form-control"/>
+                </div>
+                <div class="col-md-3">
+                  <label for="category">Category:</label>
+                  <select id="category" th:field="*{category}" class="form-control">
+                    <option th:each="category : ${categories}"
+                            th:value="${category}"
+                            th:text="${category}"></option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label for="brand">Brand:</label>
+                  <select id="brand" th:field="*{brand}" class="form-control">
+                    <option th:each="brand : ${brands}"
+                            th:value="${brand}"
+                            th:text="${brand}"></option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                <label for="gender">Gender:</label>
+                  <select id="gender" th:field="*{gender}" class="form-control">
+                    <option th:each="gender : ${genders}"
+                            th:value="${gender}"
+                            th:text="${gender}"></option>
+                  </select>
+                </div>
+              </div>
+              <!-- Row 2: Gender, Price, Color -->
+              <div class="row mb-3">
+
+                <div class="col-md-3">
+                  <label for="price">Price:</label>
+                  <input type="text" id="price" th:field="*{price}" class="form-control"/>
+                </div>
+                <div class="col-md-3">
+                <label for="size">Size:</label>
+                <select id="size" th:field="*{size}" class="form-control">
+                  <option th:each="size : ${sizes}"
+                          th:value="${size}"
+                          th:text="${size}"></option>
+                </select>
+              </div>
+
+                <div class="col-md-3">
+                  <label for="color">Color:</label>
+                  <input type="text" id="color" th:field="*{color}" class="form-control"/>
+                </div>
+                <div class="col-md-3">
+                <label for="discount">Discount:</label>
+                <input type="text" id="discount" th:field="*{discount}" class="form-control"/>
+              </div>
+              </div>
+              <!-- Row 4: Image, Quantity -->
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label for="image">Image URL:</label>
+                  <input type="text" id="image" th:field="*{image}" class="form-control"/>
+                </div>
+                <div class="col-md-2">
+                  <label for="quantity">Quantity:</label>
+                  <input type="text" id="quantity" th:field="*{quantity}" class="form-control"/>
+                </div>
+                <div class="col-md-6">
+                <label for="description">Description:</label>
+                <textarea id="description" th:field="*{description}" class="form-control"></textarea>
+              </div>
+              </div>
+
+              <input type="submit" value="Create Product" class="btn btn-primary"/>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Thêm Bootstrap JS và jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"></script>
+</body>
+</html>
