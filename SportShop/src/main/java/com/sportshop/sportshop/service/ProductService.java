@@ -39,8 +39,23 @@ public class ProductService {
     }
 
     // Create product
-    public ProductEntity createProduct(ProductRequest productRequest) {
+    public ProductResponse createProduct(ProductRequest productRequest) {
         ProductEntity newProduct = productMapper.toProductEntity(productRequest);
-        return productRepository.save(newProduct);
+        return productMapper.toProductResponse(productRepository.save(newProduct));
+    }
+
+    // Update Product
+    public ProductResponse updateProduct(Long productId, ProductRequest productRequest) {
+        ProductEntity updatedProduct = productRepository.findById(String.valueOf(productId)).get();
+
+        productMapper.updateProductEntity(updatedProduct, productRequest);
+        productRepository.save(updatedProduct);
+
+        return productMapper.toProductResponse(updatedProduct);
+    }
+
+    // Delete Product
+    public void deleteProduct(Long productId) {
+        productRepository.deleteById(String.valueOf(productId));
     }
 }
