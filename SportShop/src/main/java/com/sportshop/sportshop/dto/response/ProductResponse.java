@@ -1,11 +1,9 @@
-package com.sportshop.sportshop.dto.request;
+package com.sportshop.sportshop.dto.response;
 
-import com.sportshop.sportshop.entity.ItemEntity;
 import com.sportshop.sportshop.enums.BrandEnum;
 import com.sportshop.sportshop.enums.CategoryEnum;
 import com.sportshop.sportshop.enums.GenderEnum;
 import com.sportshop.sportshop.enums.SizeEnum;
-import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,10 +18,10 @@ public class ProductResponse {
     BrandEnum brand;
     String name;
     GenderEnum gender;
-    String price;
+    Long price;
     String color;
     SizeEnum size;
-    String discount;
+    Long discount;
     String description;
     String image;
     Long quantity;

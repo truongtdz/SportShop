@@ -1,32 +1,36 @@
 package com.sportshop.sportshop.entity;
 
-import com.sportshop.sportshop.enums.StatusProductEnum;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "orders")
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "create_day")
     private Date createDay;
 
     @Column(name = "total")
-    private long total;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status_product")
-    private StatusProductEnum statusProduct;
+    private Long total;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user_id;
+    private UserEntity user;
 
-    @OneToMany(mappedBy = "order_id",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order",fetch = FetchType.LAZY)
     private List<ItemEntity> items;
 }
+

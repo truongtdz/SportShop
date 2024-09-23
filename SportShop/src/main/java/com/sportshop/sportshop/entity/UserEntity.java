@@ -1,23 +1,27 @@
 package com.sportshop.sportshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sportshop.sportshop.enums.CityEnum;
 import com.sportshop.sportshop.enums.DistrictEnum;
 import com.sportshop.sportshop.enums.GenderEnum;
 import com.sportshop.sportshop.enums.RoleEnum;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "user_name")
     private String userName;
@@ -59,7 +63,8 @@ public class UserEntity {
     @Column(name = "roles")
     private RoleEnum roles;
 
-    @OneToMany(mappedBy = "user_id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<OrderEntity> orders;
 
 }

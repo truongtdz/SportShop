@@ -1,23 +1,31 @@
 package com.sportshop.sportshop.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "items")
 public class ItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "quantity_item")
-    private long quantity;
+    private Long quantity;
 
-    @OneToMany(mappedBy = "item_id", fetch = FetchType.LAZY)
-    private List<ProductEntity> products;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private ProductEntity product;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private OrderEntity order_id;
+    private OrderEntity order;
 }

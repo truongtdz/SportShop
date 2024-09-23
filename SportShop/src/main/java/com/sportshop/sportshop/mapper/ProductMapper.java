@@ -1,7 +1,7 @@
 package com.sportshop.sportshop.mapper;
 
 import com.sportshop.sportshop.dto.request.ProductRequest;
-import com.sportshop.sportshop.dto.request.ProductResponse;
+import com.sportshop.sportshop.dto.response.ProductResponse;
 import com.sportshop.sportshop.entity.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

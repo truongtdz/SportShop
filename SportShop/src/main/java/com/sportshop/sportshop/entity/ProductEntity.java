@@ -1,4 +1,5 @@
 package com.sportshop.sportshop.entity;
+
 import com.sportshop.sportshop.enums.BrandEnum;
 import com.sportshop.sportshop.enums.CategoryEnum;
 import com.sportshop.sportshop.enums.GenderEnum;
@@ -9,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
@@ -35,7 +38,7 @@ public class ProductEntity {
     private GenderEnum gender;
 
     @Column(name = "price")
-    private String price;
+    private Long price;
 
     @Column(name = "color")
     private String color;
@@ -44,7 +47,7 @@ public class ProductEntity {
     private SizeEnum size;
 
     @Column(name = "discount")
-    private String discount;
+    private Long discount;
 
     @Column(name = "description")
     private String description;
@@ -53,9 +56,8 @@ public class ProductEntity {
     private String image;
 
     @Column(name = "quantity")
-    private long quantity;
+    private Long quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private ItemEntity item_id;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<ItemEntity> items;
 }

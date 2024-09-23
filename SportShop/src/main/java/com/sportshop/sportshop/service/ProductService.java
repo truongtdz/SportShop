@@ -1,7 +1,7 @@
 package com.sportshop.sportshop.service;
 
 import com.sportshop.sportshop.dto.request.ProductRequest;
-import com.sportshop.sportshop.dto.request.ProductResponse;
+import com.sportshop.sportshop.dto.response.ProductResponse;
 import com.sportshop.sportshop.entity.ProductEntity;
 import com.sportshop.sportshop.mapper.ProductMapper;
 import com.sportshop.sportshop.repository.ProductRepository;
@@ -35,7 +35,7 @@ public class ProductService {
 
     // View product by ID
     public ProductResponse getProductById(Long productId) {
-        return productMapper.toProductResponse(productRepository.findById(String.valueOf(productId)).get());
+        return productMapper.toProductResponse(productRepository.findById(productId));
     }
 
     // Create product
