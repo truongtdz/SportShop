@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserResponse {
     private Long id;
-    private String userName;
+    private String username;
     private String password;
     private String fullName;
     private String gender;

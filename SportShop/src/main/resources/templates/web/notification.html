@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Welcome to Home User Management</title>
   <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -15,13 +16,19 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
-        <div class="card-header bg-danger text-white">
-          <h4 class="mb-0" th:if="${notification}" th:text="${notification}"></h4>
+        <!-- Header thay đổi màu sắc dựa trên giá trị của 'notification' -->
+        <div class="card-header"
+             th:class="${notification == 'Success'} ? 'bg-success text-white' :
+                      (${notification == 'Fail'} ? 'bg-danger text-white' : 'bg-warning text-white')">
+          <h4 class="mb-0" th:text="${notification}"></h4>
         </div>
         <div class="card-body">
-          <div class="alert alert-danger" th:if="${message}" th:text="${message}"></div>
+          <!-- Hiển thị thông báo với màu sắc thay đổi dựa trên 'message' -->
+          <div class="alert"
+               th:class="${message == 'Success'} ? 'alert-success' :
+                        (${message == 'Fail'} ? 'alert-danger' : 'alert-warning')"
+               th:text="${message}"></div>
           <div class="d-flex justify-content-between">
-            <a href="/admin" class="btn btn-primary">Go Admin</a>
           </div>
         </div>
       </div>

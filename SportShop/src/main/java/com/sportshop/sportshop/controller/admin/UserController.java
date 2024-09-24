@@ -61,16 +61,16 @@ public class UserController {
             String enumKey = result.getFieldError().getDefaultMessage();
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", ErrorCode.valueOf(enumKey).getMessage());
-            return "/admin/notification";
+            return "/web/notification";
         }
         try {
             userService.createUser(newUser);
             model.addAttribute("notification", "Success");
-            return "/admin/notification";
+            return "/web/notification";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/admin/notification";
+            return "/web/notification";
         }
     }
 
@@ -92,16 +92,16 @@ public class UserController {
             String enumKey = result.getFieldError().getDefaultMessage();
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", ErrorCode.valueOf(enumKey).getMessage());
-            return "/admin/notification";
+            return "/web/notification";
         }
         try {
             userService.updateUser(updateUser, userId);
             model.addAttribute("notification", "Success");
-            return "/admin/notification";
+            return "/web/notification";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/admin/notification";
+            return "/web/notification";
         }
     }
 
@@ -111,11 +111,11 @@ public class UserController {
         try {
             userService.deleteUser(String.valueOf(userId));
             model.addAttribute("notification", "Success");
-            return "/admin/notification";
+            return "/web/notification";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/admin/notification";
+            return "/web/notification";
         }
     }
 

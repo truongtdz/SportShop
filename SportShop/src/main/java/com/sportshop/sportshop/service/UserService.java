@@ -1,6 +1,5 @@
 package com.sportshop.sportshop.service;
 
-
 import com.sportshop.sportshop.dto.request.CreateUserRequest;
 import com.sportshop.sportshop.dto.request.UpdateUserRequest;
 import com.sportshop.sportshop.dto.response.UserResponse;
@@ -51,7 +50,7 @@ public class UserService {
 
     // Create user
     public UserEntity createUser(CreateUserRequest request) {
-        if(userRepository.existsByUserName(request.getUserName())){
+        if(userRepository.existsByUsername(request.getUsername())){
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         UserEntity newUser = userMapper.toUserEntity(request);
