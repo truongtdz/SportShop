@@ -4,6 +4,7 @@ import com.sportshop.sportshop.dto.request.CreateUserRequest;
 import com.sportshop.sportshop.dto.request.UpdateUserRequest;
 import com.sportshop.sportshop.dto.response.UserResponse;
 import com.sportshop.sportshop.entity.UserEntity;
+import com.sportshop.sportshop.enums.RoleEnum;
 import com.sportshop.sportshop.exception.AppException;
 import com.sportshop.sportshop.exception.ErrorCode;
 import com.sportshop.sportshop.mapper.UserMapper;
@@ -52,6 +53,9 @@ public class UserService {
     public UserEntity createUser(CreateUserRequest request) {
         if(userRepository.existsByUsername(request.getUsername())){
             throw new AppException(ErrorCode.USER_EXISTED);
+        }
+        if(request.getRoles() == null){
+            request.setRoles(RoleEnum.USER);
         }
         UserEntity newUser = userMapper.toUserEntity(request);
 

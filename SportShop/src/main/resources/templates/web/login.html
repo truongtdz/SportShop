@@ -21,6 +21,9 @@
                 </div>
                 <div class="card-body">
                     <form th:action="@{/login}" th:object="${login}" method="POST">
+                        <div th:if="${message}" class="alert alert-danger" role="alert">
+                            <span th:text="${message}"></span>
+                        </div>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input

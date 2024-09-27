@@ -34,6 +34,7 @@ public class ProductEntity {
     @Column(name = "name")
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private GenderEnum gender;
 
@@ -43,6 +44,7 @@ public class ProductEntity {
     @Column(name = "color")
     private String color;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "size")
     private SizeEnum size;
 
