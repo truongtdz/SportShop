@@ -16,23 +16,29 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><h1 style="color: blue">SportShop</h1></a>
+        <a class="navbar-brand" href="/home"><h1 style="color: blue">SportShop</h1></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/home">My Information</a>
+                    <a class="nav-link active" href="/infor">My Information</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/search">Search</a>
+                    <a class="nav-link active" href="/cart">Cart</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link active" href="/search">Search</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/sign-in">Sign-in</a>
+                    <a class="nav-link active" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/sign-in">Sign-in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/home">Logout</a>
                 </li>
             </ul>
         </div>
@@ -49,6 +55,7 @@
                     <h5 class="card-title" th:text="${product.name}">Product Name</h5>
                     <p class="card-text" th:text="${product.price} + 'VND'">Price</p>
                     <p class="card-text" th:text="${product.discount} + '%'">Sales</p>
+                    <a th:href="@{/admin/product/{id}(id=${product.id})}" class="btn btn-primary">View</a>
                     <a href="#" class="btn btn-primary">Add to Cart</a>
                 </div>
             </div>

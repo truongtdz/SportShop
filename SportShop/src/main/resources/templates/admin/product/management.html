@@ -50,8 +50,6 @@
                             <td th:text="${product.quantity}"></td>
                             <td>
                                 <a th:href="@{/admin/product/{id}(id=${product.id})}" class="btn btn-success btn-sm">View</a>
-                                <a th:href="@{/admin/product/update/{id}(id=${product.id})}" class="btn btn-warning btn-sm">Update</a>
-                                <button type="button" class="btn btn-danger btn-sm" th:onclick="'deleteProduct(' + ${product.id} + ')'">Delete</button>
                             </td>
                         </tr>
 
@@ -68,25 +66,5 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"></script>
 
-<script>
-    function deleteProduct(productId) {
-        console.log(typeof productId)
-        if (confirm('Are you sure you want to delete this product?')) {
-            $.ajax({
-                url: '/admin/product/delete/' + productId, // Đường dẫn đến API xóa người dùng
-                type: 'DELETE', // Phương thức HTTP DELETE
-                success: function(result) {
-                    // Xử lý thành công
-                    alert('Product deleted successfully!');
-                    location.reload(); // Tải lại trang để cập nhật danh sách
-                },
-                error: function(xhr, status, error) {
-                    // Xử lý lỗi
-                    alert('Error deleting product: ' + xhr.responseText);
-                }
-            });
-        }
-    }
-</script>
 </body>
 </html>
