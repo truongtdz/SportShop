@@ -1,6 +1,9 @@
 package com.sportshop.sportshop.controller.web;
 
+import com.sportshop.sportshop.entity.UserEntity;
 import com.sportshop.sportshop.service.ProductService;
+import com.sportshop.sportshop.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +14,17 @@ public class HomeController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/home")
-    public ModelAndView homePage() {
-        return new ModelAndView("/web/home")
-                .addObject("products", productService.getAllProducts()) ;
+    public ModelAndView homePage(HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView("web/home");
+        modelAndView.addObject("products", productService.getAllProducts());
+        Object user = session.getAttribute("user");
+        if (user != null) {
+            modelAndView.addObject("user", user);
+        }
+        return modelAndView;
     }
 }

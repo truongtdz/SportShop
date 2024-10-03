@@ -23,30 +23,34 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/infor">My Information</a>
+                    <a class="nav-link active" th:href="@{/search}">Search</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/cart">Cart</a>
+                <li class="nav-item" th:if="${user != null}">
+                    <a class="nav-link active" th:href="@{/infor}" th:text="'Hello ' + ${user.username}"></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/search">Search</a>
+                <li class="nav-item" th:if="${user != null}">
+                    <a class="nav-link active" th:href="@{/cart}">Cart</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/login">Login</a>
+                <li class="nav-item" th:if="${user == null}">
+                    <a class="nav-link active" th:href="@{/login}">Login</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/sign-in">Sign-in</a>
+                <li class="nav-item" th:if="${user == null}">
+                    <a class="nav-link active" th:href="@{/sign-in}">Sign-in</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/home">Logout</a>
-                </li>
+                    <li class="nav-item" th:if="${user != null}">
+                        <a class="nav-link active" th:href="@{/logout1}">Logout</a>
+                    </li>
             </ul>
         </div>
+
     </div>
 </nav>
 
 <!-- Main content -->
 <div class="container mt-5">
+    <div th:if="${message}" class="alert alert-danger" role="alert">
+        <span th:text="${message}"></span>
+    </div>
     <div class="row">
         <div class="col-md-4" th:each="product : ${products}">
             <div class="card">
@@ -56,7 +60,9 @@
                     <p class="card-text" th:text="${product.price} + 'VND'">Price</p>
                     <p class="card-text" th:text="${product.discount} + '%'">Sales</p>
                     <a th:href="@{/admin/product/{id}(id=${product.id})}" class="btn btn-primary">View</a>
-                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                    <form th:action="@{/cart/{id}(id=${product.id})}" method="post">
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -64,7 +64,8 @@ public class UserEntity {
     private RoleEnum roles;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<OrderEntity> orders;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<CartEntity> carts;
 }

@@ -39,15 +39,15 @@
                         <tr>
                             <th>Mã </th>
                             <th>Tài Khoản</th>
-                            <th>Tên Người Dùng</th>
-                            <th>Lựa chọn</th>
+                            <th>Mật Khẩu</th>
+                            <th>Lựa Chọn</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="user : ${users}">
                             <td th:text="${user.id}"></td>
                             <td th:text="${user.username}"></td>
-                            <td th:text="${user.fullName}"></td>
+                            <td th:text="${user.password}"></td>
                             <td>
                                 <a th:href="@{/admin/user/{id}(id=${user.id})}" class="btn btn-success btn-sm">View</a>
                             </td>

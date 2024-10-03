@@ -7,7 +7,6 @@ import com.sportshop.sportshop.exception.AppException;
 import com.sportshop.sportshop.exception.ErrorCode;
 import com.sportshop.sportshop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +14,9 @@ import org.springframework.stereotype.Service;
 public class LoginService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public LoginResponse checkLogin(LoginRequest request){
         if(!userRepository.existsByUsername(request.getUsername())){
@@ -24,11 +26,9 @@ public class LoginService {
 
         UserEntity user = userRepository.findByUsername(request.getUsername());
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-
         if(passwordEncoder.matches(request.getPassword(), user.getPassword())){
             response.setLogin(true);
-            response.setRole(user.getRoles());
+            response.setUser(user);
             return response;
         } else {
             response.setLogin(false);

@@ -25,6 +25,9 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     // View user quantity
     public String countUsers() {
         return String.valueOf(userRepository.count());
@@ -59,7 +62,6 @@ public class UserService {
         }
         UserEntity newUser = userMapper.toUserEntity(request);
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         return userRepository.save(newUser);
@@ -72,7 +74,6 @@ public class UserService {
         }
         UserEntity updateUser = userRepository.findById(userId);
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         updateUser.setPassword(passwordEncoder.encode(request.getPassword()));
 
         userMapper.updateUserEntity(updateUser, request);
@@ -89,4 +90,8 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
+    // Find By Username
+    public UserEntity getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }

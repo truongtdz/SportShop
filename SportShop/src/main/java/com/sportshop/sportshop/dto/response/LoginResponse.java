@@ -1,5 +1,6 @@
 package com.sportshop.sportshop.dto.response;
 
+import com.sportshop.sportshop.entity.UserEntity;
 import com.sportshop.sportshop.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,6 @@ import java.lang.String;
 @NoArgsConstructor
 public class LoginResponse {
     private boolean login;
-    private RoleEnum role;
+    private UserEntity user;
     private String message;
 }
