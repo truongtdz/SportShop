@@ -7,9 +7,18 @@ import com.sportshop.sportshop.exception.ErrorCode;
 import com.sportshop.sportshop.service.LoginService;
 import com.sportshop.sportshop.service.ProductService;
 import com.sportshop.sportshop.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,13 +30,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
     @Autowired
-    private LoginService loginService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
 
     @GetMapping("/login")
     public ModelAndView login() {
@@ -36,28 +46,26 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ModelAndView checkLogin(@ModelAttribute("auth") LoginRequest request, Model model, HttpSession session) {
-        try{
-            LoginResponse login = loginService.checkLogin(request);
-            if(login.isLogin()){
-                if(login.getUser().getRoles().toString().equals("ADMIN")){
-                    return new ModelAndView("admin/admin");
-                }
-                else {
-                    session.setAttribute("user", login.getUser());
-                    model.addAttribute("user", login.getUser());
-                    model.addAttribute("products", productService.getAllProducts());
-                    return new ModelAndView("web/home");
-                }
+    public ModelAndView checkLogin(@ModelAttribute("auth") LoginRequest request, Model model) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Lấy thông tin người dùng từ authentication
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            if (userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
+                return new ModelAndView("admin/admin");
             } else {
-                model.addAttribute("message", "Password Is Incorrect");
-                return new ModelAndView("web/login");
+                model.addAttribute("user", userDetails);
+                model.addAttribute("products", productService.getAllProducts());
+                return new ModelAndView("web/home");
             }
-        } catch (Exception e){
-            model.addAttribute("message", e.getMessage());
+        } catch (AuthenticationException e) {
+            model.addAttribute("message", "Invalid username or password");
             return new ModelAndView("web/login");
         }
-
     }
 
     @GetMapping("/sign-in")
@@ -83,10 +91,13 @@ public class LoginController {
         }
     }
 
-    @GetMapping("/logout1")
-    public String logout(HttpSession session){
-        session.invalidate();
-        return "web/home";
+    @GetMapping("/log-out")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/home";
     }
 
 }
