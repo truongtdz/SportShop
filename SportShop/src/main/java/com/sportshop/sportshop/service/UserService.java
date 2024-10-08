@@ -74,7 +74,7 @@ public class UserService {
         }
         UserEntity updateUser = userRepository.findById(userId);
 
-        updateUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
 
         userMapper.updateUserEntity(updateUser, request);
         userRepository.save(updateUser);
