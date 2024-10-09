@@ -26,19 +26,12 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("web/home");
         modelAndView.addObject("products", productService.getAllProducts());
 
-        // Kiểm tra user trong session như bạn đang làm
-        Object user = session.getAttribute("user");
-        if (user != null) {
-            modelAndView.addObject("user", user);
-        } else {
-            // Nếu không có trong session, kiểm tra Spring Security
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String)) {
-                UserDetails userDetails = (UserDetails) auth.getPrincipal();
-                UserEntity userEntity = userService.getUserByUsername(userDetails.getUsername());
-                session.setAttribute("user", userEntity);
-                modelAndView.addObject("user", userEntity);
-            }
+        // Lấy thông tin người dùng từ Security
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String)) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            UserEntity userEntity = userService.getUserByUsername(userDetails.getUsername());
+            modelAndView.addObject("user", userEntity);
         }
 
         return modelAndView;

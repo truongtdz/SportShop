@@ -12,8 +12,4 @@ public interface UserRepository extends JpaRepository<UserEntity,String> {
     boolean existsById(Long id);
     boolean existsByUsername(String username);
     UserEntity findByUsername(String username);
-
-    // View cart
-    @Query(value = "Select * From cart WHere cart.user_id =:userId", nativeQuery = true)
-    CartEntity findByUserId(@Param("userId") Long userId);
 }

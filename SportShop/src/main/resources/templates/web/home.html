@@ -29,7 +29,7 @@
                     <a class="nav-link active" th:href="@{/infor}" th:text="'Hello ' + ${user.username}"></a>
                 </li>
                 <li class="nav-item" th:if="${user != null}">
-                    <a class="nav-link active" th:href="@{/cart}">Cart</a>
+                    <a class="nav-link active" th:href="@{/user/cart/{id}(id=${user.id})}">Cart</a>
                 </li>
                 <li class="nav-item" th:if="${user == null}">
                     <a class="nav-link active" th:href="@{/login}">Login</a>
@@ -48,7 +48,7 @@
 
 <!-- Main content -->
 <div class="container mt-5">
-    <div th:if="${message}" class="alert alert-danger" role="alert">
+    <div th:if="${message}" class="alert alert-success" role="alert">
         <span th:text="${message}"></span>
     </div>
     <div class="row">
@@ -60,7 +60,7 @@
                     <p class="card-text" th:text="${product.price} + 'VND'">Price</p>
                     <p class="card-text" th:text="${product.discount} + '%'">Sales</p>
                     <a th:href="@{/admin/product/{id}(id=${product.id})}" class="btn btn-primary">View</a>
-                    <form th:action="@{/cart/{id}(id=${product.id})}" method="post">
+                    <form th:action="@{/user/add-to-cart/{id}(id=${product.id})}" method="POST">
                         <button type="submit" class="btn btn-primary">Add to Cart</button>
                     </form>
                 </div>

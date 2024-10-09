@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_URLS = {"/home", "/login", "/sign-in", "/log-out"};
+    private final String[] PUBLIC_URLS = {"/home", "/login", "/sign-in"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -37,7 +37,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/login", "/sign-in", "/home").permitAll()
+                                .requestMatchers(PUBLIC_URLS).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
