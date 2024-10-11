@@ -12,50 +12,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ProductMapper productMapper;
+public interface ProductService {
 
     // Count product
-    public String countProduct(){
-        return String.valueOf(productRepository.count());
-    }
+    public String countProduct();
 
     // View all product
-    public List<ProductResponse> getAllProducts() {
-        List<ProductResponse> products = new ArrayList<>();
-        for(ProductEntity item : productRepository.findAll()){
-            products.add(productMapper.toProductResponse(item));
-        }
-        return products;
-    }
+    public List<ProductResponse> getAllProducts();
 
     // View product by ID
-    public ProductResponse getProductById(Long productId) {
-        return productMapper.toProductResponse(productRepository.findById(productId));
-    }
+    public ProductResponse getProductById(Long productId);
 
     // Create product
-    public ProductResponse createProduct(ProductRequest productRequest) {
-        ProductEntity newProduct = productMapper.toProductEntity(productRequest);
-        return productMapper.toProductResponse(productRepository.save(newProduct));
-    }
+    public ProductResponse createProduct(ProductRequest productRequest);
 
     // Update Product
-    public ProductResponse updateProduct(Long productId, ProductRequest productRequest) {
-        ProductEntity updatedProduct = productRepository.findById(String.valueOf(productId)).get();
-
-        productMapper.updateProductEntity(updatedProduct, productRequest);
-        productRepository.save(updatedProduct);
-
-        return productMapper.toProductResponse(updatedProduct);
-    }
+    public ProductResponse updateProduct(Long productId, ProductRequest productRequest);
 
     // Delete Product
-    public void deleteProduct(Long productId) {
-        productRepository.deleteById(String.valueOf(productId));
-    }
+    public void deleteProduct(Long productId);
+
 }

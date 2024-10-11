@@ -12,37 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private OrderMapper orderMapper;
+public interface OrderService {
 
     // View order Quantity
-    public String countOrders() {
-        return String.valueOf(orderRepository.count());
-    }
+    public String countOrders() ;
 
     // View All Order
-    public List<OrderResponse> getALlOrders() {
-        List<OrderResponse> orders = new ArrayList<>();
-        List<OrderEntity> orderEntities = orderRepository.findAll();
-        for(OrderEntity orderEntity : orderEntities) {
-            orders.add(orderMapper.toOrderResponse(orderEntity));
-        }
-        return orders;
-    }
+    public List<OrderResponse> getALlOrders() ;
 
     // View Order ny Id
-    public OrderResponse getOrderById(Long orderId) {
-        return orderMapper.toOrderResponse(orderRepository.findById(String.valueOf(orderId)).get());
-    }
+    public OrderResponse getOrderById(Long orderId) ;
 
     // View Bill Order by Id
-    public List<BillResponse> getBillById(Long orderId) {
-        return orderRepository.getBillByOrderId(String.valueOf(orderId));
-    }
-
+    public List<BillResponse> getBillById(Long orderId) ;
 
 }

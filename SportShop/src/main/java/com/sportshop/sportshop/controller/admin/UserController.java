@@ -61,16 +61,16 @@ public class UserController {
             String enumKey = result.getFieldError().getDefaultMessage();
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", ErrorCode.valueOf(enumKey).getMessage());
-            return "/web/notification";
+            return "/admin/admin";
         }
         try {
             userService.createUser(newUser);
             model.addAttribute("notification", "Success");
-            return "/web/notification";
+            return "/admin/admin";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/web/notification";
+            return "/admin/admin";
         }
     }
 
@@ -92,16 +92,16 @@ public class UserController {
             String enumKey = result.getFieldError().getDefaultMessage();
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", ErrorCode.valueOf(enumKey).getMessage());
-            return "/web/notification";
+            return "/admin/admin";
         }
         try {
             userService.updateUser(updateUser, userId);
             model.addAttribute("notification", "Success");
-            return "/web/notification";
+            return "/admin/admin";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/web/notification";
+            return "/admin/admin";
         }
     }
 
@@ -111,11 +111,11 @@ public class UserController {
         try {
             userService.deleteUser(String.valueOf(userId));
             model.addAttribute("notification", "Success");
-            return "/web/notification";
+            return "/admin/admin";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/web/notification";
+            return "/admin/admin";
         }
     }
 

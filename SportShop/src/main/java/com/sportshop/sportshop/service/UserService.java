@@ -10,7 +10,6 @@ import com.sportshop.sportshop.exception.ErrorCode;
 import com.sportshop.sportshop.mapper.UserMapper;
 import com.sportshop.sportshop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,80 +17,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
+public interface UserService {
 
     // View user quantity
-    public String countUsers() {
-        return String.valueOf(userRepository.count());
-    }
+    public String countUsers();
 
     // View all users
-    public List<UserResponse> getUsers() {
-        List<UserResponse> users = new ArrayList<>();
-        for(UserEntity user: userRepository.findAll()){
-            users.add(userMapper.toUserResponse(user));
-        }
-        return users;
-    }
+    public List<UserResponse> getUsers();
 
     // View user by Id
-    public UserResponse getUserById(Long userId) {
-        if(!userRepository.existsById(userId)){
-            throw new AppException(ErrorCode.USER_NOT_EXISTED);
-        }
-
-        UserResponse userResponse =userMapper.toUserResponse(userRepository.findById(userId)) ;
-        return userResponse ;
-    }
+    public UserResponse getUserById(Long userId);
 
     // Create user
-    public UserEntity createUser(CreateUserRequest request) {
-        if(userRepository.existsByUsername(request.getUsername())){
-            throw new AppException(ErrorCode.USER_EXISTED);
-        }
-        if(request.getRoles() == null){
-            request.setRoles(RoleEnum.USER);
-        }
-        UserEntity newUser = userMapper.toUserEntity(request);
-
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
-        return userRepository.save(newUser);
-    }
+    public UserEntity createUser(CreateUserRequest request);
 
     // Update user
-    public UserResponse updateUser(UpdateUserRequest request, Long userId) {
-        if(!userRepository.existsById(userId)){
-            throw new AppException(ErrorCode.USER_NOT_EXISTED);
-        }
-        UserEntity updateUser = userRepository.findById(userId);
-
-        request.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        userMapper.updateUserEntity(updateUser, request);
-        userRepository.save(updateUser);
-
-        return userMapper.toUserResponse(updateUser);
-    }
+    public UserResponse updateUser(UpdateUserRequest request, Long userId);
 
     // Delete user
-    public void deleteUser(String userId) {
-        if(!userRepository.existsById(userId)){
-            throw new AppException(ErrorCode.USER_NOT_EXISTED);
-        }
-        userRepository.deleteById(userId);
-    }
+    public void deleteUser(String userId);
 
     // Find By Username
-    public UserEntity getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    public UserEntity getUserByUsername(String username);
+
 }

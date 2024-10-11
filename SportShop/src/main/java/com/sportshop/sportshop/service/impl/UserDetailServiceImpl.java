@@ -1,7 +1,7 @@
-package com.sportshop.sportshop.service;
+package com.sportshop.sportshop.service.impl;
 
 import com.sportshop.sportshop.entity.UserEntity;
-import com.sportshop.sportshop.enums.RoleEnum;
+import com.sportshop.sportshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
-public class UserDetailService implements UserDetailsService {
+public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
     UserService userService;
 
@@ -27,7 +27,7 @@ public class UserDetailService implements UserDetailsService {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRoles());
 
         return new User(user.getUsername(),
-                        user.getPassword(),
-                        Collections.singletonList(authority));
+                user.getPassword(),
+                Collections.singletonList(authority));
     }
 }

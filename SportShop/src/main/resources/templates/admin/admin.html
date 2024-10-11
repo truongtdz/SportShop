@@ -108,6 +108,15 @@
   <!-- Main content -->
   <div class="main-content">
     <h1>Chào mừng đến với trang quản trị hệ thống của Admin</h1>
+    <div>
+      <div th:if="${notification}" class="alert alert-success" role="alert">
+        <span th:text="${notification}"></span>
+      </div>
+      <div th:if="${message}" class="alert alert-success" role="alert">
+        <span th:text="${message}"></span>
+      </div>
+    </div>
+
     <div class="card-container">
       <!-- Card 1 -->
       <div class="card">
@@ -129,5 +138,6 @@
     </div>
   </div>
 </div>
+
 </body>
 </html>

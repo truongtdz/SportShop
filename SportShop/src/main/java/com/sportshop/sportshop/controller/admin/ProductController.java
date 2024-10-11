@@ -55,11 +55,11 @@ public class ProductController {
         try {
             productService.createProduct(request);
             model.addAttribute("notification", "Success");
-            return "/web/notification";
+            return "/admin/admin";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/web/notification";
+            return "/admin/admin";
         }
     }
 
@@ -80,11 +80,11 @@ public class ProductController {
         try{
             productService.updateProduct(productId, request);
             model.addAttribute("notification", "Success");
-            return "/web/notification";
+            return "/admin/admin";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/web/notification";
+            return "/admin/admin";
         }
     }
 
@@ -93,11 +93,11 @@ public class ProductController {
         try{
             productService.deleteProduct(productId);
             model.addAttribute("notification", "Success");
-            return "/web/notification";
+            return "/admin/admin";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/web/notification";
+            return "/admin/admin";
         }
     }
 
