@@ -3,11 +3,9 @@ package com.sportshop.sportshop.controller.web;
 import com.sportshop.sportshop.dto.request.CreateUserRequest;
 import com.sportshop.sportshop.dto.request.LoginRequest;
 import com.sportshop.sportshop.exception.ErrorCode;
-import com.sportshop.sportshop.service.ProductService;
 import com.sportshop.sportshop.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,18 +26,18 @@ public class AuthenticationController {
     }
 
 
-    @GetMapping("/sign-in")
-    public ModelAndView signIn() {
-        return new ModelAndView("web/signin")
+    @GetMapping("/register")
+    public ModelAndView register() {
+        return new ModelAndView("web/register")
                 .addObject("newUser", new CreateUserRequest());
     }
 
-    @PostMapping("/sign-in")
-    public String signIn(@Valid @ModelAttribute("newUser") CreateUserRequest newUser, BindingResult result, Model model) {
+    @PostMapping("/register")
+    public String register(@Valid @ModelAttribute("newUser") CreateUserRequest newUser, BindingResult result, Model model) {
         if(result.hasErrors()){
             String enumKey = result.getFieldError().getDefaultMessage();
             model.addAttribute("message", ErrorCode.valueOf(enumKey).getMessage());
-            return "/web/signin";
+            return "web/register";
         }
         try {
             userService.createUser(newUser);
@@ -47,7 +45,7 @@ public class AuthenticationController {
             return "/web/login";
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
-            return "/web/signin";
+            return "web/register";
         }
     }
 

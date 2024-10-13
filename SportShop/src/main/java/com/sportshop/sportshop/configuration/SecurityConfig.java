@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_URLS = {"/home", "/login", "/sign-in"};
+    private final String[] PUBLIC_URLS = {"/home", "/login", "/register"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {

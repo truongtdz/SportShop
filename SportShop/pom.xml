@@ -8,11 +8,11 @@
         <version>3.3.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.laptopshop</groupId>
-    <artifactId>LaptopShop</artifactId>
+    <groupId>com.sportshop</groupId>
+    <artifactId>SportShop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>LaptopShop</name>
-    <description>LaptopShop</description>
+    <name>SportShop</name>
+    <description>SportShop</description>
     <url/>
     <licenses>
         <license/>
