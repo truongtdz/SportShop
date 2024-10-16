@@ -19,7 +19,7 @@ public class CategoryEntity {
     Long categoryId;
 
     @Column(name = "name_category")
-    String categoryLink;
+    String nameCategory;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<ProductEntity> products;
