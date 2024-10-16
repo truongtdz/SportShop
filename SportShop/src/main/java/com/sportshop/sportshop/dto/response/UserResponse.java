@@ -1,10 +1,11 @@
 package com.sportshop.sportshop.dto.response;
 
-import com.sportshop.sportshop.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -19,5 +20,5 @@ public class UserResponse {
     private String phone;
     private String email;
     private String address;
-    private RoleEnum roles;
+    private Set<String> roles;
 }

@@ -9,8 +9,11 @@ import com.sportshop.sportshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -36,6 +39,30 @@ public class ProductServiceImpl implements ProductService {
         return products;
     }
 
+    @Override
+    public List<ProductResponse> getProductSale() {
+        // Lấy và lọc các sản phẩm có giảm giá (discount > 0) trước khi chuyển đổi
+        List<ProductResponse> products = productRepository.findAll().stream()
+                .filter(item -> item.getDiscount() > 0)  // Lọc các sản phẩm có discount > 0
+                .map(productMapper::toProductResponse)   // Chuyển đổi ProductEntity thành ProductResponse
+                .sorted(Comparator.comparing(ProductResponse::getDiscount).reversed())  // Sắp xếp theo discount từ cao đến thấp
+                .limit(10)  // Lấy 10 sản phẩm giảm giá nhiều nhất
+                .collect(Collectors.toList());  // Thu thập kết quả vào danh sách
+
+        return products;  // Trả về danh sách sản phẩm giảm giá
+    }
+
+
+    @Override
+    public List<ProductResponse> getProductNewest() {
+        List<ProductResponse> products = new ArrayList<>();
+        for(ProductEntity item : productRepository.findAll()){
+            products.add(productMapper.toProductResponse(item));
+        }
+
+        return products;
+    }
+
     // View product by ID
     @Override
     public ProductResponse getProductById(Long productId) {
@@ -45,6 +72,7 @@ public class ProductServiceImpl implements ProductService {
     // Create product
     @Override
     public ProductResponse createProduct(ProductRequest productRequest) {
+        productRequest.setDate(new Date());
         ProductEntity newProduct = productMapper.toProductEntity(productRequest);
         return productMapper.toProductResponse(productRepository.save(newProduct));
     }

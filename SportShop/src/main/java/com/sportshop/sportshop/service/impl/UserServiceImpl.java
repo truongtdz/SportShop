@@ -44,9 +44,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getUsers() {
         List<UserResponse> users = new ArrayList<>();
-        for(UserEntity user: userRepository.findAll()){
-            users.add(userMapper.toUserResponse(user));
-        }
+//        for(UserEntity user: userRepository.findAll()){
+//            users.add(userMapper.toUserResponse(user));
+//        }
         return users;
     }
 
@@ -57,8 +57,8 @@ public class UserServiceImpl implements UserService {
             throw new AppException(ErrorCode.USER_NOT_EXISTED);
         }
 
-        UserResponse userResponse =userMapper.toUserResponse(userRepository.findById(userId)) ;
-        return userResponse ;
+//        UserResponse userResponse =userMapper.toUserResponse(userRepository.findById(userId)) ;
+        return null ;
     }
 
     // Create user
@@ -70,11 +70,13 @@ public class UserServiceImpl implements UserService {
         if(request.getRoles() == null){
             request.setRoles(RoleEnum.USER);
         }
-        UserEntity newUser = userMapper.toUserEntity(request);
+//        UserEntity newUser = userMapper.toUserEntity(request);
+//
+//        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+//
+//        return userRepository.save(newUser);
 
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
-        return userRepository.save(newUser);
+        return null;
     }
 
     // Update user
@@ -87,10 +89,12 @@ public class UserServiceImpl implements UserService {
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        userMapper.updateUserEntity(updateUser, request);
-        userRepository.save(updateUser);
+//        userMapper.updateUserEntity(updateUser, request);
+//        userRepository.save(updateUser);
+//
+//        return userMapper.toUserResponse(updateUser);
 
-        return userMapper.toUserResponse(updateUser);
+        return null;
     }
 
     // Delete user

@@ -11,12 +11,4 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    @Mapping(target = "fullName", expression = "java(userEntity.getFirstName() + \" \" + userEntity.getLastName())")
-    @Mapping(target = "address",
-            expression = "java(userEntity.getStreet() + \" / \" + userEntity.getWard() + \" / \" + userEntity.getDistrict() + \" / \" + userEntity.getCity())")
-    UserResponse toUserResponse(UserEntity userEntity);
-
-    UserEntity toUserEntity(CreateUserRequest request);
-
-    void updateUserEntity(@MappingTarget UserEntity userEntity, UpdateUserRequest request);
 }

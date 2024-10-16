@@ -10,6 +10,6 @@ import org.mapstruct.Mapping;
 public interface OrderMapper {
     OrderEntity toOrderEntity(OrderRequest request);
 
-    @Mapping(target = "userId", expression = "java(entity.getUser() != null ? entity.getUser().getId() : null)")
+    @Mapping(target = "userId", expression = "java(entity.getUser() != null ? entity.getUser().getUser_id() : null)")
     OrderResponse toOrderResponse(OrderEntity entity);
 }

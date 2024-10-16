@@ -7,6 +7,8 @@ import com.sportshop.sportshop.enums.SizeEnum;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -25,4 +27,5 @@ public class ProductRequest {
     String description;
     String image;
     Long quantity;
+    Date date;
 }

@@ -10,17 +10,23 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table (name = "cart")
-public class CartEntity {
+@Table(name = "comment")
+public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long cartId;
+    Long commentID;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    UserEntity user;
+    @Column(name = "rate")
+    String rate;
+
+    @Column(name = "messages")
+    String messages;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     ProductEntity product;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    UserEntity user;
 }

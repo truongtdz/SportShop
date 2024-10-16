@@ -2,8 +2,6 @@ package com.sportshop.sportshop.controller.admin;
 
 import com.sportshop.sportshop.dto.request.CreateUserRequest;
 import com.sportshop.sportshop.dto.request.UpdateUserRequest;
-import com.sportshop.sportshop.enums.CityEnum;
-import com.sportshop.sportshop.enums.DistrictEnum;
 import com.sportshop.sportshop.enums.GenderEnum;
 import com.sportshop.sportshop.enums.RoleEnum;
 import com.sportshop.sportshop.exception.ErrorCode;
@@ -50,8 +48,6 @@ public class UserController {
         return new ModelAndView("admin/user/create")
                     .addObject("newUser", new CreateUserRequest())
                     .addObject("genders", GenderEnum.values())
-                    .addObject("cities", CityEnum.values())
-                    .addObject("districts", DistrictEnum.values())
                     .addObject("roles", RoleEnum.values());
     }
 
@@ -81,8 +77,6 @@ public class UserController {
                     .addObject("user", userService.getUserById(userId))
                     .addObject("updateUser", new UpdateUserRequest())
                     .addObject("genders", GenderEnum.values())
-                    .addObject("cities", CityEnum.values())
-                    .addObject("districts", DistrictEnum.values())
                     .addObject("roles", RoleEnum.values());
     }
 

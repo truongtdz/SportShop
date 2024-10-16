@@ -18,7 +18,7 @@ import java.util.List;
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long orderId;
 
     @Column(name = "create_day")
     private Date createDay;
@@ -31,6 +31,6 @@ public class OrderEntity {
     private UserEntity user;
 
     @OneToMany(mappedBy = "order",fetch = FetchType.LAZY)
-    private List<ItemEntity> items;
+    private List<OrderDetailEntity> orderDetails;
 }
 

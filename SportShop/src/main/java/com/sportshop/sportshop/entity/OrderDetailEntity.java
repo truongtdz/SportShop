@@ -1,10 +1,8 @@
 package com.sportshop.sportshop.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 
 @Data
@@ -12,20 +10,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "items")
-public class ItemEntity {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "order_detail")
+public class OrderDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long orderDetailId;
 
     @Column(name = "quantity_item")
-    private Long quantity;
+    Long quantity;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private ProductEntity product;
+    ProductEntity product;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private OrderEntity order;
+    OrderEntity order;
 }

@@ -20,6 +20,11 @@ public interface ProductService {
     // View all product
     public List<ProductResponse> getAllProducts();
 
+    // View list product sale
+    public List<ProductResponse> getProductSale();
+
+    // View list product the newest
+    public List<ProductResponse> getProductNewest();
     // View product by ID
     public ProductResponse getProductById(Long productId);
 

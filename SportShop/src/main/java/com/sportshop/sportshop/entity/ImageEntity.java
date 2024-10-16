@@ -6,19 +6,18 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table (name = "cart")
-public class CartEntity {
+@Entity
+@Table(name = "image_product")
+public class ImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long cartId;
+    Long imageId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    UserEntity user;
+    @Column(name = "image_link")
+    String imageLink;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

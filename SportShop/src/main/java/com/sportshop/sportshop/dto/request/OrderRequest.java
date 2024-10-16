@@ -1,7 +1,6 @@
 package com.sportshop.sportshop.dto.request;
 
-import com.sportshop.sportshop.entity.ItemEntity;
-import com.sportshop.sportshop.entity.UserEntity;
+import com.sportshop.sportshop.entity.OrderDetailEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,5 +17,5 @@ public class OrderRequest {
     Date orderDate;
     Long total;
     Long userId;
-    List<ItemEntity> items;
+    List<OrderDetailEntity> orderDetails;
 }

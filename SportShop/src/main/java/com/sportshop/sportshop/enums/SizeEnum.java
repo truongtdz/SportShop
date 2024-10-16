@@ -1,5 +1,6 @@
 package com.sportshop.sportshop.enums;
 
 public enum SizeEnum {
-    S, M, L, XL, XXL;
+    M, L, XL, XXL, S38, S39, S40, S41, S42;
+
 }

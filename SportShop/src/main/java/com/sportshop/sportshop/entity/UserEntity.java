@@ -1,71 +1,54 @@
 package com.sportshop.sportshop.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sportshop.sportshop.enums.CityEnum;
-import com.sportshop.sportshop.enums.DistrictEnum;
 import com.sportshop.sportshop.enums.GenderEnum;
-import com.sportshop.sportshop.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "user")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long userId;
 
-    @Column(name = "user_name")
-    private String username;
+    @Column(name = "username")
+    String username;
 
     @Column(name = "password")
-    private String password;
+    String password;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "fullname")
+    String fullName;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
-    private GenderEnum gender;
+    GenderEnum gender;
 
     @Column(name = "phone")
-    private String phone;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "city")
-    private CityEnum city;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "district")
-    private DistrictEnum district;
-
-    @Column(name = "ward")
-    private String ward;
-
-    @Column(name = "street")
-    private String street;
+    String phone;
 
     @Column(name = "email")
-    private String email;
+    String email;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "roles")
-    private RoleEnum roles;
+    private Set<String> roles;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<OrderEntity> orders;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<CartEntity> carts;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<AddressEntity> addresslist;
 }

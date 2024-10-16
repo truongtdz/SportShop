@@ -5,64 +5,60 @@ import com.sportshop.sportshop.enums.CategoryEnum;
 import com.sportshop.sportshop.enums.GenderEnum;
 import com.sportshop.sportshop.enums.SizeEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "category")
-    private CategoryEnum category;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "brand")
-    private BrandEnum brand;
+    Long productId;
 
     @Column(name = "name")
-    private String name;
+    String name;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
-    private GenderEnum gender;
-
-    @Column(name = "price")
-    private Long price;
+    GenderEnum gender;
 
     @Column(name = "color")
-    private String color;
+    String color;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "size")
-    private SizeEnum size;
+    @Column(name = "price")
+    Long price;
 
     @Column(name = "discount")
-    private Long discount;
+    Long discount;
 
     @Column(name = "description")
-    private String description;
+    String description;
 
     @Column(name = "image")
-    private String image;
+    String image;
 
     @Column(name = "quantity")
-    private Long quantity;
+    Long quantity;
+
+    @Column(name = "date")
+    Date date;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    CategoryEntity category;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    BrandEntity brand;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<ItemEntity> items;
-
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<CartEntity> carts;
+    List<ProductDetailEntity> productDetails;
 }
