@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ import java.util.Set;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long userId;
+    Long id;
 
     @Column(name = "username")
     String username;
@@ -40,15 +41,21 @@ public class UserEntity {
     @Column(name = "email")
     String email;
 
+    @Column(name = "create_date")
+    Date createDate;
+
+    @Column(name = "update_date")
+    Date updateDate;
+
     @Column(name = "roles")
-    private Set<String> roles;
+    String roles;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<OrderEntity> orders;
+    List<OrderEntity> orders;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<CartEntity> carts;
+    List<CartEntity> carts;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<AddressEntity> addresslist;
+    List<AddressEntity> addresslist;
 }

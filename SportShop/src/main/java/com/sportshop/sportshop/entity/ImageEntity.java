@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class ImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long imageId;
+    Long id;
 
     @Column(name = "image_link")
     String imageLink;

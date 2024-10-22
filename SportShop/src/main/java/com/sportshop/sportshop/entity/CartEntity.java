@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class CartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long cartId;
+    Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

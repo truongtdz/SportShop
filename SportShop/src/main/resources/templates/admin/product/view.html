@@ -159,45 +159,18 @@
     <div class="main-content">
         <h2>Thông tin Sản Phẩm</h2>
         <div class="card">
-            <div class="product-image">
-                <img
-                        th:src="${product.image}"
-                        alt="Product Image"
-                        style="max-width: 100%; height: auto"
-                />
-            </div>
             <div class="product-info">
                 <div class="row mb-2">
                     <div>ID:</div>
                     <div th:text="${product.id}"></div>
                 </div>
                 <div class="row mb-2">
-                    <div>Category:</div>
-                    <div th:text="${product.category}"></div>
-                </div>
-                <div class="row mb-2">
-                    <div>Brand:</div>
-                    <div th:text="${product.brand}"></div>
-                </div>
-                <div class="row mb-2">
                     <div>Name:</div>
                     <div th:text="${product.name}"></div>
                 </div>
                 <div class="row mb-2">
-                    <div>Gender:</div>
-                    <div th:text="${product.gender}"></div>
-                </div>
-                <div class="row mb-2">
                     <div>Price:</div>
                     <div th:text="${product.price}"></div>
-                </div>
-                <div class="row mb-2">
-                    <div>Color:</div>
-                    <div th:text="${product.color}"></div>
-                </div>
-                <div class="row mb-2">
-                    <div>Size:</div>
-                    <div th:text="${product.size}"></div>
                 </div>
                 <div class="row mb-2">
                     <div>Discount:</div>
@@ -208,27 +181,21 @@
                     <div th:text="${product.description}"></div>
                 </div>
                 <div class="row mb-2">
-                    <div>Quantity:</div>
-                    <div th:text="${product.quantity}"></div>
+                    <div>Date:</div>
+                    <div th:text="${product.createDate}"></div>
                 </div>
                 <div class="row mb-2">
-                    <div>Date:</div>
-                    <div th:text="${product.date}"></div>
+                    <div>Brand:</div>
+                    <div th:text="${brand.name}"></div>
+                </div>
+                <div class="row mb-2" th:if="${category.name != null}">
+                    <div>Category:</div>
+                    <div th:text="${category.name}"></div>
                 </div>
             </div>
         </div>
-        <a
-                th:href="@{/admin/product/update/{id}(id=${product.id})}"
-                class="btn btn-warning"
-        >Update</a
-        >
-        <button
-                type="button"
-                class="btn btn-danger"
-                th:onclick="'deleteProduct(' + ${product.id} + ')'"
-        >
-            Delete
-        </button>
+        <a th:href="@{/admin/product/update/{id}(id=${product.id})}" class="btn btn-warning">Sửa thông tin</a>
+        <button type="button" class="btn btn-danger" th:onclick="'deleteProduct(' + ${product.id} + ')'">Xóa sản phẩm</button>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

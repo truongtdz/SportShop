@@ -15,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 public class OrderDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long orderDetailId;
+    Long id;
 
     @Column(name = "quantity_item")
     Long quantity;

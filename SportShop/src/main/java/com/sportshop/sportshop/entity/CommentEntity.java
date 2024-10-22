@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long commentID;
+    Long id;
 
     @Column(name = "rate")
     String rate;

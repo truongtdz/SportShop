@@ -1,10 +1,9 @@
 package com.sportshop.sportshop.controller.admin;
 
 import com.sportshop.sportshop.dto.request.ProductRequest;
-import com.sportshop.sportshop.enums.BrandEnum;
-import com.sportshop.sportshop.enums.CategoryEnum;
-import com.sportshop.sportshop.enums.GenderEnum;
-import com.sportshop.sportshop.enums.SizeEnum;
+import com.sportshop.sportshop.dto.response.ProductResponse;
+import com.sportshop.sportshop.service.BrandService;
+import com.sportshop.sportshop.service.CategoryService;
 import com.sportshop.sportshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,9 +13,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/admin/product")
-public class ProductController {
+public class ProductManagementController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private BrandService brandService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     // View all product
     @GetMapping
@@ -31,12 +36,11 @@ public class ProductController {
     // View product by ID
     @GetMapping("/{productId}")
     public ModelAndView getProduct(@PathVariable Long productId){
-
-        ModelAndView mav = new ModelAndView("/admin/product/view");
-
-        mav.addObject("product", productService.getProductById(productId));
-
-        return mav;
+        ProductResponse product = productService.getProductById(productId);
+        return new ModelAndView("/admin/product/view")
+                .addObject("product", product)
+                .addObject("brand", product.getBrand())
+                .addObject("category", product.getCategory());
     }
 
     // Create product
@@ -44,10 +48,8 @@ public class ProductController {
     public ModelAndView createProduct(){
         return new ModelAndView("/admin/product/create")
                     .addObject("newProduct",  new ProductRequest())
-                    .addObject("categories", CategoryEnum.values())
-                    .addObject("brands", BrandEnum.values())
-                    .addObject("genders", GenderEnum.values())
-                    .addObject("sizes", SizeEnum.values());
+                    .addObject("categories", categoryService.getAllCategory())
+                    .addObject("brands", brandService.getAllBrand());
     }
 
     @PostMapping("/create")
@@ -69,10 +71,8 @@ public class ProductController {
         return new ModelAndView("/admin/product/update")
                 .addObject("product", productService.getProductById(productId))
                 .addObject("updateProduct", new ProductRequest())
-                .addObject("categories", CategoryEnum.values())
-                .addObject("brands", BrandEnum.values())
-                .addObject("genders", GenderEnum.values())
-                .addObject("sizes", SizeEnum.values());
+                .addObject("categories", categoryService.getAllCategory())
+                .addObject("brands", brandService.getAllBrand());
     }
 
     @PostMapping("/update/{productId}")

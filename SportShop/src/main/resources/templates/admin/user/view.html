@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -167,14 +167,6 @@
             <div class="row mb-2">
                 <div>Email:</div>
                 <div th:text="${user.email}"></div>
-            </div>
-            <div class="row mb-2">
-                <div>Address:</div>
-                <div th:text="${user.address}"></div>
-            </div>
-            <div class="row mb-2">
-                <div>Role:</div>
-                <div th:text="${user.roles}"></div>
             </div>
         </div>
         <a

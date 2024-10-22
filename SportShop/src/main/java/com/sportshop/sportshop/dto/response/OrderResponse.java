@@ -1,5 +1,7 @@
 package com.sportshop.sportshop.dto.response;
 
+import com.sportshop.sportshop.entity.OrderDetailEntity;
+import com.sportshop.sportshop.entity.UserEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,6 +17,6 @@ public class OrderResponse {
     Long id;
     Date orderDate;
     Long total;
-    Long userId;
-    List<ItemResponse> items;
+    UserEntity user;
+    List<OrderDetailEntity> orderDetails;
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -133,11 +133,7 @@
   <div class="main-content">
     <h1>Chào mừng đến với trang quản trị hệ thống của Admin</h1>
     <div class="product-form">
-      <form
-              th:action="@{/admin/user/create}"
-              th:object="${newUser}"
-              method="POST"
-      >
+      <form th:action="@{/admin/user/create}" th:object="${newUser}" method="POST">
         <!-- Row 1: Username, Password, Gender -->
         <div class="row mb-3">
           <div class="col">
@@ -158,27 +154,13 @@
               ></option>
             </select>
           </div>
-          <div class="col">
-            <label for="roles">Role:</label>
-            <select id="roles" th:field="*{roles}">
-              <option
-                      th:each="role : ${roles}"
-                      th:value="${role}"
-                      th:text="${role}"
-              ></option>
-            </select>
-          </div>
         </div>
 
-        <!-- Row 2: First Name, Last Name, Phone, Email -->
+        <!-- Row 2: Full Name, Phone, Email -->
         <div class="row mb-3">
           <div class="col">
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" th:field="*{firstName}" />
-          </div>
-          <div class="col">
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" th:field="*{lastName}" />
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" th:field="*{fullName}" />
           </div>
           <div class="col">
             <label for="phone">Phone:</label>
@@ -187,38 +169,6 @@
           <div class="col">
             <label for="email">Email:</label>
             <input type="text" id="email" th:field="*{email}" />
-          </div>
-        </div>
-
-        <!-- Row 3: City, District, Ward, Street -->
-        <div class="row mb-3">
-          <div class="col">
-            <label for="city">City:</label>
-            <select id="city" th:field="*{city}">
-              <option
-                      th:each="city : ${cities}"
-                      th:value="${city}"
-                      th:text="${city}"
-              ></option>
-            </select>
-          </div>
-          <div class="col">
-            <label for="district">District:</label>
-            <select id="district" th:field="*{district}">
-              <option
-                      th:each="district : ${districts}"
-                      th:value="${district}"
-                      th:text="${district}"
-              ></option>
-            </select>
-          </div>
-          <div class="col">
-            <label for="ward">Ward:</label>
-            <input type="text" id="ward" th:field="*{ward}" />
-          </div>
-          <div class="col">
-            <label for="street">Street:</label>
-            <input type="text" id="street" th:field="*{street}" />
           </div>
         </div>
 

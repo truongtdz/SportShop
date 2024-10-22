@@ -21,13 +21,11 @@ public class ApplicationInitConfig {
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         return args -> {
             if (userRepository.findByUsername("admin") == null) {
-                var roleAdmin = new HashSet<String>();
-                roleAdmin.add(RoleEnum.ADMIN.name());
 
                 UserEntity user = UserEntity.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("admin"))
-                        .roles(roleAdmin)
+                        .roles(RoleEnum.ADMIN.name())
                         .build();
                 userRepository.save(user);
             }

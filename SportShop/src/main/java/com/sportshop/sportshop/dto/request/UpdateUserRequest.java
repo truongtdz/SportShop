@@ -1,10 +1,10 @@
 package com.sportshop.sportshop.dto.request;
 
 import com.sportshop.sportshop.enums.GenderEnum;
-import com.sportshop.sportshop.enums.RoleEnum;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 
 @Data
@@ -13,16 +13,9 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateUserRequest {
-
-    @Size(min = 8, message = "PASSWORD_INVALID")
     String password;
-
-    private String firstName;
-    private String lastName;
-    private GenderEnum gender;
-    private String phone;
-    private String ward;
-    private String street;
-    private String email;
-    private RoleEnum roles;
+    String fullName;
+    GenderEnum gender;
+    String phone;
+    String email;
 }

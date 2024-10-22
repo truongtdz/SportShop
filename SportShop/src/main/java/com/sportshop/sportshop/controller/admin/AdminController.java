@@ -1,6 +1,5 @@
 package com.sportshop.sportshop.controller.admin;
 
-import com.sportshop.sportshop.service.OrderService;
 import com.sportshop.sportshop.service.ProductService;
 import com.sportshop.sportshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +17,11 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private OrderService orderService;
-
     @GetMapping
     public ModelAndView homeAdmin() {
 
         return  new ModelAndView("/admin/admin")
                 .addObject("userQuantity", userService.countUsers())
-                .addObject("productQuantity", productService.countProduct())
-                .addObject("orderQuantity", orderService.countOrders());
+                .addObject("productQuantity", productService.countProduct());
     }
 }

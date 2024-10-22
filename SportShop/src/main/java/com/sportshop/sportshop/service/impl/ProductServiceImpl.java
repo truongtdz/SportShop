@@ -2,8 +2,12 @@ package com.sportshop.sportshop.service.impl;
 
 import com.sportshop.sportshop.dto.request.ProductRequest;
 import com.sportshop.sportshop.dto.response.ProductResponse;
+import com.sportshop.sportshop.entity.BrandEntity;
+import com.sportshop.sportshop.entity.CategoryEntity;
 import com.sportshop.sportshop.entity.ProductEntity;
 import com.sportshop.sportshop.mapper.ProductMapper;
+import com.sportshop.sportshop.repository.BrandRepository;
+import com.sportshop.sportshop.repository.CategoryRepository;
 import com.sportshop.sportshop.repository.ProductRepository;
 import com.sportshop.sportshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private BrandRepository brandRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     // Count product
     @Override
@@ -72,8 +82,18 @@ public class ProductServiceImpl implements ProductService {
     // Create product
     @Override
     public ProductResponse createProduct(ProductRequest productRequest) {
-        productRequest.setDate(new Date());
+
         ProductEntity newProduct = productMapper.toProductEntity(productRequest);
+        newProduct.setCreateDate(new Date());
+
+        // Tìm BrandEntity từ brandId
+        BrandEntity brand = brandRepository.getBrandById(productRequest.getBrandId());
+        newProduct.setBrand(brand);
+
+        // Tìm CategoryEntity từ categoryId
+        CategoryEntity category = categoryRepository.getCategoryById(productRequest.getCategoryId());
+        newProduct.setCategory(category);
+
         return productMapper.toProductResponse(productRepository.save(newProduct));
     }
 
@@ -83,6 +103,8 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity updatedProduct = productRepository.findById(String.valueOf(productId)).get();
 
         productMapper.updateProductEntity(updatedProduct, productRequest);
+
+        updatedProduct.setUpdateDate(new Date());
         productRepository.save(updatedProduct);
 
         return productMapper.toProductResponse(updatedProduct);

@@ -16,10 +16,10 @@ import java.util.List;
 public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long categoryId;
+    Long id;
 
     @Column(name = "name_category")
-    String nameCategory;
+    String name;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<ProductEntity> products;

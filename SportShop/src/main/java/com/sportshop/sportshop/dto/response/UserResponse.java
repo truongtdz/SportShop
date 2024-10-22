@@ -1,24 +1,31 @@
 package com.sportshop.sportshop.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.sportshop.sportshop.entity.AddressEntity;
+import com.sportshop.sportshop.entity.CartEntity;
+import jakarta.persistence.Column;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse {
-    private Long id;
-    private String username;
-    private String password;
-    private String fullName;
-    private String gender;
-    private String phone;
-    private String email;
-    private String address;
-    private Set<String> roles;
+    Long id;
+    String username;
+    String password;
+    String fullName;
+    String gender;
+    String phone;
+    String email;
+    Date createDate;
+    Date updateDate;
+    String roles;
+    List<CartEntity> carts;
+    List<AddressEntity> addresslist;
 }

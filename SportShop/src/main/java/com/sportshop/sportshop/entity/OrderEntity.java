@@ -1,10 +1,8 @@
 package com.sportshop.sportshop.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 import java.util.List;
@@ -13,24 +11,25 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "orders")
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    Long id;
 
     @Column(name = "create_day")
-    private Date createDay;
+    Date createDay;
 
     @Column(name = "total")
-    private Long total;
+    Long total;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    UserEntity user;
 
     @OneToMany(mappedBy = "order",fetch = FetchType.LAZY)
-    private List<OrderDetailEntity> orderDetails;
+    List<OrderDetailEntity> orderDetails;
 }
 

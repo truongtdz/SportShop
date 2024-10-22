@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/admin/user")
-public class UserController {
+public class UserManagementController {
     @Autowired
     private UserService userService;
 
@@ -36,7 +36,8 @@ public class UserController {
 
         ModelAndView mav = new ModelAndView("admin/user/view");
 
-        mav.addObject("user", userService.getUserById(userId));
+        mav.addObject("user", userService.getUserById(userId))
+                .addObject("updateUser", new UpdateUserRequest());
 
         return mav;
     }
@@ -47,8 +48,7 @@ public class UserController {
 
         return new ModelAndView("admin/user/create")
                     .addObject("newUser", new CreateUserRequest())
-                    .addObject("genders", GenderEnum.values())
-                    .addObject("roles", RoleEnum.values());
+                    .addObject("genders", GenderEnum.values());
     }
 
     @PostMapping("/create")
@@ -76,8 +76,7 @@ public class UserController {
         return new ModelAndView("admin/user/update")
                     .addObject("user", userService.getUserById(userId))
                     .addObject("updateUser", new UpdateUserRequest())
-                    .addObject("genders", GenderEnum.values())
-                    .addObject("roles", RoleEnum.values());
+                    .addObject("genders", GenderEnum.values());
     }
 
     @PostMapping("/update/{userId}")

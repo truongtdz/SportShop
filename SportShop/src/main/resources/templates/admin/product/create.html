@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -138,91 +138,46 @@
               th:object="${newProduct}"
               method="POST"
       >
-        <!-- Row 1: Name, Category, Brand -->
         <div class="row">
           <div class="col">
             <label for="name">Product Name:</label>
             <input type="text" id="name" th:field="*{name}" />
           </div>
           <div class="col">
-            <label for="category">Category:</label>
-            <select id="category" th:field="*{category}">
-              <option
-                      th:each="category : ${categories}"
-                      th:value="${category}"
-                      th:text="${category}"
-              ></option>
-            </select>
-          </div>
-          <div class="col">
-            <label for="brand">Brand:</label>
-            <select id="brand" th:field="*{brand}">
-              <option
-                      th:each="brand : ${brands}"
-                      th:value="${brand}"
-                      th:text="${brand}"
-              ></option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Row 2: Gender, Price, Size -->
-        <div class="row">
-          <div class="col">
-            <label for="gender">Gender:</label>
-            <select id="gender" th:field="*{gender}">
-              <option
-                      th:each="gender : ${genders}"
-                      th:value="${gender}"
-                      th:text="${gender}"
-              ></option>
-            </select>
-          </div>
-          <div class="col">
             <label for="price">Price:</label>
             <input type="text" id="price" th:field="*{price}" />
-          </div>
-          <div class="col">
-            <label for="size">Size:</label>
-            <select id="size" th:field="*{size}">
-              <option
-                      th:each="size : ${sizes}"
-                      th:value="${size}"
-                      th:text="${size}"
-              ></option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Row 3: Color, Discount, Quantity -->
-        <div class="row">
-          <div class="col">
-            <label for="color">Color:</label>
-            <input type="text" id="color" th:field="*{color}" />
           </div>
           <div class="col">
             <label for="discount">Discount:</label>
             <input type="text" id="discount" th:field="*{discount}" />
           </div>
           <div class="col">
-            <label for="quantity">Quantity:</label>
-            <input type="text" id="quantity" th:field="*{quantity}" />
-          </div>
-        </div>
-
-        <!-- Row 4: Image URL and Description -->
-        <div class="row">
-          <div class="col">
-            <label for="image">Image URL:</label>
-            <input type="text" id="image" th:field="*{image}" />
-          </div>
-          <div class="col">
             <label for="description">Description:</label>
             <textarea id="description" th:field="*{description}"></textarea>
           </div>
+          <div class="col">
+            <label for="brand">Brand:</label>
+            <select id="brand" th:field="*{brandId}">
+              <option
+                      th:each="brand : ${brands}"
+                      th:value="${brand.id}"
+                      th:text="${brand.name}"
+              ></option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="category">Category:</label>
+            <select id="category" th:field="*{categoryId}">
+              <option
+                      th:each="category : ${categories}"
+                      th:value="${category.id}"
+                      th:text="${category.name}"
+              ></option>
+            </select>
+          </div>
         </div>
 
-        <input type="submit" value="Create Product" />
+        <input type="submit" value="Tạo sản phẩm" />
       </form>
     </div>
   </div>

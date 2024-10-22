@@ -1,13 +1,13 @@
 package com.sportshop.sportshop.dto.request;
 
-import com.sportshop.sportshop.enums.BrandEnum;
-import com.sportshop.sportshop.enums.CategoryEnum;
-import com.sportshop.sportshop.enums.GenderEnum;
-import com.sportshop.sportshop.enums.SizeEnum;
+import com.sportshop.sportshop.entity.BrandEntity;
+import com.sportshop.sportshop.entity.CategoryEntity;
+import com.sportshop.sportshop.entity.ProductDetailEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -16,16 +16,15 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductRequest {
     Long id;
-    CategoryEnum category;
-    BrandEnum brand;
     String name;
-    GenderEnum gender;
-    Long price;
     String color;
-    SizeEnum size;
+    Long price;
     Long discount;
     String description;
-    String image;
     Long quantity;
-    Date date;
+    Date createDate;
+    Date updateDate;
+    Long categoryId;
+    Long brandId;
+    List<ProductDetailEntity> productDetails;
 }

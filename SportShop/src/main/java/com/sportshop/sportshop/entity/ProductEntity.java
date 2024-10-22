@@ -1,9 +1,5 @@
 package com.sportshop.sportshop.entity;
 
-import com.sportshop.sportshop.enums.BrandEnum;
-import com.sportshop.sportshop.enums.CategoryEnum;
-import com.sportshop.sportshop.enums.GenderEnum;
-import com.sportshop.sportshop.enums.SizeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,17 +17,10 @@ import java.util.List;
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long productId;
+    Long id;
 
     @Column(name = "name")
     String name;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
-    GenderEnum gender;
-
-    @Column(name = "color")
-    String color;
 
     @Column(name = "price")
     Long price;
@@ -42,14 +31,14 @@ public class ProductEntity {
     @Column(name = "description")
     String description;
 
-    @Column(name = "image")
-    String image;
-
     @Column(name = "quantity")
     Long quantity;
 
-    @Column(name = "date")
-    Date date;
+    @Column(name = "create_date")
+    Date createDate;
+
+    @Column(name = "update_date")
+    Date updateDate;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -58,6 +47,9 @@ public class ProductEntity {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     BrandEntity brand;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    List<ImageEntity> images;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     List<ProductDetailEntity> productDetails;

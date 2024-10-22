@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -136,7 +136,7 @@
             <tr>
                 <th>Mã sản phẩm</th>
                 <th>Tên sản phẩm</th>
-                <th>Số lượng còn</th>
+                <th>Giá</th>
                 <th>Lựa chọn</th>
             </tr>
             </thead>
@@ -144,13 +144,10 @@
             <tr th:each="product : ${products}">
                 <td th:text="${product.id}"></td>
                 <td th:text="${product.name}"></td>
-                <td th:text="${product.quantity}"></td>
+                <td th:text="${product.price}"></td>
                 <td>
-                    <a
-                            th:href="@{/admin/product/{id}(id=${product.id})}"
-                            class="btn"
-                    >Xem</a
-                    >
+                    <a th:href="@{/admin/product/{id}(id=${product.id})}" class="btn">Xem</a>
+                    <a th:href="@{/admin/product/add/{id}(id=${product.id})}" class="btn">Nhập</a>
                 </td>
             </tr>
             </tbody>

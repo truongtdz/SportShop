@@ -44,7 +44,7 @@ public class CartController {
             UserEntity user = userService.getUserByUsername(userDetails.getUsername());
             modelAndView.addObject("user", user);
 
-            cartService.addProduct(user.getUserId(), productId);
+            cartService.addProduct(user.getId(), productId);
         } else {
             return new ModelAndView("redirect:/login");
         }
