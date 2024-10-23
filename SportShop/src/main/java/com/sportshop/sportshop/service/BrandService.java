@@ -1,5 +1,6 @@
 package com.sportshop.sportshop.service;
 
+import com.sportshop.sportshop.dto.request.BrandRequest;
 import com.sportshop.sportshop.dto.response.BrandResponse;
 import org.springframework.stereotype.Service;
 
@@ -13,4 +14,10 @@ public interface BrandService {
 
     // View By Id
     public BrandResponse getBrandById(Long brandId);
+
+    // Create Brand
+    public void createBrand(BrandRequest request);
+
+    // Delete Brand
+    public void deleteBrand(String brandId);
 }

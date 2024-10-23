@@ -34,15 +34,30 @@
       display: block;
       color: white;
       text-decoration: none;
-      padding: 10px 0;
+      padding: 10px 10px;
       margin-bottom: 10px;
       border-radius: 5px;
-      text-align: center;
+      text-align: left;
     }
 
     nav a:hover {
       background-color: #495057;
     }
+
+    .submenu {
+      display: none;
+      margin-left: 20px;
+    }
+
+    .submenu a {
+      background-color: #343a40;
+      padding-left: 20px;
+    }
+
+    .submenu a:hover {
+      background-color: #495057;
+    }
+
 
     /* Main content */
     .main-content {
@@ -121,11 +136,15 @@
 </head>
 <body>
 <div class="container">
-  <!-- Sidebar -->
   <nav>
     <a href="/admin">Trang Quản Trị</a>
     <a href="/admin/user">Quản Lý Người Dùng</a>
-    <a href="/admin/product">Quản Lý Sản Phẩm</a>
+    <a href="javascript:void(0)" onclick="toggleSubmenu()">Quản Lý Sản Phẩm</a>
+    <div id="productSubmenu" class="submenu">
+      <a href="/admin/product">Danh sách</a>
+      <a href="/admin/brand">Thương hiệu</a>
+      <a href="/admin/category">Loại hàng</a>
+    </div>
     <a href="/admin/order">Quản Lý Đơn Hàng</a>
   </nav>
 
@@ -177,5 +196,15 @@
     </div>
   </div>
 </div>
+<script>
+  function toggleSubmenu() {
+    var submenu = document.getElementById("productSubmenu");
+    if (submenu.style.display === "none" || submenu.style.display === "") {
+      submenu.style.display = "block";
+    } else {
+      submenu.style.display = "none";
+    }
+  }
+</script>
 </body>
 </html>

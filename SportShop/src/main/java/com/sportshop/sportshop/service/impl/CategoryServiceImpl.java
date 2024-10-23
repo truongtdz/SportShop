@@ -1,5 +1,6 @@
 package com.sportshop.sportshop.service.impl;
 
+import com.sportshop.sportshop.dto.request.CategoryRequest;
 import com.sportshop.sportshop.dto.response.CategoryResponse;
 import com.sportshop.sportshop.entity.CategoryEntity;
 import com.sportshop.sportshop.mapper.CategoryMapper;
@@ -34,5 +35,19 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponse getCategoryById(Long categoryId){
         return categoryMapper.toCategoryResponse(categoryRepository.getCategoryById(categoryId));
+    }
+
+    @Override
+    public void createCategory(CategoryRequest request) {
+        CategoryEntity newCategory = new CategoryEntity();
+
+        newCategory.setName(request.getName().toUpperCase());
+
+        categoryRepository.save(newCategory);
+    }
+
+    @Override
+    public void deleteCategory(String categoryId) {
+        categoryRepository.deleteById(categoryId);
     }
 }

@@ -1,5 +1,6 @@
 package com.sportshop.sportshop.service;
 
+import com.sportshop.sportshop.dto.request.CategoryRequest;
 import com.sportshop.sportshop.dto.response.CategoryResponse;
 import org.springframework.stereotype.Service;
 
@@ -13,4 +14,10 @@ public interface CategoryService {
 
     // View By Id
     public CategoryResponse getCategoryById(Long categoryId);
+
+    // Create Category
+    public void createCategory(CategoryRequest request);
+
+    // Delete Category
+    public void deleteCategory(String categoryId);
 }

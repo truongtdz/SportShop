@@ -5,6 +5,8 @@ import com.sportshop.sportshop.dto.response.ProductResponse;
 import com.sportshop.sportshop.entity.BrandEntity;
 import com.sportshop.sportshop.entity.CategoryEntity;
 import com.sportshop.sportshop.entity.ProductEntity;
+import com.sportshop.sportshop.exception.AppException;
+import com.sportshop.sportshop.exception.ErrorCode;
 import com.sportshop.sportshop.mapper.ProductMapper;
 import com.sportshop.sportshop.repository.BrandRepository;
 import com.sportshop.sportshop.repository.CategoryRepository;
@@ -82,6 +84,9 @@ public class ProductServiceImpl implements ProductService {
     // Create product
     @Override
     public ProductResponse createProduct(ProductRequest productRequest) {
+        if(productRepository.existsByName(productRequest.getName())){
+            throw new  AppException(ErrorCode.PRODUCT_EXISTED);
+        }
 
         ProductEntity newProduct = productMapper.toProductEntity(productRequest);
         newProduct.setCreateDate(new Date());
@@ -99,12 +104,28 @@ public class ProductServiceImpl implements ProductService {
 
     // Update Product
     @Override
-    public ProductResponse updateProduct(Long productId, ProductRequest productRequest) {
+    public ProductResponse updateProduct(Long productId, ProductRequest request) {
+        if(productRepository.existsByName(request.getName())){
+            throw new  AppException(ErrorCode.PRODUCT_EXISTED);
+        }
+
         ProductEntity updatedProduct = productRepository.findById(String.valueOf(productId)).get();
 
-        productMapper.updateProductEntity(updatedProduct, productRequest);
+        if(request.getName() != null && !request.getName().isEmpty()){
+            updatedProduct.setName(request.getName());
+        }
+        if(request.getPrice() != null){
+            updatedProduct.setPrice(request.getPrice());
+        }
+        if(request.getDiscount() != null){
+            updatedProduct.setDiscount(request.getDiscount());
+        }
+        if(request.getDescription() != null && !request.getDescription().isEmpty()){
+            updatedProduct.setDescription(request.getDescription());
+        }
 
         updatedProduct.setUpdateDate(new Date());
+
         productRepository.save(updatedProduct);
 
         return productMapper.toProductResponse(updatedProduct);

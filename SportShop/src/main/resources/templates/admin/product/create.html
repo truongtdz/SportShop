@@ -34,13 +34,27 @@
       display: block;
       color: white;
       text-decoration: none;
-      padding: 10px 0;
+      padding: 10px 10px;
       margin-bottom: 10px;
       border-radius: 5px;
-      text-align: center;
+      text-align: left;
     }
 
     nav a:hover {
+      background-color: #495057;
+    }
+
+    .submenu {
+      display: none;
+      margin-left: 20px;
+    }
+
+    .submenu a {
+      background-color: #343a40;
+      padding-left: 20px;
+    }
+
+    .submenu a:hover {
       background-color: #495057;
     }
 
@@ -125,7 +139,14 @@
   <nav>
     <a href="/admin">Trang Quản Trị</a>
     <a href="/admin/user">Quản Lý Người Dùng</a>
-    <a href="/admin/product">Quản Lý Sản Phẩm</a>
+    <a href="javascript:void(0)" onclick="toggleSubmenu()"
+    >Quản Lý Sản Phẩm</a
+    >
+    <div id="productSubmenu" class="submenu">
+      <a href="/admin/product">Danh sách</a>
+      <a href="/admin/brand">Thương hiệu</a>
+      <a href="/admin/category">Loại hàng</a>
+    </div>
     <a href="/admin/order">Quản Lý Đơn Hàng</a>
   </nav>
 
@@ -137,6 +158,7 @@
               th:action="@{/admin/product/create}"
               th:object="${newProduct}"
               method="POST"
+              onsubmit="return validateForm()"
       >
         <div class="row">
           <div class="col">
@@ -155,6 +177,8 @@
             <label for="description">Description:</label>
             <textarea id="description" th:field="*{description}"></textarea>
           </div>
+        </div>
+        <div class="row">
           <div class="col">
             <label for="brand">Brand:</label>
             <select id="brand" th:field="*{brandId}">
@@ -182,5 +206,38 @@
     </div>
   </div>
 </div>
+<script>
+  function toggleSubmenu() {
+    var submenu = document.getElementById("productSubmenu");
+    if (submenu.style.display === "none" || submenu.style.display === "") {
+      submenu.style.display = "block";
+    } else {
+      submenu.style.display = "none";
+    }
+  }
+
+  function validateForm() {
+    var name = document.getElementById("name").value;
+    var price = document.getElementById("price").value;
+    var discount = document.getElementById("discount").value;
+    var description = document.getElementById("description").value;
+    var brand = document.getElementById("brand").value;
+    var category = document.getElementById("category").value;
+
+    if (
+      !name ||
+      !price ||
+      !discount ||
+      !description ||
+      !brand ||
+      !category
+    ) {
+      alert("Vui lòng nhập đầy đủ thông tin sản phẩm!");
+      return false; // Ngăn không cho gửi biểu mẫu
+    }
+
+    return true; // Cho phép gửi biểu mẫu
+  }
+</script>
 </body>
 </html>

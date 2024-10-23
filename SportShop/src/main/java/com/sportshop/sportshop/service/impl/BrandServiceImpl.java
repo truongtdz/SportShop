@@ -1,5 +1,6 @@
 package com.sportshop.sportshop.service.impl;
 
+import com.sportshop.sportshop.dto.request.BrandRequest;
 import com.sportshop.sportshop.dto.response.BrandResponse;
 import com.sportshop.sportshop.entity.BrandEntity;
 import com.sportshop.sportshop.mapper.BrandMapper;
@@ -32,5 +33,19 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public BrandResponse getBrandById(Long brandId) {
         return brandMapper.toBrandResponse(brandRepository.getBrandById(brandId));
+    }
+
+    @Override
+    public void createBrand(BrandRequest request) {
+        BrandEntity newBrand = new BrandEntity();
+
+        newBrand.setName(request.getName().toUpperCase());
+
+        brandRepository.save(newBrand);
+    }
+
+    @Override
+    public void deleteBrand(String brandId){
+        brandRepository.deleteById(brandId);
     }
 }

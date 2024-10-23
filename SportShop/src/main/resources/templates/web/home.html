@@ -54,7 +54,6 @@
     <div class="row">
         <div class="col-md-4" th:each="product : ${products}">
             <div class="card">
-                <img th:src="${product.image}" alt="Product Image"/>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${product.name}">Product Name</h5>
                     <p class="card-text" th:text="${product.price} + 'VND'">Price</p>

@@ -34,13 +34,27 @@
       display: block;
       color: white;
       text-decoration: none;
-      padding: 10px 0;
+      padding: 10px 10px;
       margin-bottom: 10px;
       border-radius: 5px;
-      text-align: center;
+      text-align: left;
     }
 
     nav a:hover {
+      background-color: #495057;
+    }
+
+    .submenu {
+      display: none;
+      margin-left: 20px;
+    }
+
+    .submenu a {
+      background-color: #343a40;
+      padding-left: 20px;
+    }
+
+    .submenu a:hover {
       background-color: #495057;
     }
 
@@ -81,6 +95,39 @@
       color: #28a745;
     }
 
+    /* Alert styles */
+    .alert {
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .alert-success {
+      color: #155724;
+      background-color: #d4edda;
+      border-color: #c3e6cb;
+    }
+
+    .alert span {
+      display: inline-block;
+    }
+
+    .alert[role="alert"] {
+      padding-left: 35px;
+    }
+
+    .alert-success::before {
+      content: '✔';
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      font-size: 1.2em;
+      color: #155724;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .card-container {
@@ -101,7 +148,12 @@
   <nav>
     <a href="/admin">Trang Quản Trị</a>
     <a href="/admin/user">Quản Lý Người Dùng</a>
-    <a href="/admin/product">Quản Lý Sản Phẩm</a>
+    <a href="javascript:void(0)" onclick="toggleSubmenu()">Quản Lý Sản Phẩm</a>
+    <div id="productSubmenu" class="submenu">
+      <a href="/admin/product">Danh sách</a>
+      <a href="/admin/brand">Thương hiệu</a>
+      <a href="/admin/category">Loại hàng</a>
+    </div>
     <a href="/admin/order">Quản Lý Đơn Hàng</a>
   </nav>
 
@@ -109,9 +161,12 @@
   <div class="main-content">
     <h1>Chào mừng đến với trang quản trị hệ thống của Admin</h1>
     <div>
+      <!-- Notification message -->
       <div th:if="${notification}" class="alert alert-success" role="alert">
         <span th:text="${notification}"></span>
       </div>
+
+      <!-- General message -->
       <div th:if="${message}" class="alert alert-success" role="alert">
         <span th:text="${message}"></span>
       </div>
@@ -139,5 +194,15 @@
   </div>
 </div>
 
+<script>
+  function toggleSubmenu() {
+    var submenu = document.getElementById("productSubmenu");
+    if (submenu.style.display === "none" || submenu.style.display === "") {
+      submenu.style.display = "block";
+    } else {
+      submenu.style.display = "none";
+    }
+  }
+</script>
 </body>
 </html>
