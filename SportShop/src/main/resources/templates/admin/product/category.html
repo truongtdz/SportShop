@@ -169,7 +169,7 @@
             method="POST"
             style="display: flex; align-items: center"
     >
-      <label for="name">Category Name:</label>
+      <label for="name">Nhập tên:</label>
       <input type="text" id="name" th:field="*{name}"/>
       <input class="btn" type="submit" value="Tạo Mặt Hàng Mới" />
     </form>
@@ -193,7 +193,7 @@
                   class="btn btn-danger"
                   th:onclick="'deleteCategory(' + ${category.id} + ')'"
           >
-            Xóa thương hiệu
+            Xóa
           </button>
         </td>
       </tr>
