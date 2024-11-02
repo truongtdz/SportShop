@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin</title>
+  <link rel="stylesheet" th:href="@{/css/admin/nav.css}" />
   <style>
     /* Đặt các quy tắc chung */
     * {
@@ -21,41 +22,6 @@
     .container {
       display: flex;
       min-height: 100vh;
-    }
-
-    /* Sidebar */
-    nav {
-      width: 250px;
-      background-color: #343a40;
-      padding: 20px;
-    }
-
-    nav a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      padding: 10px 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      text-align: left;
-    }
-
-    nav a:hover {
-      background-color: #495057;
-    }
-
-    .submenu {
-      display: none;
-      margin-left: 20px;
-    }
-
-    .submenu a {
-      background-color: #343a40;
-      padding-left: 20px;
-    }
-
-    .submenu a:hover {
-      background-color: #495057;
     }
 
     /* Main content */

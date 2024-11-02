@@ -1,0 +1,34 @@
+/* Sidebar */
+    nav {
+      width: 250px;
+      background-color: #343a40;
+      padding: 20px;
+    }
+
+    nav a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 10px 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      text-align: left;
+    }
+
+    nav a:hover {
+      background-color: #495057;
+    }
+
+    .submenu {
+      display: none;
+      margin-left: 20px;
+    }
+
+    .submenu a {
+      background-color: #343a40;
+      padding-left: 20px;
+    }
+
+    .submenu a:hover {
+      background-color: #495057;
+    }

@@ -25,6 +25,7 @@ public interface ProductService {
 
     // View list product the newest
     public List<ProductResponse> getProductNewest();
+
     // View product by ID
     public ProductResponse getProductById(Long productId);
 

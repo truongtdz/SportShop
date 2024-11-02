@@ -1,52 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Page</title>
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous"
-  />
+  <title>Đăng Ký Tài Khoản - Cửa Hàng Thể Thao</title>
 </head>
+<style>
+  /* Reset toàn bộ phần tử để tránh sai lệch không mong muốn */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Thiết lập font chữ và màu nền trang */
+  body {
+    font-family: "Arial", sans-serif;
+    background-image: url("https://bachma.vn/wp-content/uploads/2021/05/quy-trinh-thiet-ke.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+  }
+
+  /* Định dạng container của form */
+  .registration-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Tiêu đề của form */
+  .registration-form h2 {
+    color: #3731d9;
+    margin-bottom: 20px;
+  }
+
+  /* Định dạng các nhóm trường nhập liệu */
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+
+  /* Nhãn cho các trường nhập */
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+  }
+
+  /* Trường nhập liệu */
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s;
+  }
+
+  /* Hiệu ứng khi người dùng tập trung vào trường nhập liệu */
+  .form-group input:focus {
+    border-color: #f5576c;
+    outline: none;
+  }
+
+  /* Nút đăng ký */
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #f5576c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+
+  /* Hiệu ứng hover cho nút */
+  .submit-btn:hover {
+    background-color: #d23f55;
+    transform: scale(1.05);
+  }
+
+  /* Thông báo lỗi khi mật khẩu không khớp */
+  #error-message {
+    font-size: 13px;
+    margin-top: 5px;
+    color: red;
+    display: none;
+  }
+
+  /* Liên kết sau khi đăng ký thành công */
+  .login-link {
+    margin-top: 10px;
+    display: block;
+    color: #3731d9;
+    text-decoration: none;
+  }
+
+  .login-link:hover {
+    text-decoration: underline;
+  }
+</style>
 <body>
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header bg-primary text-white">
-          <h4 class="mb-0">Register</h4>
-        </div>
-        <div class="card-body">
-          <form th:action="@{/register}" th:object="${newUser}" method="POST">
-            <div th:if="${message}" class="alert alert-danger" role="alert">
-              <span th:text="${message}"></span>
-            </div>
-            <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required/>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required/>
-            </div>
-            <div class="d-flex justify-content-between">
-              <button type="submit" class="btn btn-primary">Register</button>
-              <a href="/home" class="btn btn-primary">Back to Home</a>
-              <a href="/login" class="btn btn-primary">Back to Login</a>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+<!-- Phần chứa form đăng ký -->
+<div class="registration-form">
+  <h2>Đăng Ký</h2>
+
+  <div th:if="${message}" style="color: red; margin-bottom: 10px;">
+    <p th:text="${message}"></p>
   </div>
+
+  <form th:action="@{/register}" th:object="${newUser}" method="POST" onsubmit="return validateForm()">
+    <div class="form-group">
+      <label for="username" >Tài Khoản :</label>
+      <input type="text" id="username" th:field="*{username}" required/>
+    </div>
+    <div class="form-group">
+      <label for="email">Email :</label>
+      <input type="email" id="email" th:field="*{email}" required />
+    </div>
+    <div class="form-group">
+      <label for="password" >Mật khẩu :</label>
+      <input type="password" id="password" th:field="*{password}" required/>
+    </div>
+    <div class="form-group">
+      <label for="confirm-password" >Nhập Lại Mật khẩu :</label>
+      <input type="password" id="confirm-password" name="confirm-password" required/>
+    </div>
+    <span id="error-message">Mật khẩu không khớp!</span>
+    <div class="form-group">
+      <button type="submit" class="submit-btn">Đăng Ký</button>
+    </div>
+  </form>
+
+  <!-- Liên kết đến trang đăng nhập -->
+  <a href="login.html" class="login-link"
+  >Đã có tài khoản? Đăng nhập ngay</a
+  >
 </div>
 
-<!-- Thêm Bootstrap JS và jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"></script>
+<!-- JavaScript để kiểm tra khớp mật khẩu -->
+<script>
+  function validateForm() {
+    const password = document.getElementById("password").value;
+    const confirmPassword =
+      document.getElementById("confirm-password").value;
+
+    // Kiểm tra nếu mật khẩu không khớp
+    if (password !== confirmPassword) {
+      document.getElementById("error-message").style.display = "block";
+      return false; // Ngăn form gửi đi
+    }
+
+    // Mật khẩu khớp, tiếp tục gửi form
+    return true;
+  }
+</script>
 </body>
 </html>

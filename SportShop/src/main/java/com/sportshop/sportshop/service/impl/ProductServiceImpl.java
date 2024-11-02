@@ -67,13 +67,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> getProductNewest() {
-        List<ProductResponse> products = new ArrayList<>();
-        for(ProductEntity item : productRepository.findAll()){
-            products.add(productMapper.toProductResponse(item));
-        }
+        List<ProductResponse> products = productRepository.findAll().stream()
+                .map(productMapper::toProductResponse)   // Chuyển đổi ProductEntity thành ProductResponse
+                .sorted(Comparator.comparing(ProductResponse::getCreateDate).reversed())  // Sắp xếp theo ngày tạo từ mới đến cũ
+                .limit(10)  // Lấy 10 sản phẩm mới nhất
+                .collect(Collectors.toList());  // Thu thập kết quả vào danh sách
 
-        return products;
+        return products;  // Trả về danh sách sản phẩm mới nhất
     }
+
 
     // View product by ID
     @Override

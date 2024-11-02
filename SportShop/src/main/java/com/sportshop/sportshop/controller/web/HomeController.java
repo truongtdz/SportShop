@@ -23,17 +23,20 @@ public class HomeController {
 
     @GetMapping("/home")
     public ModelAndView homePage(HttpSession session) {
-        ModelAndView modelAndView = new ModelAndView("web/home");
-        modelAndView.addObject("products", productService.getAllProducts());
+        ModelAndView mav = new ModelAndView("web/home");
+
+        mav.addObject("products", productService.getAllProducts());
+        mav.addObject("productSales", productService.getProductSale());
+        mav.addObject("productDates", productService.getProductNewest());
 
         // Lấy thông tin người dùng từ Security
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String)) {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
             UserEntity userEntity = userService.getUserByUsername(userDetails.getUsername());
-            modelAndView.addObject("user", userEntity);
+            mav.addObject("user", userEntity);
         }
 
-        return modelAndView;
+        return mav;
     }
 }

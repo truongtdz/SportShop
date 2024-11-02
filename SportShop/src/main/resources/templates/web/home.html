@@ -1,77 +1,199 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home Page</title>
+    <title>Trang Chủ | SportShop</title>
+    <!-- Liên kết đến Font Awesome cho biểu tượng -->
     <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-            crossorigin="anonymous"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
     />
-</head>
-<body>
+    <!-- Liên kết đến các file CSS -->
+    <link rel="stylesheet" th:href="@{/css/web/home.css}" />
+     <link rel="stylesheet" th:href="@{/css/web/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/web/product.css}" />
+  </head>
+  <body>
+    <!-- Phần Đầu Trang -->
+    <header>
+      <div class="logo">
+        <a th:src="@{./home}"
+          ><img th:src="@{/img/logo.jpg}" alt="Logo của SportShop" />
+        </a>
+      </div>
+      <div class="function">
+        <ul>
+          <li><a href="#">Hệ thống cửa hàng</a></li>
+          <li><a href="#">Liên hệ</a></li>
+          <li>
+            <a th:src="@{./login}"
+              ><i class="fas fa-sign-in-alt"></i><span>Đăng nhập</span></a
+            >
+          </li>
+          <li>
+            <a th:src="@{./register}"
+              ><i class="fas fa-user-plus"></i><span>Đăng ký</span></a
+            >
+          </li>
+          <li>
+            <a th:src="@{./cart/{id}(id=${user.id})}"
+              ><i class="fas fa-shopping-cart"></i><span>Giỏ hàng</span></a
+            >
+          </li>
+        </ul>
+      </div>
+    </header>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/home"><h1 style="color: blue">SportShop</h1></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/search}">Search</a>
-                </li>
-                <li class="nav-item" th:if="${user != null}">
-                    <a class="nav-link active" th:href="@{/infor}" th:text="'Hello ' + ${user.username}"></a>
-                </li>
-                <li class="nav-item" th:if="${user != null}">
-                    <a class="nav-link active" th:href="@{/user/cart/{id}(id=${user.id})}">Cart</a>
-                </li>
-                <li class="nav-item" th:if="${user == null}">
-                    <a class="nav-link active" th:href="@{/login}">Login</a>
-                </li>
-                <li class="nav-item" th:if="${user == null}">
-                    <a class="nav-link active" th:href="@{/sign-in}">Sign-in</a>
-                </li>
-                    <li class="nav-item" th:if="${user != null}">
-                        <a class="nav-link active" th:href="@{/log-out}">Logout</a>
-                    </li>
-            </ul>
-        </div>
+    <nav>
+      <ul>
+        <li><a th:src="@{./home}">Trang chủ</a></li>
+        <li class="cha">
+          <a href="#">Thương Hiệu </a>
+          <ul class="con">
+            <li><a href="#">Nike</a></li>
+            <li><a href="#">Adias</a></li>
+          </ul>
+        </li>
+        <li class="cha">
+          <a href="#">Loại Sản Phẩm </a>
+          <ul class="con">
+            <li><a href="#">Phụ Kiện</a></li>
+            <li><a href="#">Trang Phục</a></li>
+          </ul>
+        </li>
+        <li class="cha">
+          <a href="#">Quần Áo </a>
+          <ul class="con">
+            <li><a href="#">Quần Short</a></li>
+            <li><a href="#">Quần Dài</a></li>
+            <li><a href="#">Quần Bóng Đá</a></li>
+            <li><a href="#">Quần Tất Bảo Hộ</a></li>
+            <li><a href="">Áo Bóng Đá</a></li>
+            <li><a href="">Áo Cầu Lông</a></li>
+            <li><a href="">Áo Quần Vượt</a></li>
+            <li><a href="">Áo Dài Tay</a></li>
+          </ul>
+        </li>
+        <li class="cha">
+          <a href="#">Giày</a>
+          <ul class="con">
+            <li><a href="">Giày Đá Bóng</a></li>
+            <li><a href="">Giày Cầu Lông</a></li>
+            <li><a href="">Giày Đế Cao</a></li>
+            <li><a href="">Giày Đế Bằng</a></li>
+          </ul>
+        </li>
+        <li class="cha">
+          <a href="#">Phụ Kiện</a>
+          <ul class="con">
+            <li><a href="">Mũ</a></li>
+            <li><a href="">Bao Tay</a></li>
+            <li><a href="">Tất</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
 
-    </div>
-</nav>
+    <div class="banner"></div>
 
-<!-- Main content -->
-<div class="container mt-5">
-    <div th:if="${message}" class="alert alert-success" role="alert">
-        <span th:text="${message}"></span>
-    </div>
-    <div class="row">
-        <div class="col-md-4" th:each="product : ${products}">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${product.name}">Product Name</h5>
-                    <p class="card-text" th:text="${product.price} + 'VND'">Price</p>
-                    <p class="card-text" th:text="${product.discount} + '%'">Sales</p>
-                    <a th:href="@{/admin/product/{id}(id=${product.id})}" class="btn btn-primary">View</a>
-                    <form th:action="@{/user/add-to-cart/{id}(id=${product.id})}" method="POST">
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
-                    </form>
-                </div>
+    <!-- Phần Sản Phẩm Mới -->
+    <section class="list_new_product">
+      <h3>SẢN PHẨM MỚI</h3>
+      <hr />
+      <div class="container">
+        <div class="product-list">
+          <!-- Sử dụng Thymeleaf để lặp qua danh sách sản phẩm mới -->
+          <div th:each="product : ${productDates}" class="product-item">
+<!--            duyet tat ca hinh anh-->
+            <div th:each="image : ${product.images}" class="image">
+              <img th:src="${image.imageLink}" alt="Product Image" />
             </div>
+            <h4 th:text="${product.name}">Product Name</h4>
+            <p th:text="${product.price} + ' đ'">Product Price</p>
+            <p th:text="'Giảm ' + ${product.discount} + '%'">Discount</p>
+          </div>
         </div>
-    </div>
-</div>
+        <button class="prev-btn" id="prevBtn" onclick="prevProduct()">←</button>
+        <button class="next-btn" id="nextBtn" onclick="nextProduct()">→</button>
+      </div>
+    </section>
 
-<!-- Thêm Bootstrap JS và jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"></script>
+    <!-- Phần Sản Phẩm Sale -->
+    <section class="list_spbanhchay">
+      <h3>SẢN PHẨM HOT</h3>
+      <hr />
+      <div class="container">
+        <div class="product-list">
+          <!-- Sử dụng Thymeleaf để lặp qua danh sách sản phẩm giảm giá -->
+          <div th:each="product : ${productSales}" class="product-item">
+            <div th:each="image : ${product.images}" class="image">
+              <img th:src="${image.imageLink}" alt="Product Image" />
+            </div>
+            <h4 th:text="${product.name}">Product Name</h4>
+            <p th:text="${product.price} + ' đ'">Product Price</p>
+            <p th:text="'Giảm ' + ${product.discount} + '%'">Discount</p>
+          </div>
+        </div>
+        <button class="prev-btn" id="prevHotBtn" onclick="prevHotProduct()">←</button>
+        <button class="next-btn" id="nextHotBtn" onclick="nextHotProduct()">→</button>
+      </div>
+    </section>
 
-</body>
+    <!-- Phần Chân Trang -->
+    <footer>
+      <div class="footer_container">
+        <div class="footer-column">
+          <h3>Địa điểm cửa hàng</h3>
+          <p>
+            <strong>TRỤ SỞ:</strong> 42 Miều Dâm, Mễ Trì, Nam Từ Liêm, Hà Nội
+          </p>
+          <p>
+            <strong>Chi Nhánh 1:</strong> Trường Đại Học Công Nghiệp Hà Nội, Cơ
+            Sở 1
+          </p>
+          <p>
+            <strong>Chi Nhánh 2:</strong> Trường Đại Học Công Nghiệp Hà Nội, Cơ
+            Sở 3
+          </p>
+          <a href="#">Chính sách bảo mật</a><br />
+          <a href="#">Điều khoản dịch vụ</a>
+        </div>
+        <div class="footer-column">
+          <h3>Dịch vụ khách hàng</h3>
+          <ul>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Liên hệ</a></li>
+            <li><a href="#">Hỗ trợ</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Nhóm sản phẩm</h3>
+          <ul>
+            <li><a href="#">Sản phẩm khuyến mãi</a></li>
+            <li><a href="#">Sản phẩm nổi bật</a></li>
+            <li><a href="#">Tất cả sản phẩm</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Like SportShop trên mạng xã hội</h3>
+          <ul class="social-icons">
+            <li>
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </li>
+          </ul>
+          <form>
+            <input type="email" placeholder="Nhập email của bạn tại đây" />
+            <button type="submit">ĐĂNG KÝ</button>
+          </form>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

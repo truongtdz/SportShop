@@ -1,0 +1,124 @@
+ /* Phần footer */
+ footer {
+     background-color: #f0f0f0;
+     padding: 40px 0;
+     color: #333;
+ }
+
+ /* Căn giữa nội dung footer và chia cột */
+ .footer_container {
+     max-width: 1200px;
+     margin: 0 auto;
+     display: flex;
+     justify-content: space-between;
+     flex-wrap: wrap;
+ }
+
+ /* Mỗi cột sẽ chiếm 1 phần tư không gian */
+ .footer-column {
+     flex: 1;
+     padding: 0 15px;
+ }
+
+ /* Style hình ảnh logo và khoảng cách */
+ .footer-column img {
+     width: 150px;
+     margin-bottom: 10px;
+ }
+
+ /* Style chung cho tiêu đề và văn bản */
+ .footer-column h3 {
+     font-size: 18px;
+     margin-bottom: 15px;
+     color: #000;
+ }
+
+ .footer-column p,
+ .footer-column a,
+ .footer-column li {
+     font-size: 14px;
+     color: #333;
+     line-height: 1.6;
+     margin-bottom: 10px;
+ }
+
+ /* Thay đổi màu chữ của thẻ a thành đen */
+ .footer-column a {
+     text-decoration: none;
+     color: #000;
+     /* Màu đen */
+     transition: color 0.3s ease;
+ }
+
+ .footer-column a:hover {
+     text-decoration: underline;
+     color: #555;
+     /* Màu xám đậm khi hover */
+ }
+
+ /* Style danh sách sản phẩm và dịch vụ */
+ .footer-column ul {
+     list-style: none;
+     padding: 0;
+ }
+
+ /* Style biểu tượng mạng xã hội */
+ .social-icons {
+     list-style: none;
+     padding: 0;
+     display: flex;
+     gap: 15px;
+ }
+
+ .social-icons li {
+     display: inline-block;
+ }
+
+ /* Chỉnh icon và hiệu ứng hover */
+ .social-icons li a {
+     font-size: 24px;
+     color: #000;
+     transition: color 0.3s ease;
+ }
+
+ .social-icons li a:hover {
+     color: #007bff;
+     /* Đổi thành màu xanh khi hover */
+ }
+
+ /* Style form email */
+ form {
+     display: flex;
+     margin-top: 15px;
+ }
+
+ form input[type="email"] {
+     flex: 1;
+     padding: 10px;
+     border: 1px solid #ccc;
+     border-radius: 4px 0 0 4px;
+     font-size: 14px;
+ }
+
+ form button {
+     padding: 10px 20px;
+     border: none;
+     background-color: #007bff;
+     color: white;
+     font-size: 14px;
+     border-radius: 0 4px 4px 0;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+ }
+
+ form button:hover {
+     background-color: #0056b3;
+ }
+
+ /* Responsive cho màn hình nhỏ */
+ @media (max-width: 768px) {
+     .footer-column {
+         flex: 100%;
+         margin-bottom: 20px;
+     }
+ }

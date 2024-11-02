@@ -2,6 +2,7 @@ package com.sportshop.sportshop.dto.response;
 
 import com.sportshop.sportshop.entity.BrandEntity;
 import com.sportshop.sportshop.entity.CategoryEntity;
+import com.sportshop.sportshop.entity.ImageEntity;
 import com.sportshop.sportshop.entity.ProductDetailEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -26,5 +27,6 @@ public class ProductResponse {
     Date updateDate;
     CategoryEntity category;
     BrandEntity brand;
+    List<ImageEntity> images;
     List<ProductDetailEntity> productDetails;
 }
