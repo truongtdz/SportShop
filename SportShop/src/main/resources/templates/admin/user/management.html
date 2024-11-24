@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Quản Lý Người Dùng</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(45deg, #4b6cb7, #182848);
+        --secondary-gradient: linear-gradient(45deg, #3494e6, #ec6ead);
+        --success-gradient: linear-gradient(45deg, #11998e, #38ef7d);
+        --danger-gradient: linear-gradient(45deg, #cb2d3e, #ef473a);
+        --sidebar-gradient: linear-gradient(180deg, #2c3e50, #1a1a1a);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f7fa;
+        color: #333;
+      }
+
+      .container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar styles */
+      nav {
+        width: 250px;
+        background: var(--sidebar-gradient);
+        color: white;
+        padding: 20px 0;
+        height: 100vh;
+        position: fixed;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+      }
+
+      nav .logo {
+        text-align: center;
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 20px;
+      }
+
+      nav .logo img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        border: 3px solid rgba(255, 255, 255, 0.3);
+      }
+
+      nav a {
+        display: flex;
+        padding: 15px 25px;
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        align-items: center;
+        border-left: 4px solid transparent;
+      }
+
+      nav a i {
+        margin-right: 10px;
+        width: 20px;
+        font-size: 1.2em;
+      }
+
+      nav a:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
+        border-left: 4px solid #4b6cb7;
+        padding-left: 30px;
+      }
+
+      .submenu {
+        background: rgba(0, 0, 0, 0.15);
+        display: none;
+      }
+
+      /* Main content */
+      .main-content {
+        flex: 1;
+        margin-left: 250px;
+        padding: 30px;
+        background: #f5f7fa;
+        animation: slideUp 0.5s ease;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        animation: slideDown 0.5s ease;
+      }
+
+      .header h1 {
+        font-size: 28px;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Table styling */
+      table {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: var(--primary-gradient);
+        color: white;
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+      }
+
+      tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #eee;
+      }
+
+      tbody tr:hover {
+        background: rgba(75, 108, 183, 0.05);
+      }
+
+      /* Action Buttons */
+      .action-btn {
+        padding: 8px 15px;
+        border-radius: 8px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+      }
+
+      .view-btn {
+        background: var(--success-gradient);
+        opacity: 0.9;
+      }
+
+      .delete-btn {
+        background: var(--danger-gradient);
+        opacity: 0.9;
+        margin-left: 8px;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        opacity: 1;
+      }
+
+      .create-btn {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(106, 17, 203, 0.2);
+        opacity: 0.9;
+      }
+
+      .create-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(106, 17, 203, 0.3);
+        opacity: 1;
+      }
+
+      .user-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .user-image:hover {
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        nav {
+          width: 70px;
+        }
+
+        nav a span {
+          display: none;
+        }
+
+        .main-content {
+          margin-left: 70px;
+        }
+
+        .header {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+
+      .edit-btn {
+        background: linear-gradient(45deg, #f1c40f, #e67e22);
+        opacity: 0.9;
+        margin-left: 8px;
+      }
+
+      .edit-btn i {
+        margin-right: 5px;
+      }
+
+      .edit-btn:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <nav>
+        <div class="logo">
+          <img th:src="@{/img/web/logo.jpg}" alt="Logo" />
+        </div>
+        <a href="/admin"
+          ><i class="fas fa-home"></i><span>Trang Quản Trị</span></a
+        >
+        <a href="/admin/user"
+          ><i class="fas fa-users"></i><span>Quản Lý Người Dùng</span></a
+        >
+        <a href="/admin/product">
+          <i class="fas fa-box"></i><span>Quản Lý Sản Phẩm</span>
+        </a>
+        <a href="/admin/order"
+          ><i class="fas fa-shopping-cart"></i><span>Quản Lý Đơn Hàng</span></a
+        >
+      </nav>
+
+      <!-- Main content -->
+      <div class="main-content">
+        <div class="header">
+          <h1>Quản Lý Người Dùng</h1>
+          <a href="/admin/user/create" class="create-btn">
+            <i class="fas fa-user-plus"></i>
+            Tạo Người Dùng Mới
+          </a>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Mã</th>
+              <th>Tài Khoản</th>
+              <th>Ảnh Đại Diện</th>
+              <th>Ngày Tạo</th>
+              <th>Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="user : ${users}">
+              <td th:text="${user.id}"></td>
+              <td th:text="${user.username}"></td>
+              <td>
+                <img
+                  th:src="@{${user.avatar}}"
+                  class="user-image"
+                  onclick="showImageModal(this)"
+                />
+              </td>
+              <td th:text="${user.createDate}"></td>
+              <td>
+                <a
+                  th:href="@{/admin/user/{id}(id=${user.id})}"
+                  class="action-btn view-btn"
+                >
+                  <i class="fas fa-eye"></i> Xem
+                </a>
+                <a
+                  th:href="@{/admin/user/update/{id}(id=${user.id})}"
+                  class="action-btn edit-btn"
+                >
+                  <i class="fas fa-edit"></i> Sửa
+                </a>
+                <button
+                  class="action-btn delete-btn"
+                  th:onclick="'deleteUser(' + ${user.id} + ')'"
+                >
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      function deleteUser(userId) {
+        if (confirm("Bạn có chắc chắn muốn xóa người dùng này?")) {
+          $.ajax({
+            url: "/admin/user/delete/" + userId,
+            type: "DELETE",
+            success: function (result) {
+              alert("Xóa người dùng thành công!");
+              location.reload();
+            },
+            error: function (xhr, status, error) {
+              alert("Lỗi khi xóa người dùng: " + xhr.responseText);
+            },
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

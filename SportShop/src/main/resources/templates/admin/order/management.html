@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Quản lý Đơn Hàng</title>
+  <style>
+    /* Đặt các quy tắc chung */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    nav {
+      width: 250px;
+      background-color: #343a40;
+      padding: 20px;
+    }
+
+    nav a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 10px 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      text-align: left;
+    }
+
+    nav a:hover {
+      background-color: #495057;
+    }
+
+    .submenu {
+      display: none;
+      margin-left: 20px;
+    }
+
+    .submenu a {
+      background-color: #343a40;
+      padding-left: 20px;
+    }
+
+    .submenu a:hover {
+      background-color: #495057;
+    }
+
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .main-content h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    /* Table styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th,
+    table td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    table tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    table tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Button */
+    a.btn {
+      padding: 6px 12px;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    a.btn:hover {
+      background-color: #218838;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      nav {
+        width: 100%;
+        height: auto;
+      }
+
+      .main-content {
+        margin-top: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- Sidebar -->
+  <nav>
+    <a href="/admin">Trang Quản Trị</a>
+    <a href="/admin/user">Quản Lý Người Dùng</a>
+    <a href="javascript:void(0)" onclick="toggleSubmenu()">Quản Lý Sản Phẩm</a>
+    <div id="productSubmenu" class="submenu">
+      <a href="/admin/product">Danh sách</a>
+      <a href="/admin/brand">Thương hiệu</a>
+      <a href="/admin/category">Loại hàng</a>
+    </div>
+    <a href="/admin/order">Quản Lý Đơn Hàng</a>
+  </nav>
+
+  <!-- Main content -->
+  <div class="main-content">
+    <h1>Danh sách Đơn hàng</h1>
+    <table>
+      <thead>
+      <tr>
+        <th>Mã giao dịch</th>
+        <th>Ngày thực hiện</th>
+        <th>Tổng thu về</th>
+        <th>Mã Người mua</th>
+        <th>Lựa chọn</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.orderDate}"></td>
+        <td th:text="${order.total}"></td>
+        <td th:text="${order.userId}"></td>
+        <td>
+          <a th:href="@{/admin/order/{id}(id=${order.id})}" class="btn"
+          >View</a
+          >
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+  function toggleSubmenu() {
+    var submenu = document.getElementById("productSubmenu");
+    if (submenu.style.display === "none" || submenu.style.display === "") {
+      submenu.style.display = "block";
+    } else {
+      submenu.style.display = "none";
+    }
+  }
+</script>
+</body>
+</html>
