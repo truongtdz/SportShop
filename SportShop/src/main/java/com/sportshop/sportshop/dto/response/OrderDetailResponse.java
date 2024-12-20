@@ -3,6 +3,7 @@ package com.sportshop.sportshop.dto.response;
 
 import com.sportshop.sportshop.entity.OrderEntity;
 import com.sportshop.sportshop.entity.ProductEntity;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,6 +15,9 @@ import lombok.experimental.FieldDefaults;
 public class OrderDetailResponse {
     Long id;
     Long quantity;
+    Long price;
+    Long discount;
+    Long total;
     OrderEntity order;
     ProductEntity product;
 }

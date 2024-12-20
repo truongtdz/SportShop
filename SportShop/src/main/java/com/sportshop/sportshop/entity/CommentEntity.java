@@ -1,5 +1,7 @@
 package com.sportshop.sportshop.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,6 +23,9 @@ public class CommentEntity {
 
     @Column(name = "messages")
     String messages;
+
+    @Column(name = "date")
+    Date createDate;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

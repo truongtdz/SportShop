@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tìm Kiếm Sản Phẩm - Phone Shop</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/web/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/web/footer.css}" />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .filter-container {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .filter-title {
+        color: #2c3e50;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f1f1f1;
+      }
+
+      .filter-group {
+        margin-right: 20px;
+        margin-bottom: 15px;
+      }
+
+      .filter-label {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .filter-label i {
+        margin-right: 8px;
+        color: #3498db;
+      }
+
+      .price-range {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .price-input {
+        flex: 1;
+        min-width: 80px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .price-input:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+      }
+
+      .category-filter {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .category-btn {
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .category-btn:hover,
+      .category-btn.active {
+        background: #3498db;
+        color: white;
+        border-color: #3498db;
+      }
+
+      .sort-select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: white;
+        transition: all 0.3s ease;
+      }
+
+      .sort-select:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px 0;
+      }
+
+      .product-card {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        transition: all 0.3s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .product-image {
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        position: relative;
+      }
+
+      .image-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        display: none;
+      }
+
+      .image-container img.active {
+        display: block;
+      }
+
+      .image-nav {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 5px;
+        z-index: 2;
+      }
+
+      .image-nav-btn {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      .image-nav-btn.active {
+        background: white;
+      }
+
+      .image-nav-btn:hover {
+        background: white;
+        transform: scale(1.2);
+      }
+
+      .product-name {
+        font-size: 16px;
+        color: #2c3e50;
+        margin: 10px 0;
+        flex-grow: 1;
+      }
+
+      .product-price {
+        color: #e74c3c;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+
+      .discount-badge {
+        background: #e74c3c;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        margin-left: 5px;
+      }
+
+      .apply-filters {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s;
+        width: 100%;
+        margin-top: 15px;
+      }
+
+      .apply-filters:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+      }
+
+      .no-results {
+        text-align: center;
+        padding: 50px 0;
+        color: #666;
+      }
+
+      .pagination {
+        justify-content: center;
+        margin-top: 30px;
+      }
+
+      .page-link {
+        color: #3498db;
+        border-color: #3498db;
+        margin: 0 5px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .page-link:hover {
+        background: #3498db;
+        color: white;
+        border-color: #3498db;
+      }
+
+      .page-item.active .page-link {
+        background: #3498db;
+        border-color: #3498db;
+      }
+
+      /* Feature badges */
+      .feature-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+
+      .feature-badge {
+        font-size: 0.8rem;
+        padding: 3px 8px;
+        background-color: #f1f1f1;
+        border-radius: 12px;
+        color: #333;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .col-md-3 {
+          padding: 0 15px;
+        }
+
+        .price-range {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .price-input {
+          width: 100%;
+        }
+
+        .product-card {
+          height: auto;
+          min-height: 400px;
+        }
+      }
+
+      .filter-bar {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+      }
+
+      .filter-form {
+        width: 100%;
+      }
+
+      .filter-row {
+        display: grid;
+        grid-template-columns: 250px 1fr 1fr auto;
+        gap: 20px;
+        align-items: start;
+      }
+
+      /* Column 1: Price and Sort */
+      .price-sort-column {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .filter-group {
+        width: 100%;
+      }
+
+      .filter-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .filter-label i {
+        color: #3498db;
+      }
+
+      /* Price inputs */
+      .price-inputs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .price-inputs .form-control {
+        width: 100px;
+      }
+
+      .price-separator {
+        color: #666;
+        font-weight: 500;
+      }
+
+      /* Sort select */
+      .form-control {
+        height: 35px;
+        padding: 5px 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+      }
+
+      /* Brand and Category sections */
+      .brand-section {
+        padding: 0 10px;
+      }
+
+      .brand-grid {
+        margin-top: 10px;
+      }
+
+      .brand-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .brand-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px;
+      }
+
+      .brand-checkbox {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+      }
+
+      .brand-label {
+        margin: 0;
+        font-size: 14px;
+        cursor: pointer;
+        color: #333;
+      }
+
+      /* Filter button */
+      .btn-filter {
+        height: 35px;
+        padding: 0 25px;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        align-self: flex-end;
+        margin-bottom: 5px;
+      }
+
+      .btn-filter:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+      }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .filter-row {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .btn-filter {
+          grid-column: span 2;
+          width: 100%;
+          margin-top: 15px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .filter-row {
+          grid-template-columns: 1fr;
+        }
+
+        .brand-row {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .btn-filter {
+          grid-column: span 1;
+        }
+
+        .price-inputs {
+          flex-wrap: nowrap;
+        }
+
+        .price-inputs .form-control {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Phần Đầu Trang -->
+    <header class="header">
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <a
+            href="/home"
+            class="d-flex align-items-center text-decoration-none"
+          >
+            <img class="logo" th:src="@{/image/logo.jpg}" alt="Logo" />
+            <h1 class="header-title">Sport Shop</h1>
+          </a>
+
+          <div class="d-flex align-items-center">
+            <form
+              class="form-inline mr-3"
+              th:action="@{/home/search-name}"
+              method="post"
+            >
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  type="search"
+                  placeholder="Tìm kiếm sản phẩm..."
+                  aria-label="Search"
+                  name="name"
+                  th:value="${name}"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-custom" type="submit">
+                    <i class="fas fa-search"></i> Tìm
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <!-- Hiển thị nút đăng nhập/đăng ký khi chưa đăng nhập -->
+            <th:block th:if="${user == null}">
+              <a th:href="@{/login}" class="btn btn-custom mr-2">
+                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+              </a>
+              <a th:href="@{/register}" class="btn btn-custom">
+                <i class="fas fa-user-plus"></i> Đăng ký
+              </a>
+            </th:block>
+
+            <!-- Hiển thị các nút khác khi đã đăng nhập -->
+            <th:block th:if="${user != null}">
+              <div class="dropdown mr-2">
+                <button
+                  class="btn btn-custom dropdown-toggle"
+                  type="button"
+                  id="userDropdown"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-user"></i>
+                  <span th:text="${user.username}">Tài khoản</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                  <a class="dropdown-item" th:href="@{/user/info}">
+                    <i class="fas fa-user-circle"></i> Thông tin tài khoản
+                  </a>
+                  <a class="dropdown-item" th:href="@{/user/history}">
+                    <i class="fas fa-history"></i> Lịch sử đn hàng
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" th:href="@{/logout}">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                  </a>
+                </div>
+              </div>
+
+              <a
+                th:href="@{/user/cart/{id}(id=${user.id})}"
+                class="btn btn-custom position-relative mr-2"
+              >
+                <i class="fas fa-shopping-cart"></i> Giỏ hàng
+                <span
+                  th:text="${count}"
+                  class="badge badge-danger position-absolute"
+                  style="top: -5px; right: -5px"
+                  >0</span
+                >
+              </a>
+            </th:block>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Horizontal Filter Bar -->
+      <div class="filter-bar">
+        <form
+          id="filterForm"
+          th:action="@{/home/search}"
+          th:object="${newSearch}"
+          method="POST"
+          class="filter-form"
+        >
+          <div class="filter-row">
+            <!-- Column 1: Price and Sort -->
+            <div class="price-sort-column">
+              <!-- Price Range -->
+              <div class="filter-group">
+                <label class="filter-label">
+                  <i class="fas fa-tag"></i>GIÁ
+                </label>
+                <div class="price-inputs">
+                  <input
+                    type="number"
+                    class="form-control"
+                    th:field="*{minPrice}"
+                    placeholder="Từ"
+                  />
+                  <span class="price-separator">-</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    th:field="*{maxPrice}"
+                    placeholder="Đến"
+                  />
+                </div>
+              </div>
+
+              <!-- Sort -->
+              <div class="filter-group">
+                <label class="filter-label">
+                  <i class="fas fa-sort"></i>SẮP XẾP
+                </label>
+                <select class="form-control" th:field="*{typeSort}">
+                  <option value="NOT_SORT">Mặc định</option>
+                  <option value="SALE">Khuyến mãi nhiều nhất</option>
+                  <option value="NEW">Mới nhất</option>
+                  <option value="ORDER_PRICE">Giá thấp đến cao</option>
+                  <option value="DECS_PRICE">Giá cao đến thấp</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Column 2: Brand Filter -->
+            <div class="filter-group brand-section">
+              <label class="filter-label">
+                <i class="fas fa-box"></i>THƯƠNG HIỆU
+              </label>
+              <div class="brand-grid">
+                <div class="brand-row">
+                  <div class="brand-item" th:each="brand : ${brands}">
+                    <input
+                      type="checkbox"
+                      th:id="${'brand-' + brand.name}"
+                      th:field="*{brands}"
+                      th:value="${brand.id}"
+                      class="brand-checkbox"
+                    />
+                    <label
+                      th:for="${'brand-' + brand.name}"
+                      class="brand-label"
+                      th:text="${brand.name}"
+                    ></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 3: Category Filter -->
+            <div class="filter-group brand-section">
+              <label class="filter-label">
+                <i class="fas fa-list"></i>LOẠI SẢN PHẨM
+              </label>
+              <div class="brand-grid">
+                <div class="brand-row">
+                  <div class="brand-item" th:each="category : ${categories}">
+                    <input
+                      type="checkbox"
+                      th:id="${'category-' + category.name}"
+                      th:field="*{categories}"
+                      th:value="${category.id}"
+                      class="category-checkbox"
+                    />
+                    <label
+                      th:for="${'category-' + category.name}"
+                      class="brand-label"
+                      th:text="${category.name}"
+                    ></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Filter Button -->
+            <button type="submit" class="btn-filter">
+              <i class="fas fa-filter"></i> Lọc
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Results Count -->
+      <div class="results-count">
+        <span th:text="${'Tìm thấy ' + products.size() + ' sản phẩm'}"></span>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="product-grid">
+        <div class="product-card" th:each="product : ${products}">
+          <div class="product-image">
+            <div class="image-container">
+              <img
+                th:each="image, imageStat : ${product.images}"
+                th:src="${image.imageLink}"
+                th:class="${imageStat.first} ? 'active' : ''"
+                alt="Product Image"
+              />
+            </div>
+            <div class="image-nav">
+              <button
+                th:each="image, imageStat : ${product.images}"
+                th:class="${imageStat.first} ? 'image-nav-btn active' : 'image-nav-btn'"
+                th:onclick="'changeImage(this, ' + ${imageStat.index} + ')'"
+              ></button>
+            </div>
+          </div>
+          <h5 class="product-name" th:text="${product.name}">Product Name</h5>
+          <div class="d-flex justify-content-center align-items-center">
+            <span class="product-price" th:text="${product.price + ' $'}"
+              >Price</span
+            >
+            <span
+              class="discount-badge"
+              th:if="${product.discount > 0}"
+              th:text="'Giảm ' + ${product.discount} + '%'"
+            >
+            </span>
+          </div>
+          <a
+            th:href="@{'/home/product/' + ${product.id}}"
+            class="btn btn-primary mt-2"
+          >
+            Chi tiết
+          </a>
+        </div>
+      </div>
+
+      <!-- No Results Message -->
+      <div class="no-results" th:if="${#lists.isEmpty(products)}">
+        <i class="fas fa-search fa-3x mb-3"></i>
+        <h4>Không tìm thấy sản phẩm nào</h4>
+        <p>Vui lòng thử lại với các tiêu chí khác</p>
+      </div>
+
+      <!-- Pagination -->
+      <nav th:if="${!#lists.isEmpty(products)}">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">1</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Phần Chân Trang -->
+    <footer>
+      <div class="footer_container">
+        <div class="footer-column">
+          <h3>Địa điểm cửa hàng</h3>
+          <p>
+            <strong>TRỤ SỞ:</strong> Trường Đại Học Công Nghiệp Hà Nội, Cơ Sở
+            1<br />
+            Số 298 Đ. Cầu Diễn, Minh Khai, Bắc Từ Liêm, Hà Nội
+          </p>
+          <p>
+            <strong>Chi Nhánh 1:</strong>
+            Phường Tây Tựu, Bắc Từ Liêm, Hà Nội
+          </p>
+          <p>
+            <strong>Chi Nhánh 2:</strong>
+            Phường Lệ Chi, Gia Lâm, Hà Nội
+          </p>
+        </div>
+        <div class="footer-column">
+          <h3>Kết nối với chúng tôi</h3>
+          <ul class="social-icons">
+            <li>
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container text-center">
+        <p>&copy; 2024 Sport Shop. All Rights Reserved.</p>
+        <a href="#">Chính sách bảo mật</a> | <a href="#">Điều khoản sử dụng</a>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function changeImage(button, index) {
+        // Lấy container cha của sản phẩm
+        const productCard = button.closest(".product-card");
+
+        // Xóa active class từ tất cả ảnh và nút
+        productCard
+          .querySelectorAll(".image-container img")
+          .forEach((img) => img.classList.remove("active"));
+        productCard
+          .querySelectorAll(".image-nav-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+
+        // Thêm active class cho ảnh và nút được chọn
+        productCard
+          .querySelectorAll(".image-container img")
+          [index].classList.add("active");
+        button.classList.add("active");
+      }
+    </script>
+  </body>
+</html>

@@ -13,6 +13,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BrandResponse {
     Long id;
-    String name;
+    String name; 
+    String image;
     List<ProductEntity> products;
 }

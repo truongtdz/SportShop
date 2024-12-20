@@ -275,26 +275,18 @@
       <div class="address-section">
         <h2 class="section-title">Danh Sách Địa Chỉ</h2>
         <div class="address-grid">
-          <div class="address-card" th:each="address : ${user.addressList}">
-            <div class="address-item">
-              <i class="fas fa-city"></i>
-              <span th:text="${address.city}">Thành phố</span>
-            </div>
-            <div class="address-item">
-              <i class="fas fa-building"></i>
-              <span th:text="${address.district}">Quận/Huyện</span>
-            </div>
-            <div class="address-item">
-              <i class="fas fa-map-marker-alt"></i>
-              <span th:text="${address.ward}">Phường/Xã</span>
-            </div>
-            <div class="address-item">
-              <i class="fas fa-road"></i>
-              <span th:text="${address.street}">Đường</span>
-            </div>
-            <div class="address-item">
-              <i class="fas fa-phone"></i>
-              <span th:text="${address.phone}">Số điện thoại</span>
+          <div class="address-card" th:each="address : ${user.addresses}">
+            <div class="address-content">
+              <div class="address-details">
+                <p class="address-full">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span th:text="${address.address}"></span>
+                </p>
+                <p class="phone-number">
+                  <i class="fas fa-phone"></i>
+                  <span th:text="${address.phone}"></span>
+                </p>
+              </div>
             </div>
           </div>
         </div>

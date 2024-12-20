@@ -17,8 +17,17 @@ public class OrderDetailEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "quantity_item")
+    @Column(name = "quantity")
     Long quantity;
+
+    @Column(name = "price")
+    Long price;
+
+    @Column(name = "discount")
+    Long discount;
+
+    @Column(name = "total")
+    Long total;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

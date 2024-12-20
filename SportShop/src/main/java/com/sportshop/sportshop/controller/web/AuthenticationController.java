@@ -40,7 +40,7 @@ public class AuthenticationController {
             return "web/register";
         }
         try {
-            userService.createUser(newUser, null);
+            userService.registerUser(newUser);
             model.addAttribute("message", "Create Account Success");
             return "/web/login";
         } catch (Exception e) {
@@ -48,5 +48,4 @@ public class AuthenticationController {
             return "web/register";
         }
     }
-
 }

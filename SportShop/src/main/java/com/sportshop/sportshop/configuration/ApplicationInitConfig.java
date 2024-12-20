@@ -2,6 +2,7 @@ package com.sportshop.sportshop.configuration;
 
 import com.sportshop.sportshop.entity.UserEntity;
 import com.sportshop.sportshop.enums.RoleEnum;
+import com.sportshop.sportshop.enums.StatusEnum;
 import com.sportshop.sportshop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
@@ -23,6 +24,7 @@ public class ApplicationInitConfig {
                         .username("admin")
                         .password(passwordEncoder.encode("admin"))
                         .roles(RoleEnum.ADMIN)
+                        .status(StatusEnum.Active)
                         .build();
                 userRepository.save(user);
             }

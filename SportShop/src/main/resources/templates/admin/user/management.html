@@ -277,6 +277,21 @@
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3);
       }
+      .alert {
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+        position: relative;
+        animation: slideIn 0.5s ease-out;
+        background: rgba(255, 255, 255, 0.95);
+        border-left: 4px solid #4b6cb7;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .alert i {
+        color: #4b6cb7;
+        margin-right: 10px;
+      }
     </style>
   </head>
   <body>
@@ -284,7 +299,7 @@
       <!-- Sidebar -->
       <nav>
         <div class="logo">
-          <img th:src="@{/img/web/logo.jpg}" alt="Logo" />
+          <img th:src="@{/image/logo.jpg}" alt="Logo" />
         </div>
         <a href="/admin"
           ><i class="fas fa-home"></i><span>Trang Quản Trị</span></a
@@ -308,6 +323,17 @@
             <i class="fas fa-user-plus"></i>
             Tạo Người Dùng Mới
           </a>
+        </div>
+
+        <!-- Alerts -->
+        <div th:if="${notification}" class="alert" role="alert">
+          <i class="fas fa-check-circle"></i>
+          <span th:text="${notification}"></span>
+        </div>
+
+        <div th:if="${message}" class="alert" role="alert">
+          <i class="fas fa-check-circle"></i>
+          <span th:text="${message}"></span>
         </div>
 
         <table>

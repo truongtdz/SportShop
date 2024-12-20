@@ -1,0 +1,628 @@
+/* Banner */
+.banner {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+  }
+  
+  .banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    header {
+      padding: 15px;
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .function ul {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+  
+    nav {
+      padding: 15px;
+    }
+  
+    nav ul {
+      flex-direction: column;
+    }
+  
+    .cha .con {
+      position: static;
+      display: none;
+      box-shadow: none;
+    }
+  
+    .cha:hover .con {
+      display: block;
+    }
+  }
+  /* Product Section Styles */
+  .list_new_product,
+  .list_spbanhchay {
+    padding: 30px 50px;
+  }
+  
+  h3 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+  
+  hr {
+    border: none;
+    height: 2px;
+    background: #4b6cb7;
+    margin-bottom: 20px;
+  }
+  
+  .container {
+    position: static !important;
+    overflow: visible !important;
+  }
+  
+  .product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 0 40px;
+  }
+  
+  .product-item {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+  
+  .image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    display: none;
+  }
+  
+  .image img.active {
+    display: block;
+  }
+  
+  /* Style cho nút điều hướng ảnh */
+  .image-nav {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 2;
+  }
+  
+  .image-nav-btn {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .image-nav-btn.active {
+    background: white;
+  }
+  
+  /* Thêm hiệu ứng hover cho nút */
+  .image-nav-btn:hover {
+    background: white;
+    transform: scale(1.2);
+  }
+  
+  .product-item h4 {
+    font-size: 16px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+  
+  .product-item p {
+    color: #e74c3c;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* Navigation Buttons */
+  .prev-btn,
+  .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(44, 62, 80, 0.8);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .prev-btn {
+    left: 0;
+  }
+  .next-btn {
+    right: 0;
+  }
+  
+  .prev-btn:hover,
+  .next-btn:hover {
+    background: #2c3e50;
+  }
+  
+  @media (max-width: 768px) {
+    .list_new_product,
+    .list_spbanhchay {
+      padding: 20px;
+    }
+  
+    .product-list {
+      margin: 0;
+    }
+  
+    .prev-btn,
+    .next-btn {
+      display: none;
+    }
+  }
+  
+  /* Thêm padding-top cho các section để scroll không bị che bởi navigation */
+  #newest-products,
+  #sale-products {
+    padding-top: 80px;
+    margin-top: -60px;
+  }
+  
+  /* Làm cho navigation sticky */
+  .nav-container {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
+  }
+  
+  /* Style cho product card mới */
+  .product-card {
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+  
+  .image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    display: none;
+  }
+  
+  .image-container img.active {
+    display: block;
+  }
+  
+  /* Style cho nút điều hướng ảnh */
+  .image-nav {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 2;
+  }
+  
+  .image-nav-btn {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .image-nav-btn.active {
+    background: white;
+  }
+  
+  /* Thêm hiệu ứng hover cho nút */
+  .image-nav-btn:hover {
+    background: white;
+    transform: scale(1.2);
+  }
+  
+  /* Style cho section title */
+  .section-title {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 24px;
+    position: relative;
+  }
+  
+  /* Style cho carousel */
+  #productCarousel,
+  #productSaleCarousel {
+    padding: 0 50px;
+  }
+  
+  .carousel-inner {
+    padding: 1rem 0;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+  }
+  
+  .carousel-control-prev {
+    left: -20px;
+  }
+  
+  .carousel-control-next {
+    right: -20px;
+  }
+  
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Style cho feature badges */
+  .feature-badge {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    margin: 2px;
+    background-color: #f1f1f1;
+    border-radius: 12px;
+    color: #333;
+  }
+  
+  /* Style cho product price */
+  .product-price {
+    color: #e74c3c;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* Style cho buttons trong product card */
+  .product-card .btn {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+  
+  .product-card .btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+  }
+  
+  .product-card .btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+    transform: translateY(-2px);
+  }
+  
+  .product-card .btn-warning {
+    background-color: #f39c12;
+    border-color: #f39c12;
+    color: white;
+  }
+  
+  .product-card .btn-warning:hover {
+    background-color: #e67e22;
+    border-color: #e67e22;
+    transform: translateY(-2px);
+  }
+  
+  /* Style cho section headers */
+  .list_new_product h3,
+  .list_spbanhchay h3,
+  .brands-section h3 {
+    display: block;
+    text-align: center;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 auto 30px;
+    max-width: fit-content;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    transition: all 0.3s ease;
+    color: black;
+  }
+  
+  .list_new_product h3:hover,
+  .list_spbanhchay h3:hover,
+  .brands-section h3:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+  }
+  
+  .list_new_product hr,
+  .list_spbanhchay hr,
+  .brands-section hr {
+    width: 100px;
+    height: 3px;
+    margin: -15px auto 30px;
+    border: none;
+    border-radius: 3px;
+  }
+  
+  /* Thêm padding cho các section */
+  .list_new_product,
+  .list_spbanhchay,
+  .brands-section {
+    padding: 50px 0;
+    position: relative;
+  }
+  
+  /* Thêm background alternating cho các section */
+  .brands-section {
+    background: linear-gradient(to bottom, #fff, #f5f5f5);
+  }
+  
+  .list_new_product {
+    background: linear-gradient(to bottom, #fff, #fff5ec);
+  }
+  
+  .list_spbanhchay {
+    background: linear-gradient(to bottom, #fff, #ffebee);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .list_new_product h3,
+    .list_spbanhchay h3,
+    .brands-section h3 {
+      font-size: 18px;
+      padding: 12px 30px;
+    }
+  }
+  
+  /* Style cho banner slider */
+  .banner-slider {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+  }
+  
+  .banner-slider .carousel-inner {
+    height: 100%;
+  }
+  
+  .banner-slider .carousel-item {
+    height: 100%;
+  }
+  
+  .banner-slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Style cho nút điều hướng */
+  .carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  
+  .carousel-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  .carousel-nav.prev {
+    left: 20px;
+  }
+  
+  .carousel-nav.next {
+    right: 20px;
+  }
+  
+  /* Ẩn nút mặc định của Bootstrap */
+  .carousel-control-prev,
+  .carousel-control-next {
+    display: none;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .banner-slider {
+      height: 300px;
+    }
+  
+    .carousel-nav {
+      width: 35px;
+      height: 35px;
+      font-size: 14px;
+    }
+  }
+  
+  /* Brands Section Styles */
+  .brands-section {
+    padding: 50px 0;
+    margin-top: 30px;
+    background: #fff;
+  }
+  
+  .brands-section h3 {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 12px 35px;
+    border-radius: 40px;
+    font-size: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .brands-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+  }
+  
+  .brand-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .brand-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .brand-image {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+    padding: 15px;
+    border-radius: 50%;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .brand-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  .brand-card h4 {
+    color: #2c3e50;
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  
+  .brand-card .btn {
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .brand-card .btn:hover {
+    background-color: #9b59b6;
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .brands-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  
+    .brand-image {
+      width: 120px;
+      height: 120px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .brands-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  

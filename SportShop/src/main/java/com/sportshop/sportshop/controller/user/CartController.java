@@ -1,55 +1,79 @@
 package com.sportshop.sportshop.controller.user;
 
-import com.sportshop.sportshop.entity.CartEntity;
 import com.sportshop.sportshop.entity.UserEntity;
 import com.sportshop.sportshop.service.CartService;
-import com.sportshop.sportshop.service.UserService;
+import com.sportshop.sportshop.utils.GetUserAuthentication;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 @Controller
-@RequestMapping("user")
+@RequestMapping("user/cart")
 public class CartController {
     @Autowired
     private CartService cartService;
 
     @Autowired
-    private UserService userService;
+    private GetUserAuthentication getUserAuthentication;
 
-    @GetMapping("/cart/{userId}")
-    public ModelAndView getCart(@PathVariable Long userId) {
-        List<CartEntity> carts = cartService.getCartByUserId(userId);
-        return new ModelAndView("user/cart")
-                .addObject("carts", carts)
-                .addObject("user", userService.getUserById(userId));
+    @GetMapping("/{userId}")
+    public ModelAndView getCart(@PathVariable Long userId){
+        UserEntity user = getUserAuthentication.getUser();
+
+        ModelAndView mav = new ModelAndView("/user/cart")
+                .addObject("carts", cartService.getCart(userId))
+                .addObject("user", user);
+
+        return mav;
     }
 
-    @PostMapping("/add-to-cart/{productId}")
-    public ModelAndView addCart(@PathVariable Long productId) {
-        ModelAndView modelAndView = new ModelAndView("web/home");
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String)) {
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            UserEntity user = userService.getUserByUsername(userDetails.getUsername());
-            modelAndView.addObject("user", user);
-
-            cartService.addProduct(user.getId(), productId);
+    @PostMapping("/{productId}")
+    public ModelAndView addCart(@PathVariable Long productId, Model model){
+        UserEntity user = getUserAuthentication.getUser();
+        
+        ModelAndView mav = new ModelAndView("/user/cart")
+                        .addObject("user", user);
+        if(cartService.addCart(user.getId(), productId)){
+            model.addAttribute("notification", "Success");
+            model.addAttribute("message", "Thêm Sản Phẩm Thành Công ");
         } else {
-            return new ModelAndView("redirect:/login");
-        }
+            model.addAttribute("notification", "Fail");
+            model.addAttribute("message", "Sản Phẩm Này Đã Có Trong Giỏ Hàng Rồi");
+        }    
+        mav.addObject("carts", cartService.getCart(user.getId()));
+        return mav;
+    }
 
-        return modelAndView
-                .addObject("message", "Success");
+    @GetMapping("/{productId}/{quantity}")
+    public ModelAndView replaceQuantityProduct(Model model,@PathVariable("productId") Long productId,
+                                        @PathVariable("quantity") Long quantity){
+                                            
+        UserEntity user = getUserAuthentication.getUser();
+
+        ModelAndView mav = new ModelAndView("/user/cart")
+                            .addObject("carts", cartService.getCart(user.getId()))
+                            .addObject("user", user);
+            
+        if(cartService.replaceQuantityProduct(user.getId(), productId, quantity)){
+            model.addAttribute("notification", "Success");
+            model.addAttribute("message", "Thêm thành công");
+        } else {
+            model.addAttribute("notification", "Fail");
+            model.addAttribute("message", "Không thể mua thêm vì không đủ hàng");
+        }
+        return mav;
+    }
+
+    @GetMapping("/delete/{productId}")
+    public String deleteCart(@PathVariable Long productId){
+        UserEntity user = getUserAuthentication.getUser();
+        cartService.removeProductToCart(user.getId(), productId);
+        return "redirect:/user/cart/" + user.getId();
     }
 }

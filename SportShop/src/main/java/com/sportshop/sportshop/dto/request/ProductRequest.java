@@ -13,10 +13,10 @@ import java.util.Date;
 public class ProductRequest {
     Long id;
     String name;
-    String color;
     Long price;
     Long discount;
     String description;
+    String color;
     Long quantity;
     Date createDate;
     Date updateDate;

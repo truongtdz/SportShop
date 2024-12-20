@@ -1,16 +1,17 @@
 package com.sportshop.sportshop.service;
 
 import com.sportshop.sportshop.dto.request.ProductRequest;
+import com.sportshop.sportshop.dto.request.SearchRequest;
 import com.sportshop.sportshop.dto.response.ProductResponse;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface ProductService {
-
     // Count product
-    public String countProduct();
+    public int countProduct();
 
     // View all product
     public List<ProductResponse> getAllProducts();
@@ -32,5 +33,11 @@ public interface ProductService {
 
     // Delete Product
     public void deleteProduct(Long productId);
+
+    // Search Product
+    List<ProductResponse> searchProductByNameOrDescription(String name);
+
+    // Search Product
+    List<ProductResponse> searchProduct(SearchRequest request);
 
 }

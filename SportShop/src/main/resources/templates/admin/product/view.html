@@ -553,20 +553,16 @@
                 <div class="info-value" th:text="${product.name}"></div>
             </div>
             <div class="info-card">
+              <div class="info-label">Màu sắc</div>
+              <div class="info-value" th:text="${product.color}"></div>
+          </div>
+            <div class="info-card">
                 <div class="info-label">Giá</div>
-                <div class="info-value" th:text="${product.price}"></div>
+                <div class="info-value" th:text="${product.price + '$'}"></div>
             </div>
             <div class="info-card">
                 <div class="info-label">Giảm giá</div>
-                <div class="info-value" th:text="${product.discount}"></div>
-            </div>
-            <div class="info-card">
-                <div class="info-label">Ngày tạo</div>
-                <div class="info-value" th:text="${product.createDate}"></div>
-            </div>
-            <div class="info-card">
-                <div class="info-label">Mô tả</div>
-                <div class="info-value" th:text="${product.description}"></div>
+                <div class="info-value" th:text="${product.discount + '%'}"></div>
             </div>
             <div class="info-card">
                 <div class="info-label">Thương hiệu</div>
@@ -575,6 +571,18 @@
             <div class="info-card" th:if="${category.name != null}">
                 <div class="info-label">Danh mục</div>
                 <div class="info-value" th:text="${category.name}"></div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Số lượng trong kho</div>
+                <div class="info-value" th:text="${product.quantity}"></div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Ngày tạo</div>
+                <div class="info-value" th:text="${product.createDate}"></div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Mô tả</div>
+                <div class="info-value" th:text="${product.description}"></div>
             </div>
         </div>
     </div>

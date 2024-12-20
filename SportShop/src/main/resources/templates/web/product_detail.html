@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi Tiết Sản Phẩm | SportShop</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/web/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/web/nav.css}" />
+    <link rel="stylesheet" th:href="@{/css/web/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/web/product-detail.css}" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <a
+            href="/home"
+            class="d-flex align-items-center text-decoration-none"
+          >
+            <img class="logo" th:src="@{/image/logo.jpg}" alt="Logo" />
+            <h1 class="header-title">Sport Shop</h1>
+          </a>
+
+          <div class="d-flex align-items-center">
+            <form
+              class="form-inline mr-3"
+              th:action="@{/home/search-name}"
+              method="get"
+            >
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  type="search"
+                  placeholder="Tìm kiếm sản phẩm..."
+                  aria-label="Search"
+                  name="name"
+                  th:value="${name}"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-custom" type="submit">
+                    <i class="fas fa-search"></i> Tìm
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <!-- Hiển thị nút đăng nhập/đăng ký khi chưa đăng nhập -->
+            <th:block th:if="${user == null}">
+              <a th:href="@{/login}" class="btn btn-custom mr-2">
+                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+              </a>
+              <a th:href="@{/register}" class="btn btn-custom">
+                <i class="fas fa-user-plus"></i> Đăng ký
+              </a>
+            </th:block>
+
+            <!-- Hiển thị các nút khác khi đã đăng nhập -->
+            <th:block th:if="${user != null}">
+              <div class="dropdown mr-2">
+                <button
+                  class="btn btn-custom dropdown-toggle"
+                  type="button"
+                  id="userDropdown"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-user"></i>
+                  <span th:text="${user.username}">Tài khoản</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                  <a class="dropdown-item" th:href="@{/user/info}">
+                    <i class="fas fa-user-circle"></i> Thông tin tài khoản
+                  </a>
+                  <a class="dropdown-item" th:href="@{/user/history}">
+                    <i class="fas fa-history"></i> Lịch sử đơn hàng
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" th:href="@{/logout}">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                  </a>
+                </div>
+              </div>
+
+              <a
+                th:href="@{/user/cart/{id}(id=${user.id})}"
+                class="btn btn-custom position-relative mr-2"
+              >
+                <i class="fas fa-shopping-cart"></i> Giỏ hàng
+                <span
+                  th:text="${count}"
+                  class="badge badge-danger position-absolute"
+                  style="top: -5px; right: -5px"
+                  >0</span
+                >
+              </a>
+            </th:block>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="product-detail">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="product-gallery">
+              <div class="main-image">
+                <img
+                  th:src="${product.images[0].imageLink}"
+                  alt="Product Image"
+                  id="mainImage"
+                />
+              </div>
+              <div class="thumbnail-container">
+                <img
+                  th:each="image : ${product.images}"
+                  th:src="${image.imageLink}"
+                  class="thumbnail"
+                  onclick="changeImage(this.src)"
+                  alt="Product Thumbnail"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="product-info">
+              <h1 class="product-title" th:text="${product.name}">
+                Tên Sản Phẩm
+              </h1>
+              <div class="brand-category-container">
+                <div
+                  class="product-category"
+                  th:text="${product.category.name}"
+                >
+                  Danh mục
+                </div>
+                <div
+                  class="product-brand"
+                  th:text="'Thương hiệu: ' + ${product.brand.name}"
+                >
+                  Thương hiệu
+                </div>
+              </div>
+              <div
+                  class="product-brand"
+                  th:text="'Màu Sắc: ' + ${product.color}"
+                >
+                  Màu Sắc
+              </div>
+              <div
+                  class="product-brand"
+                  th:text="'Số Lượng Còn Lại: ' + ${product.quantity}"
+                >
+                  Số lượng
+              </div>
+              <div class="product-price">
+                <span th:text="${product.price} + ' $'">Giá</span>
+                <span
+                  class="product-discount"
+                  th:text="'Giảm ' + ${product.discount} + '%'"
+                  >Giảm giá</span
+                >
+              </div>
+              <p class="product-description" th:text="${product.description}">
+                Mô tả sản phẩm...
+              </p>
+              <form
+                class="form-inline mr-3"
+                th:action="@{/user/cart/{id}(id=${product.id})}"
+                method="post"
+              > 
+                <button class="add-to-cart-btn" type="submit">
+                  <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
+                </button>
+              </form>
+             
+              <div class="product-features-info">
+                <h4><i class="fas fa-info-circle"></i> Thông tin sản phẩm</h4>
+                <ul>
+                  <li>
+                    <i class="fas fa-check-circle"></i> Sản phẩm chính hãng 100%
+                  </li>
+                  <li>
+                    <i class="fas fa-shield-alt"></i> Bảo hành chất lượng 6
+                    tháng
+                  </li>
+                  <li>
+                    <i class="fas fa-exchange-alt"></i> Đổi size miễn phí trong
+                    7 ngày
+                  </li>
+                  <li>
+                    <i class="fas fa-truck"></i> Miễn phí giao hàng cho đơn từ
+                    500K
+                  </li>
+                  <li>
+                    <i class="fas fa-tshirt"></i> Tư vấn chọn size miễn phí
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mb-5">
+      <div class="comments-section">
+        <h3 class="comments-title">
+          <i class="fas fa-comments"></i> Bình luận
+        </h3>
+
+        <!-- Form thêm bình luận (chỉ hiện khi đã đăng nhập) -->
+        <div class="comment-form" th:if="${user != null}">
+          <form
+            th:action="@{/user/comment/{id}(id=${product.id})}"
+            th:object="${newComment}"
+            method="POST"
+            onsubmit="return checkComment()"
+          >
+            <div class="form-group">
+              <textarea
+                id="comment"
+                class="form-control"
+                th:field="*{messages}"
+                rows="3"
+                placeholder="Nhập bình luận của bạn..."
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-info">
+              <i class="fas fa-paper-plane"></i> Gửi bình luận
+            </button>
+          </form>
+        </div>
+
+        <!-- Thông báo cần đăng nhập để bình luận -->
+        <div class="login-notice" th:if="${user == null}">
+          <p class="text-center">
+            <a th:href="@{/login}" class="btn btn-outline-primary">
+              <i class="fas fa-sign-in-alt"></i> Đăng nhập để bình luận
+            </a>
+          </p>
+        </div>
+
+        <!-- Danh sách bình luận -->
+        <div class="comments-list">
+          <div class="comment-item" th:each="item : ${comments}">
+            <div class="comment-header">
+              <img
+                th:src="@{${item.user.avatar}}"
+                class="comment-avatar"
+                alt="User Avatar"
+              />
+              <div class="comment-info">
+                <h6 class="comment-username" th:text="${item.user.username}">
+                  Username
+                </h6>
+                <small class="comment-date" th:text="${item.createDate}"
+                  >Date</small
+                >
+              </div>
+            </div>
+            <div class="comment-content" th:text="${item.messages}">
+              Nội dung bình luận...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thêm phần service features -->
+    <div class="service-features">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="feature-box">
+              <div class="feature-icon">
+                <i class="fas fa-medal"></i>
+              </div>
+              <h4>Chất Lượng Đảm Bảo</h4>
+              <p>Sản phẩm chính hãng 100%, cam kết chất lượng tốt nhất</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="feature-box">
+              <div class="feature-icon">
+                <i class="fas fa-truck"></i>
+              </div>
+              <h4>Giao Hàng Nhanh</h4>
+              <p>Giao hàng toàn quốc từ 2-4 ngày, miễn phí cho đơn từ 500K</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="feature-box">
+              <div class="feature-icon">
+                <i class="fas fa-sync-alt"></i>
+              </div>
+              <h4>Đổi Trả Dễ Dàng</h4>
+              <p>Đổi trả miễn phí trong 30 ngày nếu không hài lòng</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="feature-box">
+              <div class="feature-icon">
+                <i class="fas fa-headset"></i>
+              </div>
+              <h4>Hỗ Trợ 24/7</h4>
+              <p>Đội ngũ tư vấn viên luôn sẵn sàng hỗ trợ mọi lúc</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer_container">
+        <div class="footer-column">
+          <h3>Địa điểm cửa hàng</h3>
+          <p>
+            <strong>TRỤ SỞ:</strong> Trường Đại Học Công Nghiệp Hà Nội, Cơ Sở
+            1<br />
+            Số 298 Đ. Cầu Diễn, Minh Khai, Bắc Từ Liêm, Hà Nội
+          </p>
+          <p>
+            <strong>Chi Nhánh 1:</strong>
+            Phường Tây Tựu, Bắc Từ Liêm, Hà Nội
+          </p>
+          <p>
+            <strong>Chi Nhánh 2:</strong>
+            Phường Lệ Chi, Gia Lâm, Hà Nội
+          </p>
+        </div>
+        <div class="footer-column">
+          <h3>Kết nối với chúng tôi</h3>
+          <ul class="social-icons">
+            <li>
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container text-center">
+        <p>&copy; 2024 Sport Shop. All Rights Reserved.</p>
+        <a href="#">Chính sách bảo mật</a> | <a href="#">Điều khoản sử dụng</a>
+      </div>
+    </footer>
+
+    <script>
+      function changeImage(src) {
+        document.getElementById("mainImage").src = src;
+        document.querySelectorAll(".thumbnail").forEach((thumb) => {
+          thumb.classList.remove("active");
+          if (thumb.src === src) {
+            thumb.classList.add("active");
+          }
+        });
+      }
+
+      function increaseQuantity() {
+        const input = document.getElementById("quantity");
+        const max = parseInt(input.getAttribute("max"));
+        const currentValue = parseInt(input.value);
+        if (currentValue < max) {
+          input.value = currentValue + 1;
+        }
+      }
+
+      function decreaseQuantity() {
+        const input = document.getElementById("quantity");
+        if (parseInt(input.value) > 1) {
+          input.value = parseInt(input.value) - 1;
+        }
+      }
+      function checkComment() {
+        var checkComment = document.getElementById("comment").value;
+        if (checkComment == null || checkComment.trim() === "") {
+          window.alert("Vui Lòng Nhập Bình Luận");
+          return false; // Ngăn chặn việc gửi form
+        }
+        return true; // Cho phép gửi form nếu có nội dung
+      }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -30,8 +30,11 @@ public class ProductEntity {
     @Column(name = "discount")
     Long discount;
 
-    @Column(name = "description")
-    String description;
+    @Column(name = "description", columnDefinition = "MEDIUMTEXT")
+    private String description;
+
+    @Column(name = "color")
+    String color;
 
     @Column(name = "quantity")
     Long quantity;
@@ -43,7 +46,7 @@ public class ProductEntity {
     Date updateDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status_user")
+    @Column(name = "status_product")
     StatusEnum status;
 
     @ManyToOne

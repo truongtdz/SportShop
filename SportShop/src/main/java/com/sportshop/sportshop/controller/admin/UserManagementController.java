@@ -52,24 +52,24 @@ public class UserManagementController {
     }
 
     @PostMapping("/create")
-    public String createUser(@ModelAttribute("newUser") @Valid CreateUserRequest newUser,
+    public ModelAndView createUser(@ModelAttribute("newUser") @Valid CreateUserRequest newUser,
                              @RequestParam("file") MultipartFile file,
                              BindingResult result, Model model) {
         if(result.hasErrors()){
             String enumKey = result.getFieldError().getDefaultMessage();
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", ErrorCode.valueOf(enumKey).getMessage());
-            return "/admin/admin";
         }
         try {
             userService.createUser(newUser, file);
             model.addAttribute("notification", "Success");
-            return "/admin/admin";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/admin/admin";
         }
+
+        return new ModelAndView("admin/user/management")
+                    .addObject("users", userService.getUsers());
     }
 
     // Update User
@@ -82,36 +82,38 @@ public class UserManagementController {
     }
 
     @PostMapping("/update/{userId}")
-    public String updateUser(@ModelAttribute @Valid UpdateUserRequest updateUser,BindingResult result ,@PathVariable Long userId , Model model) {
+    public ModelAndView updateUser(@ModelAttribute @Valid UpdateUserRequest updateUser,
+                            @RequestParam("file") MultipartFile file,
+                            @PathVariable Long userId, BindingResult result,
+                            Model model) {
         if(result.hasErrors()){
             String enumKey = result.getFieldError().getDefaultMessage();
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", ErrorCode.valueOf(enumKey).getMessage());
-            return "/admin/admin";
         }
         try {
-            userService.updateUser(updateUser, userId);
+            userService.updateUser(updateUser, userId, file);
             model.addAttribute("notification", "Success");
-            return "/admin/admin";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/admin/admin";
         }
+        return new ModelAndView("admin/user/management")
+                    .addObject("users", userService.getUsers());
+  
     }
 
     // Delete User
     @DeleteMapping("/delete/{userId}")
-    public String deleteUser(@PathVariable Long userId, Model model) {
+    public ModelAndView deleteUser(@PathVariable Long userId, Model model) {
         try {
             userService.deleteUser(userId);
-            model.addAttribute("notification", "Success");
-            return "/admin/admin";
         } catch (Exception e) {
-            model.addAttribute("notification", "Fail");
-            model.addAttribute("message", e.getMessage());
-            return "/admin/admin";
+            System.out.println(e);
         }
+        return new ModelAndView("admin/user/management")
+                    .addObject("users", userService.getUsers());
+  
     }
 
 }

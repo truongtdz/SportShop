@@ -1,141 +1,218 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đăng Nhập - Cửa Hàng Thể Thao</title>
-</head>
-<style>
-    /* Reset toàn bộ phần tử để tránh sai lệch không mong muốn */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <title>Đăng Nhập | SportShop</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    /* Thiết lập font chữ và màu nền trang */
-    body {
-      font-family: "Arial", sans-serif;
-      background-image: url("https://bachma.vn/wp-content/uploads/2021/05/quy-trinh-thiet-ke.jpg");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-attachment: fixed;
-      background-size: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #fff;
-    }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #2c3e50, #3498db);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
 
-    /* Định dạng container của form */
-    .login-form {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-    }
+      .login-container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        width: 100%;
+        max-width: 400px;
+        position: relative;
+      }
 
-    /* Tiêu đề của form */
-    .login-form h2 {
-      color: #3731d9;
-      margin-bottom: 20px;
-    }
+      .login-header {
+        background: #3498db;
+        padding: 20px;
+        text-align: center;
+        color: white;
+      }
 
-    /* Định dạng nhóm trường nhập liệu */
-    .form-group {
-      margin-bottom: 15px;
-      text-align: left;
-    }
+      .login-header h2 {
+        font-size: 24px;
+        margin: 0;
+      }
 
-    /* Nhãn cho các trường nhập */
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      font-weight: bold;
-      color: #555;
-      margin-bottom: 5px;
-    }
+      .login-form {
+        padding: 30px;
+      }
 
-    /* Trường nhập liệu */
-    .form-group input {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-      color: #333;
-      transition: border-color 0.3s;
-    }
+      .form-group {
+        margin-bottom: 20px;
+      }
 
-    /* Hiệu ứng khi người dùng tập trung vào trường nhập liệu */
-    .form-group input:focus {
-      border-color: #f5576c;
-      outline: none;
-    }
+      .form-group label {
+        display: block;
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
 
-    /* Nút đăng nhập */
-    .submit-btn {
-      width: 100%;
-      padding: 12px;
-      background-color: #f5576c;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s;
-    }
+      .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 25px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
 
-    /* Hiệu ứng hover cho nút */
-    .submit-btn:hover {
-      background-color: #d23f55;
-      transform: scale(1.05);
-    }
+      .form-group input:focus {
+        border-color: #3498db;
+        outline: none;
+        box-shadow: 0 0 10px rgba(52, 152, 219, 0.1);
+      }
 
-    /* Liên kết đăng ký */
-    .register-link {
-      margin-top: 10px;
-      display: block;
-      color: #f5576c;
-      text-decoration: none;
-    }
+      .error-message {
+        background: #ffebee;
+        color: #e74c3c;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        text-align: center;
+      }
 
-    .register-link:hover {
-      text-decoration: underline;
-    }
-</style>
-<body>
-<!-- Phần chứa form đăng nhập -->
-<div class="login-form">
-    <h2>Đăng Nhập</h2>
+      .submit-btn {
+        width: 100%;
+        padding: 12px;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
 
-    <div th:if="${param.error}">
-        <p style="color: red;">Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại!</p>
+      .submit-btn:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+      }
+
+      .register-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #7f8c8d;
+      }
+
+      .register-link a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+
+      .register-link a:hover {
+        color: #2980b9;
+      }
+
+      .back-button {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #3498db;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .back-button:hover {
+        background: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        color: #2980b9;
+      }
+
+      .back-button i {
+        font-size: 20px;
+      }
+
+      @media (max-width: 480px) {
+        .login-container {
+          margin: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="./home" class="back-button">
+      <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <div class="login-container">
+      <div class="login-header">
+        <h2><i class="fas fa-user-circle"></i> Đăng Nhập</h2>
+      </div>
+
+      <div class="login-form">
+        <div th:if="${param.error}" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          Tên đăng nhập hoặc mật khẩu không đúng
+        </div>
+
+        <form th:action="@{/login}" th:object="${login}" method="POST">
+          <div class="form-group">
+            <label for="username">
+              <i class="fas fa-user"></i> Tài Khoản
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              placeholder="Nhập tên tài khoản"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password"> <i class="fas fa-lock"></i> Mật Khẩu </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              placeholder="Nhập mật khẩu"
+            />
+          </div>
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-sign-in-alt"></i> Đăng Nhập
+          </button>
+        </form>
+
+        <div class="register-link">
+          Chưa có tài khoản?
+          <a href="/register">Đăng ký ngay</a>
+        </div>
+      </div>
     </div>
 
-    <form th:action="@{/login}" th:object="${login}" method="POST">
-        <div class="form-group">
-            <label for="username" >Tài Khoản :</label>
-            <input type="text" id="username" name="username" required/>
-        </div>
-        <div class="form-group">
-            <label for="password" >Mật Khẩu :</label>
-            <input type="password" id="password" name="password" required/>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="submit-btn">Đăng Nhập</button>
-        </div>
-    </form>
-
-    <!-- Liên kết đến trang đăng ký -->
-    <a href="/register" class="register-link"
-    >Chưa có tài khoản? Đăng ký ngay</a
-    >
-</div>
-</body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

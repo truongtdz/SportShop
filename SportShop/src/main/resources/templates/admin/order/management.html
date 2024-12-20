@@ -1,188 +1,561 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin - Quản lý Đơn Hàng</title>
-  <style>
-    /* Đặt các quy tắc chung */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Quản lý Sản Phẩm</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(45deg, #4b6cb7, #182848);
+        --secondary-gradient: linear-gradient(45deg, #3494e6, #ec6ead);
+        --success-gradient: linear-gradient(45deg, #11998e, #38ef7d);
+        --danger-gradient: linear-gradient(45deg, #cb2d3e, #ef473a);
+        --sidebar-gradient: linear-gradient(180deg, #2c3e50, #1a1a1a);
+      }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      color: #333;
-    }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    .container {
-      display: flex;
-      min-height: 100vh;
-    }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f7fa;
+        color: #333;
+      }
 
-    /* Sidebar */
-    nav {
-      width: 250px;
-      background-color: #343a40;
-      padding: 20px;
-    }
-
-    nav a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      padding: 10px 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      text-align: left;
-    }
-
-    nav a:hover {
-      background-color: #495057;
-    }
-
-    .submenu {
-      display: none;
-      margin-left: 20px;
-    }
-
-    .submenu a {
-      background-color: #343a40;
-      padding-left: 20px;
-    }
-
-    .submenu a:hover {
-      background-color: #495057;
-    }
-
-
-    /* Main content */
-    .main-content {
-      flex: 1;
-      padding: 20px;
-    }
-
-    .main-content h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: #007bff;
-    }
-
-    /* Table styling */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    table th,
-    table td {
-      padding: 12px;
-      border: 1px solid #ddd;
-      text-align: left;
-    }
-
-    table th {
-      background-color: #007bff;
-      color: white;
-    }
-
-    table tbody tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-
-    table tbody tr:hover {
-      background-color: #f1f1f1;
-    }
-
-    /* Button */
-    a.btn {
-      padding: 6px 12px;
-      background-color: #28a745;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      display: inline-block;
-      text-align: center;
-    }
-
-    a.btn:hover {
-      background-color: #218838;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
       .container {
-        flex-direction: column;
+        display: flex;
+        min-height: 100vh;
       }
 
-      nav {
-        width: 100%;
-        height: auto;
-      }
-
+      /* Main content */
       .main-content {
-        margin-top: 20px;
+        flex: 1;
+        margin-left: 250px;
+        padding: 30px;
+        background: #f5f7fa;
+        animation: slideUp 0.5s ease;
       }
-    }
-  </style>
-</head>
-<body>
-<div class="container">
-  <!-- Sidebar -->
-  <nav>
-    <a href="/admin">Trang Quản Trị</a>
-    <a href="/admin/user">Quản Lý Người Dùng</a>
-    <a href="javascript:void(0)" onclick="toggleSubmenu()">Quản Lý Sản Phẩm</a>
-    <div id="productSubmenu" class="submenu">
-      <a href="/admin/product">Danh sách</a>
-      <a href="/admin/brand">Thương hiệu</a>
-      <a href="/admin/category">Loại hàng</a>
-    </div>
-    <a href="/admin/order">Quản Lý Đơn Hàng</a>
-  </nav>
 
-  <!-- Main content -->
-  <div class="main-content">
-    <h1>Danh sách Đơn hàng</h1>
-    <table>
-      <thead>
-      <tr>
-        <th>Mã giao dịch</th>
-        <th>Ngày thực hiện</th>
-        <th>Tổng thu về</th>
-        <th>Mã Người mua</th>
-        <th>Lựa chọn</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="order : ${orders}">
-        <td th:text="${order.id}"></td>
-        <td th:text="${order.orderDate}"></td>
-        <td th:text="${order.total}"></td>
-        <td th:text="${order.userId}"></td>
-        <td>
-          <a th:href="@{/admin/order/{id}(id=${order.id})}" class="btn"
-          >View</a
-          >
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-<script>
-  function toggleSubmenu() {
-    var submenu = document.getElementById("productSubmenu");
-    if (submenu.style.display === "none" || submenu.style.display === "") {
-      submenu.style.display = "block";
-    } else {
-      submenu.style.display = "none";
-    }
-  }
-</script>
-</body>
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        animation: slideDown 0.5s ease;
+      }
+
+      .header h1 {
+        font-size: 28px;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Table styling */
+      table {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: var(--primary-gradient);
+        color: white;
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+      }
+
+      tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #eee;
+      }
+
+      tbody tr:hover {
+        background: rgba(75, 108, 183, 0.05);
+      }
+
+      /* Button styling */
+      .btn {
+        padding: 12px 25px;
+        border-radius: 8px;
+        color: white;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        opacity: 0.9;
+      }
+
+      .create-btn {
+        background: var(--success-gradient);
+      }
+
+      .view-btn {
+        background: var(--primary-gradient);
+        padding: 8px 15px;
+        font-size: 14px;
+      }
+
+      .btn:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Animations */
+      @keyframes slideDown {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .main-content {
+          margin-left: 0;
+          padding: 15px;
+        }
+
+        .header {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+
+      /* Sidebar styles */
+      nav {
+        width: 250px;
+        background: var(--sidebar-gradient);
+        color: white;
+        padding: 20px 0;
+        height: 100vh;
+        position: fixed;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+      }
+
+      nav .logo {
+        text-align: center;
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 20px;
+      }
+
+      nav .logo img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        border: 3px solid rgba(255, 255, 255, 0.3);
+      }
+
+      nav a {
+        display: flex;
+        padding: 15px 25px;
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        align-items: center;
+        border-left: 4px solid transparent;
+      }
+
+      nav a i {
+        margin-right: 10px;
+        width: 20px;
+        font-size: 1.2em;
+      }
+
+      nav a:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
+        border-left: 4px solid #4b6cb7;
+        padding-left: 30px;
+      }
+
+      .submenu {
+        background: rgba(0, 0, 0, 0.15);
+        display: none;
+      }
+
+      /* Điều chỉnh main content để tránh đè lên nav */
+      .main-content {
+        margin-left: 250px;
+      }
+
+      /* Responsive cho nav */
+      @media (max-width: 768px) {
+        nav {
+          width: 70px;
+        }
+
+        nav a span {
+          display: none;
+        }
+
+        nav .logo {
+          padding: 10px;
+        }
+
+        nav .logo img {
+          width: 40px;
+          height: 40px;
+        }
+
+        .main-content {
+          margin-left: 70px;
+        }
+      }
+
+      /* Action Buttons */
+      .action-btn {
+        padding: 8px 15px;
+        border-radius: 8px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        opacity: 0.9;
+        margin-right: 5px;
+      }
+
+      .view-btn {
+        background: var(--primary-gradient);
+      }
+
+      .btn-warning {
+        background: linear-gradient(45deg, #f1c40f, #e67e22);
+      }
+
+      .btn-danger {
+        background: var(--danger-gradient);
+      }
+
+      .action-btn:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-warning:hover {
+        box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3);
+      }
+
+      .btn-danger:hover {
+        box-shadow: 0 5px 15px rgba(203, 45, 62, 0.3);
+      }
+
+      /* Thêm icons cho các nút */
+      .action-btn i {
+        font-size: 14px;
+      }
+
+      /* Responsive cho các nút */
+      @media (max-width: 768px) {
+        .action-btn {
+          padding: 6px 12px;
+          font-size: 12px;
+        }
+      }
+
+      /* Status Badge Styles */
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+      }
+
+      /* Status Colors */
+      .PENDING {
+        background: linear-gradient(135deg, #f1c40f, #f39c12);
+        color: white;
+      }
+
+      .CONFIRMED {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+      }
+
+      .SHIPPING {
+        background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        color: white;
+      }
+
+      .DELIVERED {
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        color: white;
+      }
+
+      .CANCELLED {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+      }
+
+      /* Status Change Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        min-width: 300px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.3s ease;
+      }
+
+      .close {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+        transition: all 0.3s ease;
+      }
+
+      .close:hover {
+        color: #e74c3c;
+      }
+
+      .status-select {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .status-select:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        outline: none;
+      }
+
+      .change-status-btn {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .change-status-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translate(-50%, -60%);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, -50%);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <nav>
+        <div class="logo">
+          <img th:src="@{/image/logo.jpg}" alt="Logo" />
+        </div>
+        <a href="/admin" class="nav-link">
+          <i class="fas fa-home"></i><span>Trang Quản Trị</span>
+        </a>
+        <a href="/admin/user" class="nav-link">
+          <i class="fas fa-users"></i><span>Quản Lý Người Dùng</span>
+        </a>
+        <a href="/admin/product" class="nav-link">
+          <i class="fas fa-box"></i><span>Quản Lý Sản Phẩm</span>
+        </a>
+        <a href="/admin/order" class="nav-link">
+          <i class="fas fa-shopping-cart"></i><span>Quản Lý Đơn Hàng</span>
+        </a>
+      </nav>
+
+      <div class="main-content">
+        <div class="header">
+          <h1>Quản Lý Đơn Hàng</h1>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Mã Đơn Hàng</th>
+              <th>Ngày Đặt</th>
+              <th>Tổng Tiền</th>
+              <th>Số Lượng Sản Phẩm</th>
+              <th>Trạng Thái Đơn Hàng</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="order : ${orders}">
+              <td th:text="${order.id}"></td>
+              <td th:text="${order.date}"></td>
+              <td th:text="${order.total + '$'}"></td>
+              <td th:text="${order.quantity}"></td>
+              <td>
+                <span
+                  class="status-badge"
+                  th:text="${order.status}"
+                >
+                </span>
+              </td>
+              <td>
+                <a
+                  th:href="@{/admin/order/{id}(id=${order.id})}"
+                  class="action-btn view-btn"
+                >
+                  <i class="fas fa-eye"></i> Xem
+                </a>
+                <button
+                  class="change-status-btn"
+                  th:onclick="'showStatusModal(' + ${order.id} + ')'"
+                >
+                  <i class="fas fa-edit"></i> Thay Đổi Trạng Thái
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="statusModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeStatusModal()">&times;</span>
+        <h4>Thay Đổi Trạng Thái Đơn Hàng</h4>
+        <select id="statusSelect" class="status-select">
+          <option value="">Chọn Trạng Thái</option>
+          <option
+            th:each="status : ${status_orders}"
+            th:value="${status}"
+            th:text="${status}"
+          ></option>
+        </select>
+        <button class="change-status-btn" onclick="updateStatus()">
+          <i class="fas fa-save"></i> Cập Nhật
+        </button>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      let currentOrderId;
+
+      function showStatusModal(orderId) {
+        currentOrderId = orderId;
+        document.getElementById("statusModal").style.display = "block";
+      }
+
+      function closeStatusModal() {
+        document.getElementById("statusModal").style.display = "none";
+      }
+
+      function updateStatus() {
+        const status = document.getElementById("statusSelect").value;
+        if (!status) {
+          alert("Vui lòng chọn trạng thái");
+          return;
+        }
+
+        // Gửi request cập nhật trạng thái
+        window.location.href = `/admin/order/${currentOrderId}/${status}`;
+      }
+
+      // Đóng modal khi click ra ngoài
+      window.onclick = function (event) {
+        const modal = document.getElementById("statusModal");
+        if (event.target == modal) {
+          closeStatusModal();
+        }
+      };
+    </script>
+  </body>
 </html>

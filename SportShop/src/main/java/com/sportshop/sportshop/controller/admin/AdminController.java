@@ -1,7 +1,11 @@
 package com.sportshop.sportshop.controller.admin;
 
+import com.sportshop.sportshop.service.OrderService;
 import com.sportshop.sportshop.service.ProductService;
 import com.sportshop.sportshop.service.UserService;
+
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +21,17 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private OrderService orderService;
+
     @GetMapping
     public ModelAndView homeAdmin() {
 
         return  new ModelAndView("/admin/admin")
                 .addObject("userQuantity", userService.countUsers())
-                .addObject("productQuantity", productService.countProduct());
+                .addObject("productQuantity", productService.countProduct())
+                .addObject("orderQuantity", orderService.getCount())
+                .addObject("increase", orderService.getIncrease())
+                .addObject("revenues", orderService.getRevenueByDay(LocalDate.now().minusMonths(1), LocalDate.now()));
     }
 }

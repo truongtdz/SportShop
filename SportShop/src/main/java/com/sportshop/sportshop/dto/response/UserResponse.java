@@ -2,6 +2,8 @@ package com.sportshop.sportshop.dto.response;
 
 import com.sportshop.sportshop.entity.AddressEntity;
 import com.sportshop.sportshop.entity.CartEntity;
+import com.sportshop.sportshop.enums.StatusEnum;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -25,6 +27,7 @@ public class UserResponse {
     Date createDate;
     Date updateDate;
     String roles;
+    StatusEnum status;
     List<CartEntity> carts;
-    List<AddressEntity> addressList;
+    List<AddressEntity> addresses;
 }

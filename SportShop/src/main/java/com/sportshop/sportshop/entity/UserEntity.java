@@ -63,5 +63,5 @@ public class UserEntity {
     List<CartEntity> carts;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    List<AddressEntity> addressList;
+    List<AddressEntity> addresses;
 }

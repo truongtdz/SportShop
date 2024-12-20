@@ -33,10 +33,8 @@ public class ProductManagementController {
     // View all product
     @GetMapping
     public ModelAndView getAllProducts(){
-
         ModelAndView mav = new ModelAndView("/admin/product/management");
         mav.addObject("products", productService.getAllProducts());
-
         return mav;
     }
 
@@ -75,19 +73,19 @@ public class ProductManagementController {
     }
 
     @PostMapping("/create")
-    public String createProduct(@ModelAttribute("newProduct") ProductRequest request,
+    public ModelAndView createProduct(@ModelAttribute("newProduct") ProductRequest request,
                                 @RequestParam("files") List<MultipartFile> files
                                 ,Model model){
         try {
             ProductResponse product = productService.createProduct(request);
             imageService.createImage(files, product.getId());
             model.addAttribute("notification", "Success");
-            return "/admin/admin";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/admin/admin";
         }
+        return new ModelAndView("/admin/product/management")
+                    .addObject("products", productService.getAllProducts());
     }
 
     // Update Product
@@ -101,29 +99,29 @@ public class ProductManagementController {
     }
 
     @PostMapping("/update/{productId}")
-    public String updateProduct(@PathVariable Long productId, @ModelAttribute("updateProduct") ProductRequest request, Model model){
+    public ModelAndView updateProduct(@PathVariable Long productId, @ModelAttribute("updateProduct") ProductRequest request, Model model){
         try{
             productService.updateProduct(productId, request);
             model.addAttribute("notification", "Success");
-            return "/admin/admin";
         } catch (Exception e) {
             model.addAttribute("notification", "Fail");
             model.addAttribute("message", e.getMessage());
-            return "/admin/admin";
         }
+        return new ModelAndView("/admin/product/management")
+                    .addObject("products", productService.getAllProducts());
+   
     }
 
     @DeleteMapping("/delete/{productId}")
-    public String deleteProduct(@PathVariable Long productId, Model model){
+    public ModelAndView deleteProduct(@PathVariable Long productId, Model model){
         try{
             productService.deleteProduct(productId);
-            model.addAttribute("notification", "Success");
-            return "/admin/admin";
         } catch (Exception e) {
-            model.addAttribute("notification", "Fail");
-            model.addAttribute("message", e.getMessage());
-            return "/admin/admin";
+            System.out.println(e);
         }
+        return new ModelAndView("/admin/product/management")
+                    .addObject("products", productService.getAllProducts());
+   
     }
 
     @DeleteMapping("/image/{imageId}")

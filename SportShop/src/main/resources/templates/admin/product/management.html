@@ -306,6 +306,21 @@
             font-size: 12px;
           }
         }
+        .alert {
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+        position: relative;
+        animation: slideIn 0.5s ease-out;
+        background: rgba(255, 255, 255, 0.95);
+        border-left: 4px solid #4b6cb7;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .alert i {
+        color: #4b6cb7;
+        margin-right: 10px;
+      }
     </style>
 </head>
 <body>
@@ -313,7 +328,7 @@
     <!-- Sidebar -->
     <nav>
         <div class="logo">
-            <img th:src="@{/img/web/logo.jpg}" alt="Logo" />
+            <img th:src="@{/image/logo.jpg}" alt="Logo" />
         </div>
         <a href="/admin" class="nav-link">
             <i class="fas fa-home"></i><span>Trang Quản Trị</span>
@@ -338,11 +353,23 @@
             </a>
         </div>
 
+        <!-- Alerts -->
+        <div th:if="${notification}" class="alert" role="alert">
+          <i class="fas fa-check-circle"></i>
+          <span th:text="${notification}"></span>
+        </div>
+
+        <div th:if="${message}" class="alert" role="alert">
+          <i class="fas fa-check-circle"></i>
+          <span th:text="${message}"></span>
+        </div>
+
         <table>
             <thead>
             <tr>
                 <th>Mã sản phẩm</th>
                 <th>Tên sản phẩm</th>
+                <th>Số lượng trong kho</th>
                 <th>Ngày tạo</th>
                 <th>Thao tác</th>
             </tr>
@@ -351,6 +378,7 @@
             <tr th:each="product : ${products}">
                 <td th:text="${product.id}"></td>
                 <td th:text="${product.name}"></td>
+                <td th:text="${product.quantity}"></td>
                 <td th:text="${product.createDate}"></td>
                 <td>
                     <a

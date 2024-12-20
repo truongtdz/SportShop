@@ -132,59 +132,61 @@
 
       .card-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        padding: 0 15px;
         margin-bottom: 30px;
-        animation: slideUp 0.5s ease;
       }
 
       .card {
-        background: rgba(255, 255, 255, 0.95);
+        background: white;
         padding: 25px;
-        border-radius: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
         position: relative;
-        overflow: hidden;
+        text-align: center;
       }
 
       .card:nth-child(1) {
-        background: var(--primary-gradient);
+        background: linear-gradient(135deg, #4b6cb7, #182848);
       }
 
       .card:nth-child(2) {
-        background: var(--secondary-gradient);
+        background: linear-gradient(135deg, #11998e, #38ef7d);
       }
 
       .card:nth-child(3) {
-        background: var(--success-gradient);
+        background: linear-gradient(135deg, #f1c40f, #f39c12);
+      }
+
+      .card:nth-child(4) {
+        background: linear-gradient(135deg, #3494e6, #ec6ead);
       }
 
       .card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
       }
 
       .card h5 {
-        font-size: 18px;
-        color: rgba(255, 255, 255, 0.9);
+        font-size: 16px;
+        color: white;
         margin-bottom: 15px;
+        font-weight: 500;
       }
 
       .card p {
-        font-size: 32px;
+        font-size: 28px;
         font-weight: bold;
         color: white;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        margin: 0;
       }
 
       .card .icon {
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 60px;
-        color: rgba(255, 255, 255, 0.2);
+        font-size: 40px;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 15px;
       }
 
       .alert {
@@ -214,23 +216,6 @@
         }
       }
 
-      /* Hover effects */
-      .card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateX(-100%);
-        transition: 0.5s;
-      }
-
-      .card:hover::before {
-        transform: translateX(100%);
-      }
-
       /* Responsive styles */
       @media (max-width: 768px) {
         nav {
@@ -254,6 +239,46 @@
           gap: 15px;
         }
       }
+      h5 {
+        color: #2c3e50;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f1f1f1;
+      }
+      
+      /* Table styling */
+      table {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: var(--primary-gradient);
+        color: white;
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+      }
+
+      tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #eee;
+      }
+
+      tbody tr:hover {
+        background: rgba(75, 108, 183, 0.05);
+      }
+
 
       /* Loading screen styles */
       .loading-screen {
@@ -281,6 +306,19 @@
           opacity: 1;
         }
       }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .card-container {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 576px) {
+        .card-container {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
   <body>
@@ -288,7 +326,7 @@
       <!-- Sidebar -->
       <nav>
         <div class="logo">
-          <img th:src="@{/img/web/logo.jpg}" alt="Logo" />
+          <img th:src="@{/image/logo.jpg}" alt="Logo" />
         </div>
         <a href="/admin" class="nav-link">
           <i class="fas fa-home"></i><span>Trang Quản Trị</span>
@@ -314,17 +352,6 @@
           </div>
         </div>
 
-        <!-- Alerts -->
-        <div th:if="${notification}" class="alert" role="alert">
-          <i class="fas fa-check-circle"></i>
-          <span th:text="${notification}"></span>
-        </div>
-
-        <div th:if="${message}" class="alert" role="alert">
-          <i class="fas fa-check-circle"></i>
-          <span th:text="${message}"></span>
-        </div>
-
         <!-- Statistics Cards -->
         <div class="card-container">
           <div class="card">
@@ -344,7 +371,28 @@
             <h5>Số lượng đơn hàng</h5>
             <p th:if="${orderQuantity}" th:text="${orderQuantity}">0</p>
           </div>
+          <div class="card">
+            <i class="fas fa-coins icon"></i>
+            <h5>Tổng Doanh Thu</h5>
+            <p th:if="${increase}" th:text="${increase + '$'}">0$</p>
+          </div>
         </div>
+
+        <h5>Doanh Thu Theo Ngày 1 Tháng Trở Lại</h5>
+        <table>
+          <thead>
+            <tr>
+              <th>Ngày</th>
+              <th>Doanh Thu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="item : ${revenues}">
+              <td th:text="${item.date}"></td>
+              <td th:text="${item.revenue} + '$'"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 

@@ -1,5 +1,6 @@
 package com.sportshop.sportshop.service;
 
+import com.sportshop.sportshop.dto.request.AddressRequest;
 import com.sportshop.sportshop.dto.request.CreateUserRequest;
 import com.sportshop.sportshop.dto.request.UpdateUserRequest;
 import com.sportshop.sportshop.dto.response.UserResponse;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface UserService {
 
     // View user quantity
-    public String countUsers();
+    public int countUsers();
 
     // View all users
     public List<UserResponse> getUsers();
@@ -21,11 +22,14 @@ public interface UserService {
     // View user by Id
     public UserResponse getUserById(Long userId);
 
+    // Register user
+    UserEntity registerUser(CreateUserRequest request) ;
+
     // Create user
     public UserEntity createUser(CreateUserRequest request, MultipartFile file);
 
     // Update user
-    public UserResponse updateUser(UpdateUserRequest request, Long userId);
+    public UserResponse updateUser(UpdateUserRequest request, Long userId, MultipartFile file);
 
     // Delete user
     public void deleteUser(Long userId);
@@ -33,4 +37,12 @@ public interface UserService {
     // Find By Username
     public UserEntity getUserByUsername(String username);
 
+    // Add Address
+    public void addAddress(Long userId, AddressRequest request);
+
+    // Add Address
+    public void deleteAddress(Long addressId);
+
+    // Checkout 
+    public String checkout(Long userId, Long addressId);
 }

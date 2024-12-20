@@ -12,22 +12,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table (name = "address_user")
 public class AddressEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "city")
-    String city;
-
-    @Column(name = "district")
-    String district;
-
-    @Column(name = "ward")
-    String ward;
-
-    @Column(name = "street")
-    String street;
+    @Column(name = "address")
+    String address;
 
     @Column(name = "phone")
     String phone;
