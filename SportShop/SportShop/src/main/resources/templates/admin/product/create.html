@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin</title>
+  <style>
+    /* Đặt các quy tắc chung */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    nav {
+      width: 250px;
+      background-color: #343a40;
+      padding: 20px;
+    }
+
+    nav a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 10px 0;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    nav a:hover {
+      background-color: #495057;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .main-content h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    .product-form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .row {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    .col {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    .col:last-child {
+      margin-right: 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+    }
+
+    input[type="submit"] {
+      background-color: #6f00ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      margin-top: 10px;
+      width: 10%;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #007bff;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .row {
+        flex-direction: column;
+      }
+
+      .col {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- Sidebar -->
+  <nav>
+    <a href="/admin">Trang Quản Trị</a>
+    <a href="/admin/user">Quản Lý Người Dùng</a>
+    <a href="/admin/product">Quản Lý Sản Phẩm</a>
+    <a href="/admin/order">Quản Lý Đơn Hàng</a>
+  </nav>
+
+  <!-- Main content -->
+  <div class="main-content">
+    <h1>Chào mừng đến với trang quản trị hệ thống của Admin</h1>
+    <div class="product-form">
+      <form
+              th:action="@{/admin/product/create}"
+              th:object="${newProduct}"
+              method="POST"
+      >
+        <!-- Row 1: Name, Category, Brand -->
+        <div class="row">
+          <div class="col">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" th:field="*{name}" />
+          </div>
+          <div class="col">
+            <label for="category">Category:</label>
+            <select id="category" th:field="*{category}">
+              <option
+                      th:each="category : ${categories}"
+                      th:value="${category}"
+                      th:text="${category}"
+              ></option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="brand">Brand:</label>
+            <select id="brand" th:field="*{brand}">
+              <option
+                      th:each="brand : ${brands}"
+                      th:value="${brand}"
+                      th:text="${brand}"
+              ></option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 2: Gender, Price, Size -->
+        <div class="row">
+          <div class="col">
+            <label for="gender">Gender:</label>
+            <select id="gender" th:field="*{gender}">
+              <option
+                      th:each="gender : ${genders}"
+                      th:value="${gender}"
+                      th:text="${gender}"
+              ></option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="price">Price:</label>
+            <input type="text" id="price" th:field="*{price}" />
+          </div>
+          <div class="col">
+            <label for="size">Size:</label>
+            <select id="size" th:field="*{size}">
+              <option
+                      th:each="size : ${sizes}"
+                      th:value="${size}"
+                      th:text="${size}"
+              ></option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 3: Color, Discount, Quantity -->
+        <div class="row">
+          <div class="col">
+            <label for="color">Color:</label>
+            <input type="text" id="color" th:field="*{color}" />
+          </div>
+          <div class="col">
+            <label for="discount">Discount:</label>
+            <input type="text" id="discount" th:field="*{discount}" />
+          </div>
+          <div class="col">
+            <label for="quantity">Quantity:</label>
+            <input type="text" id="quantity" th:field="*{quantity}" />
+          </div>
+        </div>
+
+        <!-- Row 4: Image URL and Description -->
+        <div class="row">
+          <div class="col">
+            <label for="image">Image URL:</label>
+            <input type="text" id="image" th:field="*{image}" />
+          </div>
+          <div class="col">
+            <label for="description">Description:</label>
+            <textarea id="description" th:field="*{description}"></textarea>
+          </div>
+        </div>
+
+        <input type="submit" value="Create Product" />
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
